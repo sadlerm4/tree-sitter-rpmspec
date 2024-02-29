@@ -10,41 +10,171 @@ const WHITE_SPACE = / \t\f\v/;
 const ANYTHING = /[^\r\n]+/;
 
 module.exports = grammar({
-  name: 'rpmspec',
+    name: 'rpmspec',
 
-  extras: ($) => [WHITE_SPACE],
+    extras: ($) => [
+        $.comment,
+        WHITE_SPACE
+    ],
 
-  rules: {
-    spec: ($) => repeat($.preamble_section),
+    inline: $ => [
+        $._special_variable_name,
+    ],
 
-    comment: ($) => token(seq('#', optional(ANYTHING))),
+    rules: {
+        spec: ($) => repeat(
+            choice(
+                $.preamble,
+                NEWLINE,
+            )
+        ),
 
-    // Preamble Section (Name, Version, Release, ...)
-    preamble_section: ($) => choice($.preamble_variable, seq(optional($.comment), NEWLINE)),
+        comment: ($) => token(seq('#', optional(ANYTHING))),
 
-    preamble_value: ($) => choice($.integer, $.string),
-    preamble_name: ($) => choice('Name', 'Version', 'Release'),
-    preamble_variable: ($) => seq(choice(seq($.preamble_name, ": ", field("value", $.preamble_value)), $.preamble_name)),
+        ///////////////////////////////////////////////////////////////////////
+        // Preamble Section (Name, Version, Release, ...)
+        ///////////////////////////////////////////////////////////////////////
 
-    // Description Section (%description)
+        preamble: ($) => seq($.variable),
 
-    // Package Section (%package)
+        // Name:   tree-sitter-rpmspec
+        variable: ($) => seq(
+            $.name,
+            /:[ ]+/,
+            field("value", $._value)
+        ),
 
-    // Scripts Section (%prep, %build, %install, ...)
+        name: ($) => choice(
+            'AutoProv',
+            'AutoReq',
+            'AutoReqProv',
+            'AutoRequires',
+            'BuildArch',
+            'BuildArchitectures',
+            'BuildConflicts',
+            'BuildPreReq',
+            'BuildRequires',
+            'BuildRoot',
+            'Conflicts',
+            'Distribution',
+            'Enhances',
+            'Epoch',
+            'ExcludeArch',
+            'ExclusiveArch',
+            'ExclusiveOS',
+            'Group',
+            'License',
+            'Name',
+            'Obsoletes',
+            'Packager',
+            'Prereq',
+            'Provides',
+            'Recommends',
+            'Release',
+            'Requires',
+            'Suggests',
+            'Summary',
+            'Supplements',
+            'URL',
+            'Url',
+            'Vendor',
+            'Version',
+            /Patch\d*/,
+            /Source\d*/,
+        ),
+        _value: ($) => choice(
+            $.simple_expansion,
+            $.expansion,
+            $.integer,
+            $.float,
+            seq($.float, optional($.simple_expansion)),
+            seq($.float, optional($.expansion)),
+            $.string,
+        ),
 
-    // Changelog Section (%changelog)
+        ///////////////////////////////////////////////////////////////////////
+        // Description Section (%description)
+        ///////////////////////////////////////////////////////////////////////
 
-    // Macros (%define, %global, %patch, ...)
-    // Directives (%attr, %dir, %config, ...)
+        ///////////////////////////////////////////////////////////////////////
+        // Package Section (%package)
+        ///////////////////////////////////////////////////////////////////////
 
-    integer: ($) => /\d+/,
+        ///////////////////////////////////////////////////////////////////////
+        // Scripts Section (%prep, %build, %install, ...)
+        ///////////////////////////////////////////////////////////////////////
 
-    escape_sequence: ($) => /\\([btnfr"\\]|u[0-9a-fA-F]{4}|U[0-9a-fA-F]{8})/,
-    _quoted_string: ($) => seq('"', repeat1(choice(/[^\"\\]/, $.escape_sequence)), '"'),
-    _unquoted_string: ($) => /[^\r\n;#" \t\f\v\\][^\r\n;#"\\]*/,
+        ///////////////////////////////////////////////////////////////////////
+        // Changelog Section (%changelog)
+        ///////////////////////////////////////////////////////////////////////
 
-    string: ($) =>
-      repeat1(choice($._quoted_string, $._unquoted_string, seq("\\", NEWLINE))),
+        ///////////////////////////////////////////////////////////////////////
+        // Macros (%define, %global, %patch, ...)
+        ///////////////////////////////////////////////////////////////////////
 
-  },
+        ///////////////////////////////////////////////////////////////////////
+        // Directives (%attr, %dir, %config, ...)
+        ///////////////////////////////////////////////////////////////////////
+
+        integer: ($) => token(seq(repeat1(/[0-9]+_?/))),
+
+        float: ($) => {
+            const digits = repeat1(/[0-9]+_?/);
+
+            return token(seq(digits, '.', digits))
+        },
+
+        string: $ => choice(
+            $._quoted_string,
+            $._unquoted_string,
+            seq("\\", NEWLINE)
+        ),
+
+        string_content: _ => token(prec(-1, /([^"`$\\\r\n]|\\(.|\r?\n))+/)),
+
+        _quoted_string: ($) => seq(
+            /["']/,
+            repeat(
+                seq(
+                    choice(
+                        seq(optional('%'), $.string_content),
+                        $.expansion,
+                        $.simple_expansion,
+                    ),
+                )
+            ),
+            optional('%'),
+            /["']/,
+        ),
+        _unquoted_string: ($) => $.string_content,
+
+        ///////////////////////////////////////////////////////////////////////
+        // Expansion
+        ///////////////////////////////////////////////////////////////////////
+
+        variable_name: ($) => /[a-zA-Z0-9][\w\-]*/,
+        _simple_variable_name: $ => alias(/\w+/, $.variable_name),
+        _special_variable_name: $ => alias('?', $.special_variable_name),
+
+        // %variable
+        simple_expansion: ($) => seq(
+            '%',
+            choice(
+                $._simple_variable_name,
+                $._special_variable_name,
+                $.variable_name,
+            ),
+        ),
+
+        // %{variable}, %{?variable}
+        expansion: ($) => seq(
+            '%{',
+            choice(
+                $._simple_variable_name,
+                $._special_variable_name,
+                $.variable_name,
+            ),
+           '}',
+        ),
+    },
 });
