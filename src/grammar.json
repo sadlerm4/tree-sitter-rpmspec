@@ -1,15 +1,207 @@
 {
   "name": "rpmspec",
   "rules": {
-    "source_file": {
-      "type": "STRING",
-      "value": "hello"
+    "spec": {
+      "type": "REPEAT",
+      "content": {
+        "type": "SYMBOL",
+        "name": "preamble_section"
+      }
+    },
+    "preamble_section": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "preamble_variable"
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "comment"
+                },
+                {
+                  "type": "BLANK"
+                }
+              ]
+            },
+            {
+              "type": "PATTERN",
+              "value": "\\r?\\n"
+            }
+          ]
+        }
+      ]
+    },
+    "preamble_value": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "integer"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "string"
+        }
+      ]
+    },
+    "preamble_name": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "Name"
+        },
+        {
+          "type": "STRING",
+          "value": "Version"
+        },
+        {
+          "type": "STRING",
+          "value": "Release"
+        }
+      ]
+    },
+    "preamble_variable": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "preamble_name"
+                },
+                {
+                  "type": "STRING",
+                  "value": ": "
+                },
+                {
+                  "type": "FIELD",
+                  "name": "value",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "preamble_value"
+                  }
+                }
+              ]
+            },
+            {
+              "type": "SYMBOL",
+              "name": "preamble_name"
+            }
+          ]
+        }
+      ]
+    },
+    "comment": {
+      "type": "TOKEN",
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "#"
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "PATTERN",
+                "value": "[^\\r\\n]+"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "integer": {
+      "type": "PATTERN",
+      "value": "\\d+"
+    },
+    "escape_sequence": {
+      "type": "PATTERN",
+      "value": "\\\\([btnfr\"\\\\]|u[0-9a-fA-F]{4}|U[0-9a-fA-F]{8})"
+    },
+    "_quoted_string": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "\""
+        },
+        {
+          "type": "REPEAT1",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "PATTERN",
+                "value": "[^\\\"\\\\]"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "escape_sequence"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "\""
+        }
+      ]
+    },
+    "_unquoted_string": {
+      "type": "PATTERN",
+      "value": "[^\\r\\n;#\" \\t\\f\\v\\\\][^\\r\\n;#\"\\\\]*"
+    },
+    "string": {
+      "type": "REPEAT1",
+      "content": {
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_quoted_string"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_unquoted_string"
+          },
+          {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "\\"
+              },
+              {
+                "type": "PATTERN",
+                "value": "\\r?\\n"
+              }
+            ]
+          }
+        ]
+      }
     }
   },
   "extras": [
     {
       "type": "PATTERN",
-      "value": "\\s"
+      "value": " \\t\\f\\v"
     }
   ],
   "conflicts": [],
