@@ -438,16 +438,7 @@
     },
     "variable_name": {
       "type": "PATTERN",
-      "value": "[a-zA-Z0-9][\\w\\-]*"
-    },
-    "_simple_variable_name": {
-      "type": "ALIAS",
-      "content": {
-        "type": "PATTERN",
-        "value": "\\w+"
-      },
-      "named": true,
-      "value": "variable_name"
+      "value": "[a-zA-Z][A-Za-z0-9_]*"
     },
     "_special_variable_name": {
       "type": "ALIAS",
@@ -470,10 +461,6 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "_simple_variable_name"
-            },
-            {
-              "type": "SYMBOL",
               "name": "_special_variable_name"
             },
             {
@@ -494,10 +481,6 @@
         {
           "type": "CHOICE",
           "members": [
-            {
-              "type": "SYMBOL",
-              "name": "_simple_variable_name"
-            },
             {
               "type": "SYMBOL",
               "name": "_special_variable_name"

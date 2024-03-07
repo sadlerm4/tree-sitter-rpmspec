@@ -138,8 +138,7 @@ module.exports = grammar({
         // Expansion
         ///////////////////////////////////////////////////////////////////////
 
-        variable_name: ($) => /[a-zA-Z0-9][\w\-]*/,
-        _simple_variable_name: ($) => alias(/\w+/, $.variable_name),
+        variable_name: ($) => /[a-zA-Z][A-Za-z0-9_]*/,
         _special_variable_name: ($) => alias('?', $.special_variable_name),
 
         // %variable
@@ -147,7 +146,6 @@ module.exports = grammar({
             seq(
                 '%',
                 choice(
-                    $._simple_variable_name,
                     $._special_variable_name,
                     $.variable_name
                 )
@@ -158,7 +156,6 @@ module.exports = grammar({
             seq(
                 '%{',
                 choice(
-                    $._simple_variable_name,
                     $._special_variable_name,
                     $.variable_name
                 ),
