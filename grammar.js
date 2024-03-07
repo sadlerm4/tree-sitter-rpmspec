@@ -12,6 +12,7 @@ const ANYTHING = /[^\r\n]+/;
 module.exports = grammar({
     name: 'rpmspec',
 
+    // Array of tokens that may appear anywhere in the language.
     extras: ($) => [$.comment, WHITE_SPACE],
 
     inline: ($) => [$._special_variable_name],
@@ -69,15 +70,16 @@ module.exports = grammar({
                 /Patch\d*/,
                 /Source\d*/
             ),
+
         _value: ($) =>
-            choice(
-                $.simple_expansion,
-                $.expansion,
-                $.integer,
-                $.float,
-                seq($.float, optional($.simple_expansion)),
-                seq($.float, optional($.expansion)),
-                $.string
+            repeat1(
+                choice(
+                    $.simple_expansion,
+                    $.expansion,
+                    $.integer,
+                    $.float,
+                    $.string
+                )
             ),
 
         ///////////////////////////////////////////////////////////////////////
@@ -115,51 +117,44 @@ module.exports = grammar({
         string: ($) =>
             choice($._quoted_string, $._unquoted_string, seq('\\', NEWLINE)),
 
-        string_content: (_) => token(prec(-1, /([^"`$\\\r\n]|\\(.|\r?\n))+/)),
-
         _quoted_string: ($) =>
             seq(
                 /["']/,
-                repeat(
-                    seq(
-                        choice(
-                            seq(optional('%'), $.string_content),
-                            $.expansion,
-                            $.simple_expansion
-                        )
+                repeat1(
+                    choice(
+                        seq(optional('%'), $.string_content),
+                        $.expansion,
+                        $.simple_expansion
                     )
                 ),
                 optional('%'),
                 /["']/
             ),
-        _unquoted_string: ($) => $.string_content,
+        _unquoted_string: ($) =>
+            repeat1(
+                choice(
+                    seq(optional('%'), $.string_content),
+                    $.expansion,
+                    $.simple_expansion
+                )
+            ),
+
+        string_content: ($) => token(prec(-1, /([^"'%\\\r\n]|\\(.|\r?\n))+/)),
 
         ///////////////////////////////////////////////////////////////////////
         // Expansion
         ///////////////////////////////////////////////////////////////////////
 
         variable_name: ($) => /[a-zA-Z][A-Za-z0-9_]*/,
-        _special_variable_name: ($) => alias('?', $.special_variable_name),
+        _special_variable_name: ($) =>
+            seq(optional(token.immediate('?')), $.variable_name),
 
         // %variable
         simple_expansion: ($) =>
-            seq(
-                '%',
-                choice(
-                    $._special_variable_name,
-                    $.variable_name
-                )
-            ),
+            seq('%', choice($._special_variable_name, $.variable_name)),
 
         // %{variable}, %{?variable}
         expansion: ($) =>
-            seq(
-                '%{',
-                choice(
-                    $._special_variable_name,
-                    $.variable_name
-                ),
-                '}'
-            ),
+            seq('%{', choice($._special_variable_name, $.variable_name), '}'),
     },
 });

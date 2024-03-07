@@ -8,10 +8,6 @@
       "required": true,
       "types": [
         {
-          "type": "special_variable_name",
-          "named": true
-        },
-        {
           "type": "variable_name",
           "named": true
         }
@@ -46,10 +42,6 @@
       "multiple": false,
       "required": true,
       "types": [
-        {
-          "type": "special_variable_name",
-          "named": true
-        },
         {
           "type": "variable_name",
           "named": true
@@ -143,6 +135,10 @@
   },
   {
     "type": "%{",
+    "named": false
+  },
+  {
+    "type": "?",
     "named": false
   },
   {
@@ -295,10 +291,6 @@
   },
   {
     "type": "integer",
-    "named": true
-  },
-  {
-    "type": "special_variable_name",
     "named": true
   },
   {
