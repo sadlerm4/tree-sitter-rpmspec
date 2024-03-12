@@ -9,6 +9,7 @@ const NEWLINE = /\r?\n/;
 const WHITE_SPACE = / \t\f\v/;
 const ANYTHING = /[^\r\n]+/;
 
+/* https://rpm-software-management.github.io/rpm/manual/spec.html */
 module.exports = grammar({
     name: 'rpmspec',
 
@@ -29,21 +30,26 @@ module.exports = grammar({
         preamble: ($) => seq($.variable),
 
         // Name:   tree-sitter-rpmspec
-        variable: ($) => seq($.name, /:[ ]+/, field('value', $._value)),
+        // TODO:
+        // Requires(pre): foo
+        preamble_tags: ($) => seq($.tag, /:[ ]+/, field('value', $._value)),
 
-        name: ($) =>
+        tag: ($) =>
             choice(
                 'AutoProv',
                 'AutoReq',
                 'AutoReqProv',
                 'AutoRequires',
+                'BugUrl',
                 'BuildArch',
                 'BuildArchitectures',
                 'BuildConflicts',
                 'BuildPreReq',
                 'BuildRequires',
                 'BuildRoot',
+                'BuildSystem',
                 'Conflicts',
+                'DistTag',
                 'Distribution',
                 'Enhances',
                 'Epoch',
@@ -52,7 +58,10 @@ module.exports = grammar({
                 'ExclusiveOS',
                 'Group',
                 'License',
+                'ModularityLabel',
                 'Name',
+                'NoPatch',
+                'NoSource',
                 'Obsoletes',
                 'Packager',
                 'Prereq',
@@ -60,11 +69,13 @@ module.exports = grammar({
                 'Recommends',
                 'Release',
                 'Requires',
+                'SourceLicense',
                 'Suggests',
                 'Summary',
                 'Supplements',
                 'URL',
                 'Url',
+                'VCS',
                 'Vendor',
                 'Version',
                 /Patch\d*/,
@@ -87,11 +98,27 @@ module.exports = grammar({
         ///////////////////////////////////////////////////////////////////////
 
         ///////////////////////////////////////////////////////////////////////
-        // Package Section (%package)
+        // Preamble Sub-Sections (%package, %description)
         ///////////////////////////////////////////////////////////////////////
 
         ///////////////////////////////////////////////////////////////////////
-        // Scripts Section (%prep, %build, %install, ...)
+        // Build scriptlets (%prep, %build, %install, ...)
+        ///////////////////////////////////////////////////////////////////////
+
+        ///////////////////////////////////////////////////////////////////////
+        // Runtime scriptlets (%pre, %post, ...)
+        ///////////////////////////////////////////////////////////////////////
+
+        ///////////////////////////////////////////////////////////////////////
+        // Triggers (%triggerin, %triggerun, ...)
+        ///////////////////////////////////////////////////////////////////////
+
+        ///////////////////////////////////////////////////////////////////////
+        // File triggers (%filetriggerin, %filetriggerun, ...)
+        ///////////////////////////////////////////////////////////////////////
+
+        ///////////////////////////////////////////////////////////////////////
+        // Files section (%files)
         ///////////////////////////////////////////////////////////////////////
 
         ///////////////////////////////////////////////////////////////////////
