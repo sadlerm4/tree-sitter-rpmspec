@@ -27,12 +27,12 @@ module.exports = grammar({
         // Preamble Section (Name, Version, Release, ...)
         ///////////////////////////////////////////////////////////////////////
 
-        preamble: ($) => seq($.variable),
+        preamble: ($) => seq($.tags),
 
         // Name:   tree-sitter-rpmspec
-        // TODO:
-        // Requires(pre): foo
-        preamble_tags: ($) => seq($.tag, /:[ ]+/, field('value', $._value)),
+        // Requires(pre): tree-sitter
+        tags: ($) =>
+            seq($.tag, /:[ ]+/, field('value', $._value)),
 
         tag: ($) =>
             choice(
@@ -82,14 +82,26 @@ module.exports = grammar({
                 /Source\d*/
             ),
 
+        // TODO Dependencies:
+        // Requires(pre): foo
+        //dependency: ($) =>
+        //    seq(
+        //        choice(
+        //            seq('Requires', optional(seq('(', choice('pre', ) , ')')))
+        //        )
+        //    ),
+
         _value: ($) =>
             repeat1(
-                choice(
-                    $.simple_expansion,
-                    $.expansion,
-                    $.integer,
-                    $.float,
-                    $.string
+                prec(
+                    -1,
+                    choice(
+                        $.expansion,
+                        $.simple_expansion,
+                        $.integer,
+                        $.float,
+                        $.string
+                    )
                 )
             ),
 
@@ -141,44 +153,36 @@ module.exports = grammar({
             return token(seq(digits, '.', digits));
         },
 
+        // TODO FIXME: How to parse:
+        // Source:         %{url}/-/archive/main/%{name}-main.tar.gz
+        // This should be => expansion string expansion string
         string: ($) =>
-            choice($._quoted_string, $._unquoted_string, seq('\\', NEWLINE)),
-
-        _quoted_string: ($) =>
-            seq(
-                /["']/,
+            prec(
+                -1,
                 repeat1(
-                    choice(
-                        seq(optional('%'), $.string_content),
-                        $.expansion,
-                        $.simple_expansion
+                    seq(
+                        choice(
+                            seq(optional('%'), $.string_content),
+                            $.expansion,
+                            $.simple_expansion
+                        )
                     )
-                ),
-                optional('%'),
-                /["']/
-            ),
-        _unquoted_string: ($) =>
-            repeat1(
-                choice(
-                    seq(optional('%'), $.string_content),
-                    $.expansion,
-                    $.simple_expansion
                 )
             ),
 
-        string_content: ($) => token(prec(-1, /([^"'%\\\r\n]|\\(.|\r?\n))+/)),
+        string_content: _ => token(prec(-1, /([^"`%\\\r\n]|\\(.|\r?\n))+/)),
 
         ///////////////////////////////////////////////////////////////////////
         // Expansion
         ///////////////////////////////////////////////////////////////////////
 
         variable_name: ($) => /[a-zA-Z][A-Za-z0-9_]*/,
+
         _special_variable_name: ($) =>
             seq(optional(token.immediate('?')), $.variable_name),
 
         // %variable
-        simple_expansion: ($) =>
-            seq('%', choice($._special_variable_name, $.variable_name)),
+        simple_expansion: ($) => seq('%', $.variable_name),
 
         // %{variable}, %{?variable}
         expansion: ($) =>

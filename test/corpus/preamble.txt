@@ -1,5 +1,5 @@
 ===============================================================================
-Preamble Section (Name)
+Preamble Section (String)
 ===============================================================================
 
 Name:           tree-sitter-rpmspec
@@ -8,8 +8,28 @@ Name:           tree-sitter-rpmspec
 
 (spec
   (preamble
-    (variable
-      (name)
+    (tags
+      (tag)
       (string
         (string_content)))))
 
+
+===============================================================================
+Preamble Section (String with Expansions)
+===============================================================================
+
+Source:         %{url}/-/archive/main/%{name}-main.tar.gz
+
+-------------------------------------------------------------------------------
+
+(spec
+  (preamble
+    (tags
+      (tag)
+      (string
+       (expansion
+         (variable_name))
+       (string_content)
+       (expansion
+         (variable_name))
+       (string_content)))))

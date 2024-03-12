@@ -15,11 +15,6 @@
     }
   },
   {
-    "type": "name",
-    "named": true,
-    "fields": {}
-  },
-  {
     "type": "preamble",
     "named": true,
     "fields": {},
@@ -28,7 +23,7 @@
       "required": true,
       "types": [
         {
-          "type": "variable",
+          "type": "tags",
           "named": true
         }
       ]
@@ -70,7 +65,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "expansion",
@@ -88,7 +83,12 @@
     }
   },
   {
-    "type": "variable",
+    "type": "tag",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "tags",
     "named": true,
     "fields": {
       "value": {
@@ -123,7 +123,7 @@
       "required": true,
       "types": [
         {
-          "type": "name",
+          "type": "tag",
           "named": true
         }
       ]
@@ -158,6 +158,10 @@
     "named": false
   },
   {
+    "type": "BugUrl",
+    "named": false
+  },
+  {
     "type": "BuildArch",
     "named": false
   },
@@ -182,7 +186,15 @@
     "named": false
   },
   {
+    "type": "BuildSystem",
+    "named": false
+  },
+  {
     "type": "Conflicts",
+    "named": false
+  },
+  {
+    "type": "DistTag",
     "named": false
   },
   {
@@ -218,7 +230,19 @@
     "named": false
   },
   {
+    "type": "ModularityLabel",
+    "named": false
+  },
+  {
     "type": "Name",
+    "named": false
+  },
+  {
+    "type": "NoPatch",
+    "named": false
+  },
+  {
+    "type": "NoSource",
     "named": false
   },
   {
@@ -250,6 +274,10 @@
     "named": false
   },
   {
+    "type": "SourceLicense",
+    "named": false
+  },
+  {
     "type": "Suggests",
     "named": false
   },
@@ -270,15 +298,15 @@
     "named": false
   },
   {
+    "type": "VCS",
+    "named": false
+  },
+  {
     "type": "Vendor",
     "named": false
   },
   {
     "type": "Version",
-    "named": false
-  },
-  {
-    "type": "\\",
     "named": false
   },
   {
