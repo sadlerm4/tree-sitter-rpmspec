@@ -1,5 +1,5 @@
 ===============================================================================
-Preamble Section (String)
+Preamble Section (Name/String)
 ===============================================================================
 
 Name:           tree-sitter-rpmspec
@@ -13,12 +13,12 @@ Name:           tree-sitter-rpmspec
       (string
         (string_content)))))
 
-
 ===============================================================================
-Preamble Section (String with Expansions)
+Preamble Section (Version/Float)
 ===============================================================================
 
-Source:         %{url}/-/archive/main/%{name}-main.tar.gz
+Name:           tree-sitter-rpmspec
+Version:        1.0
 
 -------------------------------------------------------------------------------
 
@@ -27,9 +27,189 @@ Source:         %{url}/-/archive/main/%{name}-main.tar.gz
     (tags
       (tag)
       (string
-       (expansion
-         (variable_name))
-       (string_content)
-       (expansion
-         (variable_name))
-       (string_content)))))
+        (string_content))))
+  (preamble
+    (tags
+      (tag)
+      (float))))
+
+===============================================================================
+Preamble Section (Release/Simple Expansion)
+===============================================================================
+
+Name:           tree-sitter-rpmspec
+Release:        %autorelease
+
+-------------------------------------------------------------------------------
+
+(spec
+  (preamble
+    (tags
+      (tag)
+      (string
+        (string_content))))
+  (preamble
+    (tags
+      (tag)
+      (string
+        (simple_expansion
+          (variable_name))))))
+
+===============================================================================
+Preamble Section (Release/Expansion)
+===============================================================================
+
+Name:           tree-sitter-rpmspec
+Release:        1%{?dist}
+
+-------------------------------------------------------------------------------
+
+(spec
+  (preamble
+    (tags
+      (tag)
+      (string
+        (string_content))))
+  (preamble
+    (tags
+      (tag)
+      (integer)
+      (string
+        (expansion
+          (variable_name))))))
+
+===============================================================================
+Preamble Section (Summany/String)
+===============================================================================
+
+Name:           tree-sitter-rpmspec
+Summary:        A parser for RPM Spec
+
+-------------------------------------------------------------------------------
+
+(spec
+  (preamble
+    (tags
+      (tag)
+      (string
+        (string_content))))
+  (preamble
+    (tags
+      (tag)
+      (string
+        (string_content)))))
+
+===============================================================================
+Preamble Section (License/String)
+===============================================================================
+
+Name:           tree-sitter-rpmspec
+License:        MIT
+
+-------------------------------------------------------------------------------
+
+(spec
+  (preamble
+    (tags
+      (tag)
+      (string
+        (string_content))))
+  (preamble
+    (tags
+      (tag)
+      (string
+        (string_content)))))
+
+===============================================================================
+Preamble Section (URL/String)
+===============================================================================
+
+Name:           tree-sitter-rpmspec
+URL:            https://gitlab.com/cryptomilk/tree-sitter-rpmspec
+
+-------------------------------------------------------------------------------
+
+(spec
+  (preamble
+    (tags
+      (tag)
+      (string
+        (string_content))))
+  (preamble
+    (tags
+      (tag)
+      (string
+        (string_content)))))
+
+===============================================================================
+Preamble Section (Source/String)
+===============================================================================
+
+Name:           tree-sitter-rpmspec
+Source:         %{name}-%{version}.tar.gz
+
+-------------------------------------------------------------------------------
+
+(spec
+  (preamble
+    (tags
+      (tag)
+      (string
+        (string_content))))
+  (preamble
+    (tags
+      (tag)
+      (string
+        (expansion
+          (variable_name))
+        (string_content)
+        (expansion
+          (variable_name))
+        (string_content)))))
+
+===============================================================================
+Preamble Section (Source0/String)
+===============================================================================
+
+Name:           tree-sitter-rpmspec
+Source0:        %{name}-%{version}.tar.gz
+
+-------------------------------------------------------------------------------
+
+(spec
+  (preamble
+    (tags
+      (tag)
+      (string
+        (string_content))))
+  (preamble
+    (tags
+      (tag)
+      (string
+        (expansion
+          (variable_name))
+        (string_content)
+        (expansion
+          (variable_name))
+        (string_content)))))
+
+===============================================================================
+Preamble Section (Patch0/String)
+===============================================================================
+
+Name:           tree-sitter-rpmspec
+Patch0:         fix-xyz.patch
+
+-------------------------------------------------------------------------------
+
+(spec
+  (preamble
+    (tags
+      (tag)
+      (string
+        (string_content))))
+  (preamble
+    (tags
+      (tag)
+      (string
+        (string_content)))))
