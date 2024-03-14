@@ -1,2 +1,6 @@
 node_modules/
 package-lock.json
+src/parser.o
+libtree-sitter-rpmspec.so*
+libtree-sitter-rpmspec.a
+tree-sitter-rpmspec.pc

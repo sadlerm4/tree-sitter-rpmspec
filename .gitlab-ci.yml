@@ -6,6 +6,6 @@ variables:
 tree-sitter/test:
   image: $CI_REGISTRY/$BUILD_IMAGES_PROJECT:$FEDORA_BUILD
   script:
-    - tree-sitter test
+    - make test
   tags:
     - shared
