@@ -1,5 +1,20 @@
 [
   {
+    "type": "dependency_tag",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "qualifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "expansion",
     "named": true,
     "fields": {},
@@ -28,6 +43,11 @@
         }
       ]
     }
+  },
+  {
+    "type": "qualifier",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "simple_expansion",
@@ -123,6 +143,10 @@
       "required": true,
       "types": [
         {
+          "type": "dependency_tag",
+          "named": true
+        },
+        {
           "type": "tag",
           "named": true
         }
@@ -135,6 +159,14 @@
   },
   {
     "type": "%{",
+    "named": false
+  },
+  {
+    "type": "(",
+    "named": false
+  },
+  {
+    "type": ")",
     "named": false
   },
   {
@@ -154,10 +186,6 @@
     "named": false
   },
   {
-    "type": "AutoRequires",
-    "named": false
-  },
-  {
     "type": "BugUrl",
     "named": false
   },
@@ -174,7 +202,7 @@
     "named": false
   },
   {
-    "type": "BuildPreReq",
+    "type": "BuildPrereq",
     "named": false
   },
   {
@@ -202,6 +230,10 @@
     "named": false
   },
   {
+    "type": "DocDir",
+    "named": false
+  },
+  {
     "type": "Enhances",
     "named": false
   },
@@ -211,6 +243,10 @@
   },
   {
     "type": "ExcludeArch",
+    "named": false
+  },
+  {
+    "type": "ExcludeOS",
     "named": false
   },
   {
@@ -250,7 +286,19 @@
     "named": false
   },
   {
+    "type": "OrderWithRequires",
+    "named": false
+  },
+  {
     "type": "Packager",
+    "named": false
+  },
+  {
+    "type": "Prefix",
+    "named": false
+  },
+  {
+    "type": "Prefixes",
     "named": false
   },
   {
@@ -267,6 +315,10 @@
   },
   {
     "type": "Release",
+    "named": false
+  },
+  {
+    "type": "RemovePathPostfixes",
     "named": false
   },
   {
@@ -322,12 +374,44 @@
     "named": true
   },
   {
+    "type": "interp",
+    "named": false
+  },
+  {
+    "type": "meta",
+    "named": false
+  },
+  {
+    "type": "post",
+    "named": false
+  },
+  {
+    "type": "posttrans",
+    "named": false
+  },
+  {
+    "type": "postun",
+    "named": false
+  },
+  {
+    "type": "pre",
+    "named": false
+  },
+  {
+    "type": "pretrans",
+    "named": false
+  },
+  {
     "type": "string_content",
     "named": true
   },
   {
     "type": "variable_name",
     "named": true
+  },
+  {
+    "type": "verify",
+    "named": false
   },
   {
     "type": "}",

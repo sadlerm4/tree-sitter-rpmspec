@@ -54,8 +54,17 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "tag"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "tag"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "dependency_tag"
+            }
+          ]
         },
         {
           "type": "PATTERN",
@@ -88,31 +97,7 @@
         },
         {
           "type": "STRING",
-          "value": "AutoRequires"
-        },
-        {
-          "type": "STRING",
           "value": "BugUrl"
-        },
-        {
-          "type": "STRING",
-          "value": "BuildArch"
-        },
-        {
-          "type": "STRING",
-          "value": "BuildArchitectures"
-        },
-        {
-          "type": "STRING",
-          "value": "BuildConflicts"
-        },
-        {
-          "type": "STRING",
-          "value": "BuildPreReq"
-        },
-        {
-          "type": "STRING",
-          "value": "BuildRequires"
         },
         {
           "type": "STRING",
@@ -124,10 +109,6 @@
         },
         {
           "type": "STRING",
-          "value": "Conflicts"
-        },
-        {
-          "type": "STRING",
           "value": "DistTag"
         },
         {
@@ -136,23 +117,7 @@
         },
         {
           "type": "STRING",
-          "value": "Enhances"
-        },
-        {
-          "type": "STRING",
           "value": "Epoch"
-        },
-        {
-          "type": "STRING",
-          "value": "ExcludeArch"
-        },
-        {
-          "type": "STRING",
-          "value": "ExclusiveArch"
-        },
-        {
-          "type": "STRING",
-          "value": "ExclusiveOS"
         },
         {
           "type": "STRING",
@@ -180,23 +145,7 @@
         },
         {
           "type": "STRING",
-          "value": "Obsoletes"
-        },
-        {
-          "type": "STRING",
           "value": "Packager"
-        },
-        {
-          "type": "STRING",
-          "value": "Prereq"
-        },
-        {
-          "type": "STRING",
-          "value": "Provides"
-        },
-        {
-          "type": "STRING",
-          "value": "Recommends"
         },
         {
           "type": "STRING",
@@ -204,23 +153,11 @@
         },
         {
           "type": "STRING",
-          "value": "Requires"
-        },
-        {
-          "type": "STRING",
           "value": "SourceLicense"
         },
         {
           "type": "STRING",
-          "value": "Suggests"
-        },
-        {
-          "type": "STRING",
           "value": "Summary"
-        },
-        {
-          "type": "STRING",
-          "value": "Supplements"
         },
         {
           "type": "STRING",
@@ -249,6 +186,170 @@
         {
           "type": "PATTERN",
           "value": "Source\\d*"
+        }
+      ]
+    },
+    "qualifier": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "pre"
+        },
+        {
+          "type": "STRING",
+          "value": "post"
+        },
+        {
+          "type": "STRING",
+          "value": "postun"
+        },
+        {
+          "type": "STRING",
+          "value": "pretrans"
+        },
+        {
+          "type": "STRING",
+          "value": "posttrans"
+        },
+        {
+          "type": "STRING",
+          "value": "verify"
+        },
+        {
+          "type": "STRING",
+          "value": "interp"
+        },
+        {
+          "type": "STRING",
+          "value": "meta"
+        }
+      ]
+    },
+    "dependency_tag": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "Requires"
+            },
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SEQ",
+                  "members": [
+                    {
+                      "type": "STRING",
+                      "value": "("
+                    },
+                    {
+                      "type": "SYMBOL",
+                      "name": "qualifier"
+                    },
+                    {
+                      "type": "STRING",
+                      "value": ")"
+                    }
+                  ]
+                },
+                {
+                  "type": "BLANK"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": "BuildArch"
+        },
+        {
+          "type": "STRING",
+          "value": "BuildArchitectures"
+        },
+        {
+          "type": "STRING",
+          "value": "BuildConflicts"
+        },
+        {
+          "type": "STRING",
+          "value": "BuildPrereq"
+        },
+        {
+          "type": "STRING",
+          "value": "BuildRequires"
+        },
+        {
+          "type": "STRING",
+          "value": "Conflicts"
+        },
+        {
+          "type": "STRING",
+          "value": "DocDir"
+        },
+        {
+          "type": "STRING",
+          "value": "Enhances"
+        },
+        {
+          "type": "STRING",
+          "value": "ExcludeArch"
+        },
+        {
+          "type": "STRING",
+          "value": "ExcludeOS"
+        },
+        {
+          "type": "STRING",
+          "value": "ExclusiveArch"
+        },
+        {
+          "type": "STRING",
+          "value": "ExclusiveOS"
+        },
+        {
+          "type": "STRING",
+          "value": "Obsoletes"
+        },
+        {
+          "type": "STRING",
+          "value": "OrderWithRequires"
+        },
+        {
+          "type": "STRING",
+          "value": "Prefix"
+        },
+        {
+          "type": "STRING",
+          "value": "Prefixes"
+        },
+        {
+          "type": "STRING",
+          "value": "Prereq"
+        },
+        {
+          "type": "STRING",
+          "value": "Provides"
+        },
+        {
+          "type": "STRING",
+          "value": "Recommends"
+        },
+        {
+          "type": "STRING",
+          "value": "RemovePathPostfixes"
+        },
+        {
+          "type": "STRING",
+          "value": "Suggests"
+        },
+        {
+          "type": "STRING",
+          "value": "Supplements"
         }
       ]
     },

@@ -32,47 +32,33 @@ module.exports = grammar({
         // Name:   tree-sitter-rpmspec
         // Requires(pre): tree-sitter
         tags: ($) =>
-            seq($.tag, /:[ ]+/, field('value', $._value)),
+            seq(
+                choice($.tag, $.dependency_tag),
+                /:[ ]+/,
+                field('value', $._value)
+            ),
 
         tag: ($) =>
             choice(
                 'AutoProv',
                 'AutoReq',
                 'AutoReqProv',
-                'AutoRequires',
                 'BugUrl',
-                'BuildArch',
-                'BuildArchitectures',
-                'BuildConflicts',
-                'BuildPreReq',
-                'BuildRequires',
                 'BuildRoot',
                 'BuildSystem',
-                'Conflicts',
                 'DistTag',
                 'Distribution',
-                'Enhances',
                 'Epoch',
-                'ExcludeArch',
-                'ExclusiveArch',
-                'ExclusiveOS',
                 'Group',
                 'License',
                 'ModularityLabel',
                 'Name',
                 'NoPatch',
                 'NoSource',
-                'Obsoletes',
                 'Packager',
-                'Prereq',
-                'Provides',
-                'Recommends',
                 'Release',
-                'Requires',
                 'SourceLicense',
-                'Suggests',
                 'Summary',
-                'Supplements',
                 'URL',
                 'Url',
                 'VCS',
@@ -82,14 +68,47 @@ module.exports = grammar({
                 /Source\d*/
             ),
 
-        // TODO Dependencies:
-        // Requires(pre): foo
-        //dependency: ($) =>
-        //    seq(
-        //        choice(
-        //            seq('Requires', optional(seq('(', choice('pre', ) , ')')))
-        //        )
-        //    ),
+        // Dependencies:
+        // Requires(pre): tree-sitter
+        qualifier: ($) =>
+            choice(
+                'pre',
+                'post',
+                'postun',
+                'pretrans',
+                'posttrans',
+                'verify',
+                'interp',
+                'meta'
+            ),
+
+        // BuildRequires: tree-sitter-cli
+        dependency_tag: ($) =>
+            choice(
+                seq('Requires', optional(seq('(', $.qualifier, ')'))),
+                'BuildArch',
+                'BuildArchitectures',
+                'BuildConflicts',
+                'BuildPrereq',
+                'BuildRequires',
+                'Conflicts',
+                'DocDir',
+                'Enhances',
+                'ExcludeArch',
+                'ExcludeOS',
+                'ExclusiveArch',
+                'ExclusiveOS',
+                'Obsoletes',
+                'OrderWithRequires',
+                'Prefix',
+                'Prefixes',
+                'Prereq',
+                'Provides',
+                'Recommends',
+                'RemovePathPostfixes',
+                'Suggests',
+                'Supplements'
+            ),
 
         _value: ($) =>
             repeat1(
@@ -170,7 +189,7 @@ module.exports = grammar({
                 )
             ),
 
-        string_content: _ => token(prec(-1, /([^"`%\\\r\n]|\\(.|\r?\n))+/)),
+        string_content: (_) => token(prec(-1, /([^"`%\\\r\n]|\\(.|\r?\n))+/)),
 
         ///////////////////////////////////////////////////////////////////////
         // Expansion

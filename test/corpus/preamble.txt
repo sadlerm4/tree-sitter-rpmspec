@@ -213,3 +213,46 @@ Patch0:         fix-xyz.patch
       (tag)
       (string
         (string_content)))))
+
+===============================================================================
+Preamble Section (BuildRequires/String)
+===============================================================================
+
+Name:           tree-sitter-rpmspec
+BuildRequires:  tree-sitter-cli
+
+-------------------------------------------------------------------------------
+
+(spec
+  (preamble
+    (tags
+      (tag)
+      (string
+        (string_content))))
+  (preamble
+    (tags
+      (dependency_tag)
+      (string
+        (string_content)))))
+
+===============================================================================
+Preamble Section (Requires/String)
+===============================================================================
+
+Name:           tree-sitter-rpmspec
+Requires(pre):  tree-sitter-cli
+
+-------------------------------------------------------------------------------
+
+(spec
+  (preamble
+    (tags
+      (tag)
+      (string
+        (string_content))))
+  (preamble
+    (tags
+      (dependency_tag
+        (qualifier))
+      (string
+        (string_content)))))

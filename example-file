@@ -7,7 +7,7 @@ Summary:        A tree-sitter parser for RPM Spec
 License:        MIT
 URL:            https://gitlab.com/cryptomilk/tree-sitter-rpmspec/
 # The source code tarball
-Source0:        %{url}/-/archive/main/%name-main.tar.gz
+Source0:        %{name}-%{version}.tar.gz
 
 BuildRequires:  tree-sitter-cli
-Requires:       rpm
+Requires(pre):  rpm
