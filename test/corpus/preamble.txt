@@ -10,15 +10,30 @@ Name:           tree-sitter-rpmspec
   (preamble
     (tags
       (tag)
-      (string
-        (string_content)))))
+      (string (string_content)))))
 
 ===============================================================================
-Preamble Section (Version/Float)
+Preamble Section (Name/Variable)
+===============================================================================
+
+Name:           %complex_name
+
+-------------------------------------------------------------------------------
+
+(spec
+  (preamble
+    (tags
+      (tag)
+      (string
+        (simple_expansion
+          (variable_name))))))
+
+===============================================================================
+Preamble Section (Version/Complex)
 ===============================================================================
 
 Name:           tree-sitter-rpmspec
-Version:        1.0
+Version:        1.1~rc1
 
 -------------------------------------------------------------------------------
 
@@ -31,7 +46,9 @@ Version:        1.0
   (preamble
     (tags
       (tag)
-      (float))))
+      (float)
+      (string
+        (string_content)))))
 
 ===============================================================================
 Preamble Section (Release/Simple Expansion)
@@ -75,11 +92,11 @@ Release:        1%{?dist}
       (tag)
       (integer)
       (string
-        (expansion
+        (full_expansion
           (variable_name))))))
 
 ===============================================================================
-Preamble Section (Summany/String)
+Preamble Section (Summary/String)
 ===============================================================================
 
 Name:           tree-sitter-rpmspec
@@ -98,6 +115,29 @@ Summary:        A parser for RPM Spec
       (tag)
       (string
         (string_content)))))
+
+===============================================================================
+Preamble Section (Summary/String/Expansion)
+===============================================================================
+
+Name:           tree-sitter-rpmspec
+Summary:        A parser for RPM Spec version %{version}
+
+-------------------------------------------------------------------------------
+
+(spec
+  (preamble
+    (tags
+      (tag)
+      (string
+        (string_content))))
+  (preamble
+    (tags
+      (tag)
+      (string
+        (string_content)
+        (full_expansion
+          (variable_name))))))
 
 ===============================================================================
 Preamble Section (License/String)
@@ -160,10 +200,10 @@ Source:         %{name}-%{version}.tar.gz
     (tags
       (tag)
       (string
-        (expansion
+        (full_expansion
           (variable_name))
         (string_content)
-        (expansion
+        (full_expansion
           (variable_name))
         (string_content)))))
 
@@ -186,10 +226,10 @@ Source0:        %{name}-%{version}.tar.gz
     (tags
       (tag)
       (string
-        (expansion
+        (full_expansion
           (variable_name))
         (string_content)
-        (expansion
+        (full_expansion
           (variable_name))
         (string_content)))))
 
@@ -254,5 +294,89 @@ Requires(pre):  tree-sitter-cli
     (tags
       (dependency_tag
         (qualifier))
+      (string
+        (string_content)))))
+
+===============================================================================
+Preamble Section (Requires/List)
+===============================================================================
+
+Name:           tree-sitter-rpmspec
+Requires:       pkgA, pkgB
+
+-------------------------------------------------------------------------------
+
+(spec
+  (preamble
+    (tags
+      (tag)
+      (string
+        (string_content))))
+  (preamble
+    (tags
+      (dependency_tag)
+      (string
+        (string_content)))))
+
+===============================================================================
+Preamble Section (Requires/Conditional)
+===============================================================================
+
+Name:           tree-sitter-rpmspec
+Requires:       (tree-sitter-cli or tree-sitter-cli2)
+
+-------------------------------------------------------------------------------
+
+(spec
+  (preamble
+    (tags
+      (tag)
+      (string
+        (string_content))))
+  (preamble
+    (tags
+      (dependency_tag)
+      (string
+        (string_content)))))
+
+===============================================================================
+Preamble Section (Requires/Conditional/With Version)
+===============================================================================
+
+Name:           tree-sitter-rpmspec
+Requires:       ( pkgA >= 1.2.3 or pkgB )
+
+-------------------------------------------------------------------------------
+
+(spec
+  (preamble
+    (tags
+      (tag)
+      (string
+        (string_content))))
+  (preamble
+    (tags
+      (dependency_tag)
+      (string
+        (string_content)))))
+
+===============================================================================
+Preamble Section (Provides)
+===============================================================================
+
+Name:           tree-sitter-rpmspec
+Provides:       tree-sitter-rpm-spec = bar
+
+-------------------------------------------------------------------------------
+
+(spec
+  (preamble
+    (tags
+      (tag)
+      (string
+        (string_content))))
+  (preamble
+    (tags
+      (dependency_tag)
       (string
         (string_content)))))

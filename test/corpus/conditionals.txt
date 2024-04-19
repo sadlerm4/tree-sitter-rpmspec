@@ -1,0 +1,107 @@
+===============================================================================
+Conditionals (%ifarch)
+===============================================================================
+
+%ifarch s390x
+BuildRequires:  foo
+%endif
+
+-------------------------------------------------------------------------------
+
+(spec
+  (conditional
+    (preamble
+      (tags
+        (dependency_tag)
+        (string
+          (string_content))))))
+
+===============================================================================
+Conditionals (%ifnarch)
+===============================================================================
+
+%ifarch x86_64
+BuildRequires:  magic
+%endif
+
+-------------------------------------------------------------------------------
+
+(spec
+  (conditional
+    (preamble
+      (tags
+        (dependency_tag)
+        (string
+          (string_content))))))
+
+===============================================================================
+Conditionals (%if with simple macros)
+===============================================================================
+
+%if %{defined with_foo}
+BuildRequires:  foo
+%endif
+
+-------------------------------------------------------------------------------
+
+(spec
+  (conditional
+    (preamble
+      (tags
+        (dependency_tag)
+        (string
+          (string_content))))))
+
+===============================================================================
+Conditionals (%if with complex macros)
+===============================================================================
+
+%if %{defined with_foo} && %{undefined with_bar}
+BuildRequires:  foo
+%endif
+
+-------------------------------------------------------------------------------
+
+(spec
+  (conditional
+    (preamble
+      (tags
+        (dependency_tag)
+          (string
+            (string_content))))))
+
+===============================================================================
+Conditionals (%if with string comparison)
+===============================================================================
+
+%if "%{optimize_flags}" != "none"
+BuildRequires:  foo
+%endif
+
+-------------------------------------------------------------------------------
+
+(spec
+  (conditional
+    (preamble
+      (tags
+        (dependency_tag)
+        (string
+          (string_content))))))
+
+===============================================================================
+Conditionals (%if with mathematical comparison)
+===============================================================================
+
+%if 0%{?fedora} > 10 || 0%{?rhel} > 7
+BuildRequires:  foo
+%endif
+
+-------------------------------------------------------------------------------
+
+(spec
+  (conditional
+    (preamble
+      (tags
+        (dependency_tag)
+        (string
+          (string_content))))))
