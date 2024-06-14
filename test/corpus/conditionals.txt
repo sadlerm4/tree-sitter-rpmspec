@@ -105,3 +105,21 @@ BuildRequires:  foo
         (dependency_tag)
         (string
           (string_content))))))
+
+===============================================================================
+Conditionals (%if with expansion)
+===============================================================================
+
+%if 0%{?fedora}
+BuildRequires:  foo
+%endif
+
+-------------------------------------------------------------------------------
+
+(spec
+  (conditional
+    (preamble
+      (tags
+        (dependency_tag)
+        (string
+          (string_content))))))
