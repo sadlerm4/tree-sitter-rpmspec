@@ -39,10 +39,12 @@
   },
   "tree-sitter": [
     {
-      "scope": "source.cfengine",
+      "scope": "source.rpmspec",
       "file-types": [
-        "cf"
-      ]
+        "spec"
+      ],
+      "injection-regex": "spec",
+      "highlights": "queries/highlights.scm"
    }
   ]
 }
