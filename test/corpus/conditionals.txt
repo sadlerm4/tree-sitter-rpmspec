@@ -20,7 +20,7 @@ BuildRequires:  foo
 Conditionals (%ifnarch)
 ===============================================================================
 
-%ifarch x86_64
+%ifnarch x86_64
 BuildRequires:  magic
 %endif
 

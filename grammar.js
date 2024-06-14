@@ -67,7 +67,7 @@ module.exports = grammar({
 
         conditional: ($) =>
             seq(
-                choice('%if', '%ifarch', '%ifos'),
+                choice('%if', '%ifarch', '%ifos', '%ifnarch', '%ifnos'),
                 ANYTHING,
                 NEWLINE,
                 $._top_level,
