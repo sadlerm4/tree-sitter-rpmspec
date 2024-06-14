@@ -768,6 +768,14 @@
     "named": false
   },
   {
+    "type": "%ifnarch",
+    "named": false
+  },
+  {
+    "type": "%ifnos",
+    "named": false
+  },
+  {
     "type": "%ifos",
     "named": false
   },
