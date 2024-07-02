@@ -17,6 +17,7 @@ module.exports = grammar({
     extras: ($) => [
         $.comment,
         /\s+/,
+        /\\( |\t|\v|\f)/,
     ],
 
     inline: ($) => [$._special_variable_name],
@@ -86,7 +87,7 @@ module.exports = grammar({
         tags: ($) =>
             seq(
                 choice($.tag, $.dependency_tag),
-                /:[ ]+/,
+                ':',
                 field('value', $._value),
                 NEWLINE,
             ),
