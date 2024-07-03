@@ -1,5 +1,165 @@
 [
   {
+    "type": "_compound_statements",
+    "named": true,
+    "subtypes": [
+      {
+        "type": "if_statement",
+        "named": true
+      }
+    ]
+  },
+  {
+    "type": "_simple_statements",
+    "named": true,
+    "subtypes": [
+      {
+        "type": "%filetriggerin",
+        "named": false
+      },
+      {
+        "type": "%filetriggerpostun",
+        "named": false
+      },
+      {
+        "type": "%filetriggerun",
+        "named": false
+      },
+      {
+        "type": "%post",
+        "named": false
+      },
+      {
+        "type": "%posttrans",
+        "named": false
+      },
+      {
+        "type": "%postun",
+        "named": false
+      },
+      {
+        "type": "%postuntrans",
+        "named": false
+      },
+      {
+        "type": "%pre",
+        "named": false
+      },
+      {
+        "type": "%pretrans",
+        "named": false
+      },
+      {
+        "type": "%preun",
+        "named": false
+      },
+      {
+        "type": "%preuntrans",
+        "named": false
+      },
+      {
+        "type": "%transfiletriggerin",
+        "named": false
+      },
+      {
+        "type": "%transfiletriggerpostun",
+        "named": false
+      },
+      {
+        "type": "%transfiletriggerun",
+        "named": false
+      },
+      {
+        "type": "%triggerin",
+        "named": false
+      },
+      {
+        "type": "%triggerpostun",
+        "named": false
+      },
+      {
+        "type": "%triggerprein",
+        "named": false
+      },
+      {
+        "type": "%triggerun",
+        "named": false
+      },
+      {
+        "type": "%verify",
+        "named": false
+      },
+      {
+        "type": "build_scriptlet",
+        "named": true
+      },
+      {
+        "type": "changelog",
+        "named": true
+      },
+      {
+        "type": "check_scriptlet",
+        "named": true
+      },
+      {
+        "type": "clean_scriptlet",
+        "named": true
+      },
+      {
+        "type": "conf_scriptlet",
+        "named": true
+      },
+      {
+        "type": "description",
+        "named": true
+      },
+      {
+        "type": "files",
+        "named": true
+      },
+      {
+        "type": "full_expansion",
+        "named": true
+      },
+      {
+        "type": "generate_buildrequires",
+        "named": true
+      },
+      {
+        "type": "install_scriptlet",
+        "named": true
+      },
+      {
+        "type": "macro_definition",
+        "named": true
+      },
+      {
+        "type": "macro_undefinition",
+        "named": true
+      },
+      {
+        "type": "preamble",
+        "named": true
+      },
+      {
+        "type": "prep_scriptlet",
+        "named": true
+      },
+      {
+        "type": "shell_expansion",
+        "named": true
+      },
+      {
+        "type": "simple_expansion",
+        "named": true
+      },
+      {
+        "type": "subsection",
+        "named": true
+      }
+    ]
+  },
+  {
     "type": "attr",
     "named": true,
     "fields": {}
@@ -52,89 +212,6 @@
     "type": "clean_scriptlet",
     "named": true,
     "fields": {}
-  },
-  {
-    "type": "conditional",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "build_scriptlet",
-          "named": true
-        },
-        {
-          "type": "changelog",
-          "named": true
-        },
-        {
-          "type": "check_scriptlet",
-          "named": true
-        },
-        {
-          "type": "clean_scriptlet",
-          "named": true
-        },
-        {
-          "type": "conditional",
-          "named": true
-        },
-        {
-          "type": "conf_scriptlet",
-          "named": true
-        },
-        {
-          "type": "description",
-          "named": true
-        },
-        {
-          "type": "files",
-          "named": true
-        },
-        {
-          "type": "full_expansion",
-          "named": true
-        },
-        {
-          "type": "generate_buildrequires",
-          "named": true
-        },
-        {
-          "type": "install_scriptlet",
-          "named": true
-        },
-        {
-          "type": "macro_definition",
-          "named": true
-        },
-        {
-          "type": "macro_undefinition",
-          "named": true
-        },
-        {
-          "type": "preamble",
-          "named": true
-        },
-        {
-          "type": "prep_scriptlet",
-          "named": true
-        },
-        {
-          "type": "shell_expansion",
-          "named": true
-        },
-        {
-          "type": "simple_expansion",
-          "named": true
-        },
-        {
-          "type": "subsection",
-          "named": true
-        }
-      ]
-    }
   },
   {
     "type": "conditional_files",
@@ -197,6 +274,38 @@
           "named": true
         }
       ]
+    }
+  },
+  {
+    "type": "elif_clause",
+    "named": true,
+    "fields": {
+      "consequence": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "_simple_statements",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "else_clause",
+    "named": true,
+    "fields": {
+      "body": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "_simple_statements",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -281,6 +390,36 @@
           "named": true
         }
       ]
+    }
+  },
+  {
+    "type": "if_statement",
+    "named": true,
+    "fields": {
+      "alternative": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "elif_clause",
+            "named": true
+          },
+          {
+            "type": "else_clause",
+            "named": true
+          }
+        ]
+      },
+      "consequence": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "_simple_statements",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -422,75 +561,11 @@
       "required": false,
       "types": [
         {
-          "type": "build_scriptlet",
+          "type": "_compound_statements",
           "named": true
         },
         {
-          "type": "changelog",
-          "named": true
-        },
-        {
-          "type": "check_scriptlet",
-          "named": true
-        },
-        {
-          "type": "clean_scriptlet",
-          "named": true
-        },
-        {
-          "type": "conditional",
-          "named": true
-        },
-        {
-          "type": "conf_scriptlet",
-          "named": true
-        },
-        {
-          "type": "description",
-          "named": true
-        },
-        {
-          "type": "files",
-          "named": true
-        },
-        {
-          "type": "full_expansion",
-          "named": true
-        },
-        {
-          "type": "generate_buildrequires",
-          "named": true
-        },
-        {
-          "type": "install_scriptlet",
-          "named": true
-        },
-        {
-          "type": "macro_definition",
-          "named": true
-        },
-        {
-          "type": "macro_undefinition",
-          "named": true
-        },
-        {
-          "type": "preamble",
-          "named": true
-        },
-        {
-          "type": "prep_scriptlet",
-          "named": true
-        },
-        {
-          "type": "shell_expansion",
-          "named": true
-        },
-        {
-          "type": "simple_expansion",
-          "named": true
-        },
-        {
-          "type": "subsection",
+          "type": "_simple_statements",
           "named": true
         }
       ]
@@ -725,6 +800,18 @@
   },
   {
     "type": "%docdir",
+    "named": false
+  },
+  {
+    "type": "%elif",
+    "named": false
+  },
+  {
+    "type": "%elifos",
+    "named": false
+  },
+  {
+    "type": "%else",
     "named": false
   },
   {
@@ -1102,6 +1189,10 @@
   {
     "type": "comment",
     "named": true
+  },
+  {
+    "type": "elifarch",
+    "named": false
   },
   {
     "type": "filedigest",

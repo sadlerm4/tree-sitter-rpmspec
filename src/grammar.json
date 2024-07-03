@@ -2,100 +2,114 @@
   "name": "rpmspec",
   "rules": {
     "spec": {
-      "type": "SYMBOL",
-      "name": "_top_level"
-    },
-    "_top_level": {
-      "type": "PREC_LEFT",
-      "value": 0,
+      "type": "REPEAT",
       "content": {
-        "type": "REPEAT1",
-        "content": {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "conditional"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "macro_definition"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "macro_undefinition"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "preamble"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "description"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "subsection"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "prep_scriptlet"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "generate_buildrequires"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "conf_scriptlet"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "build_scriptlet"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "install_scriptlet"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "check_scriptlet"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "clean_scriptlet"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "_runtime_scriptlet"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "_triggers"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "_file_triggers"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "files"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "changelog"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "_macro_expansion"
-            },
-            {
-              "type": "PATTERN",
-              "value": "\\r?\\n"
-            }
-          ]
-        }
+        "type": "SYMBOL",
+        "name": "_statements"
       }
+    },
+    "_statements": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_simple_statements"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_compound_statements"
+        }
+      ]
+    },
+    "_simple_statements": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "macro_definition"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "macro_undefinition"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "preamble"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "description"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "subsection"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "prep_scriptlet"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "generate_buildrequires"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "conf_scriptlet"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "build_scriptlet"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "install_scriptlet"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "check_scriptlet"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "clean_scriptlet"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_runtime_scriptlet"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_triggers"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_file_triggers"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "files"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "changelog"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_macro_expansion"
+        },
+        {
+          "type": "PATTERN",
+          "value": "\\r?\\n"
+        }
+      ]
+    },
+    "_compound_statements": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "if_statement"
+        }
+      ]
     },
     "comment": {
       "type": "TOKEN",
@@ -131,7 +145,7 @@
         ]
       }
     },
-    "conditional": {
+    "if_statement": {
       "type": "SEQ",
       "members": [
         {
@@ -160,16 +174,59 @@
           ]
         },
         {
-          "type": "PATTERN",
-          "value": "[^\\r\\n]*"
+          "type": "FIELD",
+          "name": "condition",
+          "content": {
+            "type": "PATTERN",
+            "value": "[^\\r\\n]*"
+          }
         },
         {
           "type": "PATTERN",
           "value": "\\r?\\n"
         },
         {
-          "type": "SYMBOL",
-          "name": "_top_level"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "FIELD",
+              "name": "consequence",
+              "content": {
+                "type": "SYMBOL",
+                "name": "_simple_statements"
+              }
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "FIELD",
+            "name": "alternative",
+            "content": {
+              "type": "SYMBOL",
+              "name": "elif_clause"
+            }
+          }
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "FIELD",
+              "name": "alternative",
+              "content": {
+                "type": "SYMBOL",
+                "name": "else_clause"
+              }
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         },
         {
           "type": "STRING",
@@ -178,6 +235,69 @@
         {
           "type": "PATTERN",
           "value": "\\r?\\n"
+        }
+      ]
+    },
+    "elif_clause": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "%elif"
+            },
+            {
+              "type": "STRING",
+              "value": "elifarch"
+            },
+            {
+              "type": "STRING",
+              "value": "%elifos"
+            }
+          ]
+        },
+        {
+          "type": "FIELD",
+          "name": "condition",
+          "content": {
+            "type": "PATTERN",
+            "value": "[^\\r\\n]*"
+          }
+        },
+        {
+          "type": "PATTERN",
+          "value": "\\r?\\n"
+        },
+        {
+          "type": "FIELD",
+          "name": "consequence",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_simple_statements"
+          }
+        }
+      ]
+    },
+    "else_clause": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "%else"
+        },
+        {
+          "type": "PATTERN",
+          "value": "\\r?\\n"
+        },
+        {
+          "type": "FIELD",
+          "name": "body",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_simple_statements"
+          }
         }
       ]
     },
@@ -1649,7 +1769,12 @@
   "precedences": [],
   "externals": [],
   "inline": [
+    "_simple_statements",
+    "_compound_statements",
     "_special_variable_name"
   ],
-  "supertypes": []
+  "supertypes": [
+    "_simple_statements",
+    "_compound_statements"
+  ]
 }
