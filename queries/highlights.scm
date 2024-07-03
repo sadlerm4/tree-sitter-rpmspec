@@ -14,7 +14,7 @@
 (comment) @comment
 (string) @string
 
-(conditional) @keyword
+(if_statement) @keyword
 
 ;[
 ;  "!="
@@ -32,4 +32,4 @@
   "%ifarch"
   "%ifos"
   "%endif"
-] @keyowrd.conditional
+] @keyword.conditional

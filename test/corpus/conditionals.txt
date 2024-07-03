@@ -9,7 +9,7 @@ BuildRequires:  foo
 -------------------------------------------------------------------------------
 
 (spec
-  (conditional
+  (if_statement
     (preamble
       (tags
         (dependency_tag)
@@ -27,7 +27,7 @@ BuildRequires:  magic
 -------------------------------------------------------------------------------
 
 (spec
-  (conditional
+  (if_statement
     (preamble
       (tags
         (dependency_tag)
@@ -45,7 +45,7 @@ BuildRequires:  foo
 -------------------------------------------------------------------------------
 
 (spec
-  (conditional
+  (if_statement
     (preamble
       (tags
         (dependency_tag)
@@ -63,7 +63,7 @@ BuildRequires:  foo
 -------------------------------------------------------------------------------
 
 (spec
-  (conditional
+  (if_statement
     (preamble
       (tags
         (dependency_tag)
@@ -81,7 +81,7 @@ BuildRequires:  foo
 -------------------------------------------------------------------------------
 
 (spec
-  (conditional
+  (if_statement
     (preamble
       (tags
         (dependency_tag)
@@ -99,7 +99,7 @@ BuildRequires:  foo
 -------------------------------------------------------------------------------
 
 (spec
-  (conditional
+  (if_statement
     (preamble
       (tags
         (dependency_tag)
@@ -117,7 +117,7 @@ BuildRequires:  foo
 -------------------------------------------------------------------------------
 
 (spec
-  (conditional
+  (if_statement
     (preamble
       (tags
         (dependency_tag)

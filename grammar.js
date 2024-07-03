@@ -20,38 +20,47 @@ module.exports = grammar({
         /\\( |\t|\v|\f)/,
     ],
 
-    inline: ($) => [$._special_variable_name],
+    supertypes: $ => [$._simple_statements, $._compound_statements],
+
+    inline: ($) => [
+        $._simple_statements,
+        $._compound_statements,
+        $._special_variable_name
+    ],
 
     rules: {
-        spec: ($) => $._top_level,
+        spec: ($) => repeat($._statements),
 
-        _top_level: ($) =>
-            prec.left(
-                repeat1(
-                    choice(
-                        $.conditional,
-                        $.macro_definition,
-                        $.macro_undefinition,
-                        $.preamble,
-                        $.description,
-                        $.subsection,
-                        $.prep_scriptlet,
-                        $.generate_buildrequires,
-                        $.conf_scriptlet,
-                        $.build_scriptlet,
-                        $.install_scriptlet,
-                        $.check_scriptlet,
-                        $.clean_scriptlet,
-                        $._runtime_scriptlet,
-                        $._triggers,
-                        $._file_triggers,
-                        $.files,
-                        $.changelog,
-                        $._macro_expansion,
-                        NEWLINE,
-                    ),
-                ),
-            ),
+        _statements: $ => choice(
+            $._simple_statements,
+            $._compound_statements,
+        ),
+
+        _simple_statements: ($) => choice(
+            $.macro_definition,
+            $.macro_undefinition,
+            $.preamble,
+            $.description,
+            $.subsection,
+            $.prep_scriptlet,
+            $.generate_buildrequires,
+            $.conf_scriptlet,
+            $.build_scriptlet,
+            $.install_scriptlet,
+            $.check_scriptlet,
+            $.clean_scriptlet,
+            $._runtime_scriptlet,
+            $._triggers,
+            $._file_triggers,
+            $.files,
+            $.changelog,
+            $._macro_expansion,
+            NEWLINE,
+        ),
+
+        _compound_statements: $ => choice(
+            $.if_statement,
+        ),
 
         comment: ($) =>
             token(
@@ -65,12 +74,12 @@ module.exports = grammar({
         // Conditionals (%if, %ifarch, %ifos)
         ///////////////////////////////////////////////////////////////////////
 
-        conditional: ($) =>
+        if_statement: ($) =>
             seq(
                 choice('%if', '%ifarch', '%ifos', '%ifnarch', '%ifnos'),
-                ANYTHING,
+                field('condition', ANYTHING),
                 NEWLINE,
-                $._top_level,
+                optional(field('consequence', $._simple_statements)),
                 '%endif',
                 NEWLINE,
             ),
