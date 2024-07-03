@@ -80,9 +80,18 @@ module.exports = grammar({
                 field('condition', ANYTHING),
                 NEWLINE,
                 optional(field('consequence', $._simple_statements)),
+                repeat(field('alternative', $.elif_clause)),
                 optional(field('alternative', $.else_clause)),
                 '%endif',
                 NEWLINE,
+            ),
+
+        elif_clause: ($) =>
+            seq(
+                choice('%elif', 'elifarch', '%elifos'),
+                field('condition', ANYTHING),
+                NEWLINE,
+                field('consequence', $._simple_statements),
             ),
 
         else_clause: ($) =>

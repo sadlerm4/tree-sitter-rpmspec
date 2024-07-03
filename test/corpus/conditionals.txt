@@ -141,3 +141,89 @@ BuildRequires:  foo
         (dependency_tag)
         (string
           (string_content))))))
+
+===============================================================================
+Conditionals (%if with %else)
+===============================================================================
+
+%if 0%{?fedora}
+BuildRequires:  foo
+%else
+BuildRequires:  bar
+%endif
+
+-------------------------------------------------------------------------------
+
+(spec
+  (if_statement
+    (preamble
+      (tags
+        (dependency_tag)
+        (string
+          (string_content))))
+    (else_clause
+      (preamble
+        (tags
+          (dependency_tag)
+          (string
+            (string_content)))))))
+
+===============================================================================
+Conditionals (%if with %elif)
+===============================================================================
+
+%if 0%{?fedora}
+BuildRequires:  foo
+%elif 0%{?rhel}
+BuildRequires:  bar
+%endif
+
+-------------------------------------------------------------------------------
+
+(spec
+  (if_statement
+    (preamble
+      (tags
+        (dependency_tag)
+        (string
+          (string_content))))
+    (elif_clause
+      (preamble
+        (tags
+          (dependency_tag)
+          (string
+            (string_content)))))))
+
+===============================================================================
+Conditionals (%if with %elif and %else)
+===============================================================================
+
+%if 0%{?fedora}
+BuildRequires:  foo
+%elif 0%{?rhel}
+BuildRequires:  bar
+%else
+BuildRequires:  wurst
+%endif
+
+-------------------------------------------------------------------------------
+
+(spec
+  (if_statement
+    (preamble
+      (tags
+        (dependency_tag)
+        (string
+          (string_content))))
+    (elif_clause
+      (preamble
+        (tags
+          (dependency_tag)
+          (string
+            (string_content)))))
+    (else_clause
+      (preamble
+        (tags
+          (dependency_tag)
+          (string
+            (string_content)))))))
