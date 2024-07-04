@@ -14,61 +14,49 @@ module.exports = grammar({
     name: 'rpmspec',
 
     // Array of tokens that may appear anywhere in the language.
-    extras: ($) => [
-        $.comment,
-        /\s+/,
-        /\\( |\t|\v|\f)/,
-    ],
+    extras: ($) => [$.comment, /\s+/, /\\( |\t|\v|\f)/],
 
-    supertypes: $ => [$._simple_statements, $._compound_statements],
+    supertypes: ($) => [$._simple_statements, $._compound_statements],
 
     inline: ($) => [
         $._simple_statements,
         $._compound_statements,
-        $._special_variable_name
+        $._special_variable_name,
     ],
 
     rules: {
         spec: ($) => repeat($._statements),
 
-        _statements: $ => choice(
-            $._simple_statements,
-            $._compound_statements,
-        ),
+        _statements: ($) =>
+            choice($._simple_statements, $._compound_statements),
 
-        _simple_statements: ($) => choice(
-            $.macro_definition,
-            $.macro_undefinition,
-            $.preamble,
-            $.description,
-            $.subsection,
-            $.prep_scriptlet,
-            $.generate_buildrequires,
-            $.conf_scriptlet,
-            $.build_scriptlet,
-            $.install_scriptlet,
-            $.check_scriptlet,
-            $.clean_scriptlet,
-            $._runtime_scriptlet,
-            $._triggers,
-            $._file_triggers,
-            $.files,
-            $.changelog,
-            $._macro_expansion,
-            NEWLINE,
-        ),
+        _simple_statements: ($) =>
+            choice(
+                $.macro_definition,
+                $.macro_undefinition,
+                $.preamble,
+                $.description,
+                $.subsection,
+                $.prep_scriptlet,
+                $.generate_buildrequires,
+                $.conf_scriptlet,
+                $.build_scriptlet,
+                $.install_scriptlet,
+                $.check_scriptlet,
+                $.clean_scriptlet,
+                $._runtime_scriptlet,
+                $._triggers,
+                $._file_triggers,
+                $.files,
+                $.changelog,
+                $._macro_expansion,
+                NEWLINE
+            ),
 
-        _compound_statements: $ => choice(
-            $.if_statement,
-        ),
+        _compound_statements: ($) => choice($.if_statement),
 
         comment: ($) =>
-            token(
-                choice(
-                    seq('#', ANYTHING),
-                    seq('%dnl ', ANYTHING),
-                ),
-            ),
+            token(choice(seq('#', ANYTHING), seq('%dnl ', ANYTHING))),
 
         ///////////////////////////////////////////////////////////////////////
         // Conditionals (%if, %ifarch, %ifos)
@@ -83,7 +71,7 @@ module.exports = grammar({
                 repeat(field('alternative', $.elif_clause)),
                 optional(field('alternative', $.else_clause)),
                 '%endif',
-                NEWLINE,
+                NEWLINE
             ),
 
         elif_clause: ($) =>
@@ -91,15 +79,11 @@ module.exports = grammar({
                 choice('%elif', 'elifarch', '%elifos'),
                 field('condition', ANYTHING),
                 NEWLINE,
-                field('consequence', $._simple_statements),
+                field('consequence', $._simple_statements)
             ),
 
         else_clause: ($) =>
-            seq(
-                '%else',
-                NEWLINE,
-                field('body', $._simple_statements),
-            ),
+            seq('%else', NEWLINE, field('body', $._simple_statements)),
 
         ///////////////////////////////////////////////////////////////////////
         // Preamble Section (Name, Version, Release, ...)
@@ -115,7 +99,7 @@ module.exports = grammar({
                 choice($.tag, $.dependency_tag),
                 ':',
                 field('value', $._value),
-                NEWLINE,
+                NEWLINE
             ),
 
         tag: ($) =>
@@ -194,12 +178,7 @@ module.exports = grammar({
             repeat1(
                 prec(
                     -1,
-                    choice(
-                        $._macro_expansion,
-                        $.integer,
-                        $.float,
-                        $.string,
-                    )
+                    choice($._macro_expansion, $.integer, $.float, $.string)
                 )
             ),
 
@@ -211,94 +190,49 @@ module.exports = grammar({
             prec.right(
                 seq(
                     '%description',
-                    optional(
-                        seq(
-                            '-n',
-                            $.string,
-                        ),
-                    ),
+                    optional(seq('-n', $.string)),
                     NEWLINE,
-                    optional($.string_with_newlines),
-                ),
+                    optional($.string_with_newlines)
+                )
             ),
 
         ///////////////////////////////////////////////////////////////////////
         // Preamble Sub-Sections (%package, %description)
         ///////////////////////////////////////////////////////////////////////
 
-        subsection: ($) =>
-            seq(
-                $.subsection_package,
-                $.subsection_description,
-            ),
+        subsection: ($) => seq($.subsection_package, $.subsection_description),
 
         subsection_package: ($) =>
-            seq(
-                '%package',
-                $.single_word,
-                NEWLINE,
-                repeat1($.preamble)
-            ),
+            seq('%package', $.single_word, NEWLINE, repeat1($.preamble)),
 
         subsection_description: ($) =>
-            seq(
-                '%description',
-                '-n',
-                $.single_word,
-                NEWLINE,
-            ),
+            seq('%description', '-n', $.single_word, NEWLINE),
 
         ///////////////////////////////////////////////////////////////////////
         // Build scriptlets (%prep, %build, %install, ...)
         ///////////////////////////////////////////////////////////////////////
 
         prep_scriptlet: ($) =>
-            prec.right(
-                seq(
-                    '%prep',
-                    NEWLINE,
-                    optional($.string_with_newlines),
-                ),
-            ),
+            prec.right(seq('%prep', NEWLINE, optional($.string_with_newlines))),
 
         generate_buildrequires: ($) =>
             prec.right(
                 seq(
                     '%generate_buildrequires',
                     NEWLINE,
-                    optional($.string_with_newlines),
-                ),
+                    optional($.string_with_newlines)
+                )
             ),
 
-        conf_scriptlet: ($) =>
-            seq(
-                '%conf',
-                NEWLINE,
-            ),
+        conf_scriptlet: ($) => seq('%conf', NEWLINE),
 
-        build_scriptlet: ($) =>
-            seq(
-                '%build',
-                NEWLINE,
-            ),
+        build_scriptlet: ($) => seq('%build', NEWLINE),
 
-        install_scriptlet: ($) =>
-            seq(
-                '%install',
-                NEWLINE,
-            ),
+        install_scriptlet: ($) => seq('%install', NEWLINE),
 
-        check_scriptlet: ($) =>
-            seq(
-                '%check',
-                NEWLINE,
-            ),
+        check_scriptlet: ($) => seq('%check', NEWLINE),
 
-        clean_scriptlet: ($) =>
-            seq(
-                '%clean',
-                NEWLINE,
-            ),
+        clean_scriptlet: ($) => seq('%clean', NEWLINE),
 
         ///////////////////////////////////////////////////////////////////////
         // Runtime scriptlets (%pre, %post, ...)
@@ -314,9 +248,8 @@ module.exports = grammar({
                 '%posttrans',
                 '%preuntrans',
                 '%postuntrans',
-                '%verify',
+                '%verify'
             ),
-
 
         ///////////////////////////////////////////////////////////////////////
         // Triggers (%triggerin, %triggerun, ...)
@@ -327,7 +260,7 @@ module.exports = grammar({
                 '%triggerprein',
                 '%triggerin',
                 '%triggerun',
-                '%triggerpostun',
+                '%triggerpostun'
             ),
 
         ///////////////////////////////////////////////////////////////////////
@@ -341,7 +274,7 @@ module.exports = grammar({
                 '%filetriggerpostun',
                 '%transfiletriggerin',
                 '%transfiletriggerun',
-                '%transfiletriggerpostun',
+                '%transfiletriggerpostun'
             ),
 
         ///////////////////////////////////////////////////////////////////////
@@ -352,27 +285,11 @@ module.exports = grammar({
             prec.right(
                 seq(
                     '%files',
-                    optional(
-                        seq(
-                            '-n',
-                            $.string,
-                        ),
-                    ),
-                    optional(
-                        seq(
-                            '-f',
-                            $.string,
-                        ),
-                    ),
+                    optional(seq('-n', $.string)),
+                    optional(seq('-f', $.string)),
                     NEWLINE,
-                    repeat(
-                        choice(
-                            $.conditional_files,
-                            $.defattr,
-                            $.file,
-                        ),
-                    ),
-                ),
+                    repeat(choice($.conditional_files, $.defattr, $.file))
+                )
             ),
 
         conditional_files: ($) =>
@@ -380,12 +297,9 @@ module.exports = grammar({
                 choice('%if', '%ifarch', '%ifos'),
                 ANYTHING,
                 NEWLINE,
-                choice(
-                    $.defattr,
-                    $.file,
-                ),
+                choice($.defattr, $.file),
                 '%endif',
-                NEWLINE,
+                NEWLINE
             ),
 
         defattr: ($) =>
@@ -398,7 +312,7 @@ module.exports = grammar({
                 ',',
                 /[a-zA-Z]+/,
                 ')',
-                NEWLINE,
+                NEWLINE
             ),
 
         file: ($) =>
@@ -416,24 +330,22 @@ module.exports = grammar({
                         '%missingok',
                         '%readme',
                         $.verify
-                    ),
+                    )
                 ),
                 $.string,
-                NEWLINE,
+                NEWLINE
             ),
 
         attr: ($) =>
             seq(
-                choice(
-                    '%attr',
-                ),
+                choice('%attr'),
                 '(',
                 choice('-', /[0-9]+/),
                 ',',
                 /[a-zA-Z]+/,
                 ',',
                 /[a-zA-Z]+/,
-                ')',
+                ')'
             ),
 
         // %verify(not size filedigest mtime) %{prefix}/bin/file
@@ -453,23 +365,17 @@ module.exports = grammar({
                         'not',
                         'owner',
                         'size',
-                        'symlink',
-
-                    ),
+                        'symlink'
+                    )
                 ),
-                token.immediate(')'),
+                token.immediate(')')
             ),
 
         ///////////////////////////////////////////////////////////////////////
         // Changelog Section (%changelog)
         ///////////////////////////////////////////////////////////////////////
 
-        changelog: ($) =>
-            seq(
-                '%changelog',
-                NEWLINE,
-                repeat($.changelog_entry)
-            ),
+        changelog: ($) => seq('%changelog', NEWLINE, repeat($.changelog_entry)),
 
         // * Tue May 31 2016 Adam Miller <maxamillion@fedoraproject.org> - 0.1-1
         // * Fri Jun 21 2002 Bob Marley <marley@redhat.com>
@@ -479,13 +385,7 @@ module.exports = grammar({
                 '*',
                 $.string_content,
                 NEWLINE,
-                repeat(
-                    seq(
-                        '-',
-                        $.string,
-                        NEWLINE
-                    ),
-                ),
+                repeat(seq('-', $.string, NEWLINE))
             ),
 
         ///////////////////////////////////////////////////////////////////////
@@ -498,7 +398,7 @@ module.exports = grammar({
                 $.variable_name,
                 optional($.macro_options),
                 $.string,
-                NEWLINE,
+                NEWLINE
             ),
 
         macro_options: ($) => seq('(', ')'),
@@ -527,49 +427,34 @@ module.exports = grammar({
                     seq(
                         choice(
                             seq(optional('%'), $.string_content_with_newlines),
-                            $._macro_expansion,
+                            $._macro_expansion
                         )
                     )
                 )
             ),
 
-        string_content_with_newlines: (_) => token(prec(-1, /([^"`%\\\r\n]|\\(.|\r?\n))+/)),
+        string_content_with_newlines: (_) =>
+            token(prec(-1, /([^"`%\\\r\n]|\\(.|\r?\n))+/)),
 
         string: ($) =>
             prec(
                 -1,
-                repeat1(
-                    seq(
-                        choice(
-                            $._macro_expansion,
-                            $.string_content,
-                        )
-                    )
-                )
+                repeat1(seq(choice($._macro_expansion, $.string_content)))
             ),
 
         string_content: (_) => token(prec(-1, /([^"`%\\\r\n])+/)),
 
         // TODO: better name
-        single_word: ($) =>
-            choice(
-                $._macro_expansion,
-                seq($.string_content),
-            ),
+        single_word: ($) => choice($._macro_expansion, seq($.string_content)),
 
-        _expression: ($) => ($.single_word),
-
+        _expression: ($) => $.single_word,
 
         ///////////////////////////////////////////////////////////////////////
         // Expansion
         ///////////////////////////////////////////////////////////////////////
 
         _macro_expansion: ($) =>
-            choice(
-                $.simple_expansion,
-                $.full_expansion,
-                $.shell_expansion,
-            ),
+            choice($.simple_expansion, $.full_expansion, $.shell_expansion),
 
         variable_name: ($) => /[a-zA-Z_][A-Za-z0-9_]*/,
 
@@ -583,24 +468,12 @@ module.exports = grammar({
         full_expansion: ($) =>
             seq(
                 '%{',
-                choice(
-                    $._special_variable_name,
-                    $.variable_name
-                ),
-                optional(
-                    seq(
-                        ':',
-                        $.string_content,
-                    ),
-                ),
-                '}',
+                choice($._special_variable_name, $.variable_name),
+                optional(seq(':', $.string_content)),
+                '}'
             ),
 
         // %(...)
-        shell_expansion: ($) =>
-            seq(
-                '%(',
-                ')',
-            ),
+        shell_expansion: ($) => seq('%(', ')'),
     },
 });
