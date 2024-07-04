@@ -3,6 +3,19 @@ variables:
   BUILD_IMAGES_PROJECT: cryptomilk/build-images
   FEDORA_BUILD: buildenv-fedora
 
+format/prettier:
+  image: $CI_REGISTRY/$BUILD_IMAGES_PROJECT:$FEDORA_BUILD
+  script:
+    - |
+      if prettier --check grammar.js; then
+        exit 0
+      else
+        prettier grammar.js > grammar.js.prettier
+        diff --unified grammar.js grammar.js.prettier | \
+          bat --style=plain --paging=never --color=always
+        exit 1
+      fi
+
 tree-sitter/test:
   image: $CI_REGISTRY/$BUILD_IMAGES_PROJECT:$FEDORA_BUILD
   script:
