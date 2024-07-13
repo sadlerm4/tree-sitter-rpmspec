@@ -397,7 +397,7 @@ module.exports = grammar({
                 choice('%global', '%define'),
                 $.variable_name,
                 optional($.macro_options),
-                $.string,
+                $._value,
                 NEWLINE
             ),
 
@@ -409,7 +409,7 @@ module.exports = grammar({
         // Directives (%attr, %dir, %config, ...)
         ///////////////////////////////////////////////////////////////////////
 
-        integer: ($) => token(seq(repeat1(/[0-9]+_?/))),
+        integer: ($) => token(/-?(0x)?[0-9]+(#[0-9A-Za-z@_]+)?/),
 
         float: ($) => {
             const digits = repeat1(/[0-9]+_?/);
