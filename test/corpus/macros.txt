@@ -123,3 +123,43 @@ Macros (Empty Shell Expansion)
 
 (spec
   (shell_expansion))
+
+===============================================================================
+Macros (Expansion with argument)
+===============================================================================
+
+# Expansion
+%bcond_without foo
+
+# Just some comment
+
+-------------------------------------------------------------------------------
+
+(spec
+  (comment)
+  (macro_invocation
+    (simple_expansion
+      (variable_name))
+    (string
+      (string_content)))
+  (comment))
+
+===============================================================================
+Macros (Expansion with multiple arguments)
+===============================================================================
+
+# Expansion
+%bcond foo 1
+
+# Just some comment
+
+-------------------------------------------------------------------------------
+
+(spec
+  (comment)
+  (macro_invocation
+    (simple_expansion
+      (variable_name))
+    (string
+      (string_content)))
+  (comment))

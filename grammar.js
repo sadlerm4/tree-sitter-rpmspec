@@ -34,6 +34,7 @@ module.exports = grammar({
             choice(
                 $.macro_definition,
                 $.macro_undefinition,
+                $.macro_invocation,
                 $.preamble,
                 $.description,
                 $.subsection,
@@ -404,6 +405,13 @@ module.exports = grammar({
         macro_options: ($) => seq('(', ')'),
 
         macro_undefinition: ($) => seq('%undefine', $.variable_name, NEWLINE),
+
+        // %bcond wurst 1
+        macro_invocation: ($) =>
+            prec(
+                -1,
+                seq($.simple_expansion, $._value, token.immediate(NEWLINE))
+            ),
 
         ///////////////////////////////////////////////////////////////////////
         // Directives (%attr, %dir, %config, ...)
