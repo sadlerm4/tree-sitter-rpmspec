@@ -34,6 +34,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "macro_invocation"
+        },
+        {
+          "type": "SYMBOL",
           "name": "preamble"
         },
         {
@@ -1442,7 +1446,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "string"
+          "name": "_value"
         },
         {
           "type": "PATTERN",
@@ -1480,19 +1484,35 @@
         }
       ]
     },
-    "integer": {
-      "type": "TOKEN",
+    "macro_invocation": {
+      "type": "PREC",
+      "value": -1,
       "content": {
         "type": "SEQ",
         "members": [
           {
-            "type": "REPEAT1",
+            "type": "SYMBOL",
+            "name": "simple_expansion"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_value"
+          },
+          {
+            "type": "IMMEDIATE_TOKEN",
             "content": {
               "type": "PATTERN",
-              "value": "[0-9]+_?"
+              "value": "\\r?\\n"
             }
           }
         ]
+      }
+    },
+    "integer": {
+      "type": "TOKEN",
+      "content": {
+        "type": "PATTERN",
+        "value": "-?(0x)?[0-9]+(#[0-9A-Za-z@_]+)?"
       }
     },
     "float": {

@@ -134,6 +134,10 @@
         "named": true
       },
       {
+        "type": "macro_invocation",
+        "named": true
+      },
+      {
         "type": "macro_undefinition",
         "named": true
       },
@@ -436,7 +440,27 @@
       "required": true,
       "types": [
         {
+          "type": "float",
+          "named": true
+        },
+        {
+          "type": "full_expansion",
+          "named": true
+        },
+        {
+          "type": "integer",
+          "named": true
+        },
+        {
           "type": "macro_options",
+          "named": true
+        },
+        {
+          "type": "shell_expansion",
+          "named": true
+        },
+        {
+          "type": "simple_expansion",
           "named": true
         },
         {
@@ -445,6 +469,41 @@
         },
         {
           "type": "variable_name",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "macro_invocation",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "float",
+          "named": true
+        },
+        {
+          "type": "full_expansion",
+          "named": true
+        },
+        {
+          "type": "integer",
+          "named": true
+        },
+        {
+          "type": "shell_expansion",
+          "named": true
+        },
+        {
+          "type": "simple_expansion",
+          "named": true
+        },
+        {
+          "type": "string",
           "named": true
         }
       ]
