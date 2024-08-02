@@ -118,10 +118,6 @@
         "named": true
       },
       {
-        "type": "full_expansion",
-        "named": true
-      },
-      {
         "type": "generate_buildrequires",
         "named": true
       },
@@ -134,7 +130,15 @@
         "named": true
       },
       {
+        "type": "macro_expansion",
+        "named": true
+      },
+      {
         "type": "macro_invocation",
+        "named": true
+      },
+      {
+        "type": "macro_shell_expansion",
         "named": true
       },
       {
@@ -147,14 +151,6 @@
       },
       {
         "type": "prep_scriptlet",
-        "named": true
-      },
-      {
-        "type": "shell_expansion",
-        "named": true
-      },
-      {
-        "type": "simple_expansion",
         "named": true
       },
       {
@@ -397,26 +393,11 @@
           "named": true
         },
         {
-          "type": "string",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "full_expansion",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "string_content",
+          "type": "if_statement",
           "named": true
         },
         {
-          "type": "variable_name",
+          "type": "string",
           "named": true
         }
       ]
@@ -507,11 +488,11 @@
           "named": true
         },
         {
-          "type": "full_expansion",
+          "type": "integer",
           "named": true
         },
         {
-          "type": "integer",
+          "type": "macro_expansion",
           "named": true
         },
         {
@@ -519,15 +500,30 @@
           "named": true
         },
         {
-          "type": "shell_expansion",
-          "named": true
-        },
-        {
-          "type": "simple_expansion",
+          "type": "macro_shell_expansion",
           "named": true
         },
         {
           "type": "string",
+          "named": true
+        },
+        {
+          "type": "variable_name",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "macro_expansion",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "string_content",
           "named": true
         },
         {
@@ -550,19 +546,11 @@
           "named": true
         },
         {
-          "type": "full_expansion",
-          "named": true
-        },
-        {
           "type": "integer",
           "named": true
         },
         {
-          "type": "shell_expansion",
-          "named": true
-        },
-        {
-          "type": "simple_expansion",
+          "type": "macro_expansion",
           "named": true
         },
         {
@@ -574,6 +562,11 @@
   },
   {
     "type": "macro_options",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "macro_shell_expansion",
     "named": true,
     "fields": {}
   },
@@ -655,26 +648,6 @@
     }
   },
   {
-    "type": "shell_expansion",
-    "named": true,
-    "fields": {}
-  },
-  {
-    "type": "simple_expansion",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "variable_name",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "single_word",
     "named": true,
     "fields": {},
@@ -683,15 +656,7 @@
       "required": true,
       "types": [
         {
-          "type": "full_expansion",
-          "named": true
-        },
-        {
-          "type": "shell_expansion",
-          "named": true
-        },
-        {
-          "type": "simple_expansion",
+          "type": "macro_expansion",
           "named": true
         },
         {
@@ -729,15 +694,7 @@
       "required": true,
       "types": [
         {
-          "type": "full_expansion",
-          "named": true
-        },
-        {
-          "type": "shell_expansion",
-          "named": true
-        },
-        {
-          "type": "simple_expansion",
+          "type": "macro_expansion",
           "named": true
         },
         {
@@ -756,15 +713,7 @@
       "required": true,
       "types": [
         {
-          "type": "full_expansion",
-          "named": true
-        },
-        {
-          "type": "shell_expansion",
-          "named": true
-        },
-        {
-          "type": "simple_expansion",
+          "type": "macro_expansion",
           "named": true
         },
         {
@@ -845,19 +794,11 @@
             "named": true
           },
           {
-            "type": "full_expansion",
-            "named": true
-          },
-          {
             "type": "integer",
             "named": true
           },
           {
-            "type": "shell_expansion",
-            "named": true
-          },
-          {
-            "type": "simple_expansion",
+            "type": "macro_expansion",
             "named": true
           },
           {
