@@ -36,6 +36,8 @@ module.exports = grammar({
                 $.macro_definition,
                 $.macro_undefinition,
                 $.macro_invocation,
+                $.macro_expansion,
+                $.macro_shell_expansion,
                 $.preamble,
                 $.description,
                 $.subsection,
@@ -51,8 +53,6 @@ module.exports = grammar({
                 $._file_triggers,
                 $.files,
                 $.changelog,
-                $._macro_expansion,
-                $.macro_shell_expansion,
                 NEWLINE
             ),
 
@@ -189,7 +189,7 @@ module.exports = grammar({
             repeat1(
                 prec(
                     -1,
-                    choice($._macro_expansion, $.integer, $.float, $.string)
+                    choice($.macro_expansion, $.integer, $.float, $.string)
                 )
             ),
 
@@ -328,7 +328,7 @@ module.exports = grammar({
                     optional(seq('-n', $.string)),
                     optional(seq('-f', $.string)),
                     NEWLINE,
-                    repeat(choice($.defattr, $.file))
+                    repeat(choice($.if_statement, $.defattr, $.file))
                 )
             ),
 
@@ -437,10 +437,17 @@ module.exports = grammar({
 
         // The macro invocation should have a higher precedence than macro
         // expansion
+        //
+        // Example: %bcond foo 1
         macro_invocation: ($) =>
             prec(
                 1,
-                seq($.simple_expansion, $._value, token.immediate(NEWLINE))
+                seq(
+                    $.macro_expansion,
+                    token.immediate(/( |\t)/),
+                    $._value,
+                    NEWLINE
+                )
             ),
 
         ///////////////////////////////////////////////////////////////////////
@@ -465,7 +472,7 @@ module.exports = grammar({
                     seq(
                         choice(
                             seq(optional('%'), $.string_content_with_newlines),
-                            $._macro_expansion
+                            $.macro_expansion
                         )
                     )
                 )
@@ -475,15 +482,12 @@ module.exports = grammar({
             token(prec(-1, /([^"`%\\\r\n]|\\(.|\r?\n))+/)),
 
         string: ($) =>
-            prec(
-                -1,
-                repeat1(seq(choice($._macro_expansion, $.string_content)))
-            ),
+            prec(-1, repeat1(seq(choice($.macro_expansion, $.string_content)))),
 
         string_content: (_) => token(prec(-1, /([^"`%\\\r\n])+/)),
 
         // TODO: better name
-        single_word: ($) => choice($._macro_expansion, seq($.string_content)),
+        single_word: ($) => choice($.macro_expansion, seq($.string_content)),
 
         _expression: ($) => $.single_word,
 
@@ -491,8 +495,7 @@ module.exports = grammar({
         // Expansion
         ///////////////////////////////////////////////////////////////////////
 
-        _macro_expansion: ($) =>
-            choice($.simple_expansion, $.full_expansion),
+        macro_expansion: ($) => choice($._simple_expansion, $._full_expansion),
 
         variable_name: ($) => /[a-zA-Z_][A-Za-z0-9_]*/,
 
@@ -500,10 +503,10 @@ module.exports = grammar({
             seq(optional(token.immediate('?')), $.variable_name),
 
         // %variable
-        simple_expansion: ($) => seq('%', $.variable_name),
+        _simple_expansion: ($) => seq('%', $.variable_name),
 
         // %{variable}, %{?variable}, %{variable:argument}
-        full_expansion: ($) =>
+        _full_expansion: ($) =>
             seq(
                 '%{',
                 choice($._special_variable_name, $.variable_name),

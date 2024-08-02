@@ -251,20 +251,20 @@ Conditionals (Nested %if with %elif and %else)
   (if_statement
     (if_statement
       (macro_invocation
-        (simple_expansion
+        (macro_expansion
           (variable_name))
         (string
           (string_content)))
       (else_clause
         (macro_invocation
-          (simple_expansion
+          (macro_expansion
             (variable_name))
           (string
             (string_content))))
       (comment))
     (else_clause
       (macro_invocation
-        (simple_expansion
+        (macro_expansion
           (variable_name))
         (string
           (string_content))))))
@@ -287,5 +287,5 @@ Requires(post): libwbclient = %{samba_depver}
           (qualifier))
         (string
           (string_content)
-          (full_expansion
+          (macro_expansion
             (variable_name)))))))

@@ -37,7 +37,7 @@ Files (Expansion)
   (files
     (file
       (string
-        (full_expansion
+        (macro_expansion
           (variable_name))
       (string_content)))))
 
@@ -176,7 +176,7 @@ Files (%dir with variables)
   (files
     (file
       (string
-        (full_expansion
+        (macro_expansion
           (variable_name))))))
 
 ===============================================================================
@@ -227,7 +227,7 @@ Files (%verify)
     (file
       (verify)
       (string
-        (full_expansion
+        (macro_expansion
           (variable_name))
         (string_content)))))
 
@@ -243,10 +243,10 @@ Files (%ifarch)
 -------------------------------------------------------------------------------
 
 (spec
-  (files)
-  (if_statement
-    (file
-      (string
-        (full_expansion
-          (variable_name))
-        (string_content)))))
+  (files
+    (if_statement
+      (file
+        (string
+          (macro_expansion
+            (variable_name))
+          (string_content))))))
