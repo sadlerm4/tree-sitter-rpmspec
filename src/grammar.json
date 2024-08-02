@@ -149,6 +149,27 @@
         ]
       }
     },
+    "_conditional_block": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_simple_statements"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_compound_statements"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "defattr"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "file"
+        }
+      ]
+    },
     "if_statement": {
       "type": "SEQ",
       "members": [
@@ -197,7 +218,7 @@
               "name": "consequence",
               "content": {
                 "type": "SYMBOL",
-                "name": "_simple_statements"
+                "name": "_conditional_block"
               }
             },
             {
@@ -279,7 +300,7 @@
           "name": "consequence",
           "content": {
             "type": "SYMBOL",
-            "name": "_simple_statements"
+            "name": "_conditional_block"
           }
         }
       ]
@@ -300,7 +321,7 @@
           "name": "body",
           "content": {
             "type": "SYMBOL",
-            "name": "_simple_statements"
+            "name": "_conditional_block"
           }
         }
       ]
@@ -1034,10 +1055,6 @@
               "members": [
                 {
                   "type": "SYMBOL",
-                  "name": "conditional_files"
-                },
-                {
-                  "type": "SYMBOL",
                   "name": "defattr"
                 },
                 {
@@ -1049,57 +1066,6 @@
           }
         ]
       }
-    },
-    "conditional_files": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "STRING",
-              "value": "%if"
-            },
-            {
-              "type": "STRING",
-              "value": "%ifarch"
-            },
-            {
-              "type": "STRING",
-              "value": "%ifos"
-            }
-          ]
-        },
-        {
-          "type": "PATTERN",
-          "value": "[^\\r\\n]*"
-        },
-        {
-          "type": "PATTERN",
-          "value": "\\r?\\n"
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "defattr"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "file"
-            }
-          ]
-        },
-        {
-          "type": "STRING",
-          "value": "%endif"
-        },
-        {
-          "type": "PATTERN",
-          "value": "\\r?\\n"
-        }
-      ]
     },
     "defattr": {
       "type": "SEQ",
@@ -1791,6 +1757,7 @@
   "inline": [
     "_simple_statements",
     "_compound_statements",
+    "_conditional_block",
     "_special_variable_name"
   ],
   "supertypes": [
