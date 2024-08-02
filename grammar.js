@@ -21,6 +21,7 @@ module.exports = grammar({
     inline: ($) => [
         $._simple_statements,
         $._compound_statements,
+        $._conditional_block,
         $._special_variable_name,
     ],
 
@@ -63,12 +64,20 @@ module.exports = grammar({
         // Conditionals (%if, %ifarch, %ifos)
         ///////////////////////////////////////////////////////////////////////
 
+        _conditional_block: ($) =>
+            choice(
+                $._simple_statements,
+                $._compound_statements,
+                $.defattr,
+                $.file
+            ),
+
         if_statement: ($) =>
             seq(
                 choice('%if', '%ifarch', '%ifos', '%ifnarch', '%ifnos'),
                 field('condition', ANYTHING),
                 NEWLINE,
-                optional(field('consequence', $._simple_statements)),
+                optional(field('consequence', $._conditional_block)),
                 repeat(field('alternative', $.elif_clause)),
                 optional(field('alternative', $.else_clause)),
                 '%endif',
@@ -80,11 +89,11 @@ module.exports = grammar({
                 choice('%elif', 'elifarch', '%elifos'),
                 field('condition', ANYTHING),
                 NEWLINE,
-                field('consequence', $._simple_statements)
+                field('consequence', $._conditional_block)
             ),
 
         else_clause: ($) =>
-            seq('%else', NEWLINE, field('body', $._simple_statements)),
+            seq('%else', NEWLINE, field('body', $._conditional_block)),
 
         ///////////////////////////////////////////////////////////////////////
         // Preamble Section (Name, Version, Release, ...)
@@ -289,18 +298,8 @@ module.exports = grammar({
                     optional(seq('-n', $.string)),
                     optional(seq('-f', $.string)),
                     NEWLINE,
-                    repeat(choice($.conditional_files, $.defattr, $.file))
+                    repeat(choice($.defattr, $.file))
                 )
-            ),
-
-        conditional_files: ($) =>
-            seq(
-                choice('%if', '%ifarch', '%ifos'),
-                ANYTHING,
-                NEWLINE,
-                choice($.defattr, $.file),
-                '%endif',
-                NEWLINE
             ),
 
         defattr: ($) =>

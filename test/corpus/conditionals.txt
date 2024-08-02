@@ -227,3 +227,44 @@ BuildRequires:  wurst
           (dependency_tag)
           (string
             (string_content)))))))
+
+===============================================================================
+Conditionals (Nested %if with %elif and %else)
+===============================================================================
+
+%if 0%{?rhel}
+
+%ifarch x86_64
+%bcond_without winexe
+%else
+%bcond_with winexe
+#endifarch
+%endif
+
+%else
+%bcond_without winexe
+%endif
+
+-------------------------------------------------------------------------------
+
+(spec
+  (if_statement
+    (if_statement
+      (file
+        (string
+          (simple_expansion
+            (variable_name))
+          (string_content)))
+      (else_clause
+        (file
+          (string
+            (simple_expansion
+              (variable_name))
+            (string_content))))
+      (comment))
+    (else_clause
+      (file
+        (string
+          (simple_expansion
+            (variable_name))
+          (string_content))))))

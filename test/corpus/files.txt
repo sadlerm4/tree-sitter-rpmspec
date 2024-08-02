@@ -243,10 +243,10 @@ Files (%ifarch)
 -------------------------------------------------------------------------------
 
 (spec
-  (files
-    (conditional_files
-      (file
-        (string
-          (full_expansion
-            (variable_name))
-          (string_content))))))
+  (files)
+  (if_statement
+    (file
+      (string
+        (full_expansion
+          (variable_name))
+        (string_content)))))
