@@ -27,6 +27,41 @@ Simple description
 Description (subpackage)
 ===============================================================================
 
+%description subpackage
+Simple description
+
+-------------------------------------------------------------------------------
+
+(spec
+  (description
+    (single_word
+      (string_content))
+    (string_with_newlines
+      (string_content_with_newlines))))
+
+===============================================================================
+Description (subpackage with macros)
+===============================================================================
+
+%description subpackage
+The %{name}-subpackage package
+
+-------------------------------------------------------------------------------
+
+(spec
+  (description
+    (single_word
+      (string_content))
+    (string_with_newlines
+      (string_content_with_newlines)
+      (macro_expansion
+        (variable_name))
+      (string_content_with_newlines))))
+
+===============================================================================
+Description (subpackage with arbitrary name)
+===============================================================================
+
 %description -n subpackage
 Simple description
 
@@ -34,7 +69,25 @@ Simple description
 
 (spec
   (description
-    (string
+    (single_word
+      (string_content))
+    (string_with_newlines
+      (string_content_with_newlines))))
+
+===============================================================================
+Description (subpackage with macro-including name)
+===============================================================================
+
+%description -n %{name}-foo
+Simple description
+
+-------------------------------------------------------------------------------
+
+(spec
+  (description
+    (single_word
+      (macro_expansion
+        (variable_name))
       (string_content))
     (string_with_newlines
       (string_content_with_newlines))))

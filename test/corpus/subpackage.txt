@@ -1,0 +1,59 @@
+===============================================================================
+Subpackage (subpackage)
+===============================================================================
+
+%package client
+Summary: Client
+
+-------------------------------------------------------------------------------
+
+(spec
+  (package
+    (single_word
+      (string_content))
+    (preamble
+      (tags
+        (tag)
+        (string
+          (string_content))))))
+
+===============================================================================
+Subpackage (subpackage with arbitrary name)
+===============================================================================
+
+%package -n subpackage
+Summary: Subpackage
+
+-------------------------------------------------------------------------------
+
+(spec
+  (package
+    (single_word
+      (string_content))
+    (preamble
+      (tags
+        (tag)
+        (string
+          (string_content))))))
+
+===============================================================================
+Subpackage (subpackage with arbitrary name with macros)
+===============================================================================
+
+%package -n %{name}-subpackage
+Summary: Subpackage
+
+-------------------------------------------------------------------------------
+
+(spec
+  (package
+    (single_word
+      (macro_expansion
+        (variable_name))
+      (string_content))
+    (preamble
+      (tags
+        (tag)
+        (string
+          (string_content))))))
+

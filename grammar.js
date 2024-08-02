@@ -40,7 +40,7 @@ module.exports = grammar({
                 $.macro_shell_expansion,
                 $.preamble,
                 $.description,
-                $.subsection,
+                $.package,
                 $.prep_scriptlet,
                 $.generate_buildrequires,
                 $.conf_scriptlet,
@@ -201,23 +201,26 @@ module.exports = grammar({
             prec.right(
                 seq(
                     '%description',
-                    optional(seq('-n', $.string)),
+                    optional(seq(optional('-n'), $.single_word)),
                     NEWLINE,
                     optional($.string_with_newlines)
                 )
             ),
 
         ///////////////////////////////////////////////////////////////////////
-        // Preamble Sub-Sections (%package, %description)
+        // Preamble Sub-Sections (%package)
         ///////////////////////////////////////////////////////////////////////
 
-        subsection: ($) => seq($.subsection_package, $.subsection_description),
-
-        subsection_package: ($) =>
-            seq('%package', $.single_word, NEWLINE, repeat1($.preamble)),
-
-        subsection_description: ($) =>
-            seq('%description', '-n', $.single_word, NEWLINE),
+        package: ($) =>
+            prec.right(
+                seq(
+                    '%package',
+                    optional('-n'),
+                    $.single_word,
+                    NEWLINE,
+                    repeat1($.preamble)
+                )
+            ),
 
         ///////////////////////////////////////////////////////////////////////
         // Build scriptlets (%prep, %build, %install, ...)
@@ -487,7 +490,8 @@ module.exports = grammar({
         string_content: (_) => token(prec(-1, /([^"`%\\\r\n])+/)),
 
         // TODO: better name
-        single_word: ($) => choice($.macro_expansion, seq($.string_content)),
+        single_word: ($) =>
+            repeat1(choice($.macro_expansion, seq($.string_content))),
 
         _expression: ($) => $.single_word,
 
