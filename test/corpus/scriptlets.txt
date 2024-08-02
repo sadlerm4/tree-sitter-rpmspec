@@ -20,11 +20,12 @@ Prep Section (%setup)
 
 (spec
   (prep_scriptlet
-    (string_with_newlines
-      (simple_expansion
-        (variable_name))
-      (string_content_with_newlines))))
-
+    (shell_block
+      (macro_invocation
+        (simple_expansion
+          (variable_name))
+        (string
+          (string_content))))))
 
 ===============================================================================
 Prep Section (%autosetup)
@@ -37,6 +38,27 @@ Prep Section (%autosetup)
 
 (spec
   (prep_scriptlet
-    (string_with_newlines
-      (simple_expansion
-        (variable_name)))))
+    (shell_block
+      (string
+        (simple_expansion
+          (variable_name))))))
+
+===============================================================================
+Build section (%build)
+===============================================================================
+
+%build
+%configure
+%make_build
+
+-------------------------------------------------------------------------------
+
+(spec
+  (build_scriptlet
+    (shell_block
+      (string
+        (simple_expansion
+          (variable_name)))
+      (string
+        (simple_expansion
+          (variable_name))))))

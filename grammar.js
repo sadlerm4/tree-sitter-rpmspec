@@ -222,27 +222,56 @@ module.exports = grammar({
         // Build scriptlets (%prep, %build, %install, ...)
         ///////////////////////////////////////////////////////////////////////
 
+        shell_block: ($) =>
+            prec.right(
+                repeat1(
+                    choice(
+                        $.if_statement,
+                        $.macro_definition,
+                        $.macro_invocation,
+                        $.string,
+                        NEWLINE
+                    )
+                )
+            ),
+
         prep_scriptlet: ($) =>
-            prec.right(seq('%prep', NEWLINE, optional($.string_with_newlines))),
+            prec.right(
+                seq(token(seq('%prep', NEWLINE)), optional($.shell_block))
+            ),
 
         generate_buildrequires: ($) =>
             prec.right(
                 seq(
-                    '%generate_buildrequires',
-                    NEWLINE,
-                    optional($.string_with_newlines)
+                    token(seq('%generate_buildrequires', NEWLINE)),
+                    optional($.shell_block)
                 )
             ),
 
-        conf_scriptlet: ($) => seq('%conf', NEWLINE),
+        conf_scriptlet: ($) =>
+            prec.right(
+                seq(token(seq('%conf', NEWLINE)), optional($.shell_block))
+            ),
 
-        build_scriptlet: ($) => seq('%build', NEWLINE),
+        build_scriptlet: ($) =>
+            prec.right(
+                seq(token(seq('%build', NEWLINE)), optional($.shell_block))
+            ),
 
-        install_scriptlet: ($) => seq('%install', NEWLINE),
+        install_scriptlet: ($) =>
+            prec.right(
+                seq(token(seq('%install', NEWLINE)), optional($.shell_block))
+            ),
 
-        check_scriptlet: ($) => seq('%check', NEWLINE),
+        check_scriptlet: ($) =>
+            prec.right(
+                seq(token(seq('%check', NEWLINE)), optional($.shell_block))
+            ),
 
-        clean_scriptlet: ($) => seq('%clean', NEWLINE),
+        clean_scriptlet: ($) =>
+            prec.right(
+                seq(token(seq('%clean', NEWLINE)), optional($.shell_block))
+            ),
 
         ///////////////////////////////////////////////////////////////////////
         // Runtime scriptlets (%pre, %post, ...)
@@ -405,7 +434,8 @@ module.exports = grammar({
 
         macro_undefinition: ($) => seq('%undefine', $.variable_name, NEWLINE),
 
-        // %bcond wurst 1
+        // The macro invocation should have a higher precedence than macro
+        // expansion
         macro_invocation: ($) =>
             prec(
                 1,
