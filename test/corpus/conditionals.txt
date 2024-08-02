@@ -250,23 +250,23 @@ Conditionals (Nested %if with %elif and %else)
 (spec
   (if_statement
     (if_statement
-      (file
+      (macro_invocation
+        (simple_expansion
+          (variable_name))
         (string
-          (simple_expansion
-            (variable_name))
           (string_content)))
       (else_clause
-        (file
+        (macro_invocation
+          (simple_expansion
+            (variable_name))
           (string
-            (simple_expansion
-              (variable_name))
             (string_content))))
       (comment))
     (else_clause
-      (file
+      (macro_invocation
+        (simple_expansion
+          (variable_name))
         (string
-          (simple_expansion
-            (variable_name))
           (string_content))))))
 
 ===============================================================================

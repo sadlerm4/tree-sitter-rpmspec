@@ -408,7 +408,7 @@ module.exports = grammar({
         // %bcond wurst 1
         macro_invocation: ($) =>
             prec(
-                -1,
+                1,
                 seq($.simple_expansion, $._value, token.immediate(NEWLINE))
             ),
 
