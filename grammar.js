@@ -491,7 +491,7 @@ module.exports = grammar({
         ///////////////////////////////////////////////////////////////////////
 
         _macro_expansion: ($) =>
-            choice($.simple_expansion, $.full_expansion, $.shell_expansion),
+            choice($.simple_expansion, $.full_expansion, $.macro_shell_expansion),
 
         variable_name: ($) => /[a-zA-Z_][A-Za-z0-9_]*/,
 
@@ -511,6 +511,6 @@ module.exports = grammar({
             ),
 
         // %(...)
-        shell_expansion: ($) => seq('%(', ')'),
+        macro_shell_expansion: ($) => seq('%(', ')'),
     },
 });

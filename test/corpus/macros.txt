@@ -122,7 +122,7 @@ Macros (Empty Shell Expansion)
 -------------------------------------------------------------------------------
 
 (spec
-  (shell_expansion))
+  (macro_shell_expansion))
 
 ===============================================================================
 Macros (Expansion with argument)
