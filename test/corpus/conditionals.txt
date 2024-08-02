@@ -268,3 +268,24 @@ Conditionals (Nested %if with %elif and %else)
           (simple_expansion
             (variable_name))
           (string_content))))))
+
+===============================================================================
+Conditionals (%if %{with ..})
+===============================================================================
+
+%if %{with libwbclient}
+Requires(post): libwbclient = %{samba_depver}
+%endif
+
+-------------------------------------------------------------------------------
+
+(spec
+  (if_statement
+    (preamble
+      (tags
+        (dependency_tag
+          (qualifier))
+        (string
+          (string_content)
+          (full_expansion
+            (variable_name)))))))
