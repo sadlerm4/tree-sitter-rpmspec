@@ -52,6 +52,7 @@ module.exports = grammar({
                 $.files,
                 $.changelog,
                 $._macro_expansion,
+                $.macro_shell_expansion,
                 NEWLINE
             ),
 
@@ -426,7 +427,7 @@ module.exports = grammar({
                 choice('%global', '%define'),
                 $.variable_name,
                 optional($.macro_options),
-                $._value,
+                choice($._value, $.macro_shell_expansion),
                 NEWLINE
             ),
 
@@ -491,7 +492,7 @@ module.exports = grammar({
         ///////////////////////////////////////////////////////////////////////
 
         _macro_expansion: ($) =>
-            choice($.simple_expansion, $.full_expansion, $.macro_shell_expansion),
+            choice($.simple_expansion, $.full_expansion),
 
         variable_name: ($) => /[a-zA-Z_][A-Za-z0-9_]*/,
 
