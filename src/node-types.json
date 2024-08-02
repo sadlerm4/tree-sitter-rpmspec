@@ -171,7 +171,17 @@
   {
     "type": "build_scriptlet",
     "named": true,
-    "fields": {}
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "shell_block",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "changelog",
@@ -210,17 +220,47 @@
   {
     "type": "check_scriptlet",
     "named": true,
-    "fields": {}
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "shell_block",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "clean_scriptlet",
     "named": true,
-    "fields": {}
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "shell_block",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "conf_scriptlet",
     "named": true,
-    "fields": {}
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "shell_block",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "defattr",
@@ -391,7 +431,7 @@
       "required": false,
       "types": [
         {
-          "type": "string_with_newlines",
+          "type": "shell_block",
           "named": true
         }
       ]
@@ -442,7 +482,17 @@
   {
     "type": "install_scriptlet",
     "named": true,
-    "fields": {}
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "shell_block",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "macro_definition",
@@ -566,7 +616,7 @@
       "required": false,
       "types": [
         {
-          "type": "string_with_newlines",
+          "type": "shell_block",
           "named": true
         }
       ]
@@ -576,6 +626,33 @@
     "type": "qualifier",
     "named": true,
     "fields": {}
+  },
+  {
+    "type": "shell_block",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "if_statement",
+          "named": true
+        },
+        {
+          "type": "macro_definition",
+          "named": true
+        },
+        {
+          "type": "macro_invocation",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "shell_expansion",
@@ -827,23 +904,7 @@
     "named": false
   },
   {
-    "type": "%build",
-    "named": false
-  },
-  {
     "type": "%changelog",
-    "named": false
-  },
-  {
-    "type": "%check",
-    "named": false
-  },
-  {
-    "type": "%clean",
-    "named": false
-  },
-  {
-    "type": "%conf",
     "named": false
   },
   {
@@ -907,10 +968,6 @@
     "named": false
   },
   {
-    "type": "%generate_buildrequires",
-    "named": false
-  },
-  {
     "type": "%ghost",
     "named": false
   },
@@ -936,10 +993,6 @@
   },
   {
     "type": "%ifos",
-    "named": false
-  },
-  {
-    "type": "%install",
     "named": false
   },
   {
@@ -972,10 +1025,6 @@
   },
   {
     "type": "%pre",
-    "named": false
-  },
-  {
-    "type": "%prep",
     "named": false
   },
   {
