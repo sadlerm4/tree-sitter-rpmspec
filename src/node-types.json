@@ -881,6 +881,10 @@
     "named": false
   },
   {
+    "type": "%elifarch",
+    "named": false
+  },
+  {
     "type": "%elifos",
     "named": false
   },
@@ -1251,10 +1255,6 @@
   {
     "type": "comment",
     "named": true
-  },
-  {
-    "type": "elifarch",
-    "named": false
   },
   {
     "type": "filedigest",
