@@ -87,7 +87,7 @@ module.exports = grammar({
 
         elif_clause: ($) =>
             seq(
-                choice('%elif', 'elifarch', '%elifos'),
+                choice('%elif', '%elifarch', '%elifos'),
                 field('condition', ANYTHING),
                 NEWLINE,
                 field('consequence', $._conditional_block)
