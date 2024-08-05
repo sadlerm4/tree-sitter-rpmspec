@@ -656,6 +656,10 @@
           "named": true
         },
         {
+          "type": "macro_expansion",
+          "named": true
+        },
+        {
           "type": "macro_invocation",
           "named": true
         },

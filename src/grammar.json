@@ -356,8 +356,11 @@
           ]
         },
         {
-          "type": "STRING",
-          "value": ":"
+          "type": "IMMEDIATE_TOKEN",
+          "content": {
+            "type": "PATTERN",
+            "value": ":( |\\t)*"
+          }
         },
         {
           "type": "FIELD",
@@ -791,6 +794,14 @@
             {
               "type": "SYMBOL",
               "name": "macro_invocation"
+            },
+            {
+              "type": "PREC",
+              "value": 1,
+              "content": {
+                "type": "SYMBOL",
+                "name": "macro_expansion"
+              }
             },
             {
               "type": "SYMBOL",
@@ -1302,47 +1313,59 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "CHOICE",
+              "type": "SEQ",
               "members": [
                 {
-                  "type": "STRING",
-                  "value": "%artifact"
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "STRING",
+                      "value": "%artifact"
+                    },
+                    {
+                      "type": "STRING",
+                      "value": "%config"
+                    },
+                    {
+                      "type": "STRING",
+                      "value": "%dir"
+                    },
+                    {
+                      "type": "STRING",
+                      "value": "%doc"
+                    },
+                    {
+                      "type": "STRING",
+                      "value": "%docdir"
+                    },
+                    {
+                      "type": "STRING",
+                      "value": "%ghost"
+                    },
+                    {
+                      "type": "STRING",
+                      "value": "%license"
+                    },
+                    {
+                      "type": "STRING",
+                      "value": "%missingok"
+                    },
+                    {
+                      "type": "STRING",
+                      "value": "%readme"
+                    },
+                    {
+                      "type": "SYMBOL",
+                      "name": "verify"
+                    }
+                  ]
                 },
                 {
-                  "type": "STRING",
-                  "value": "%config"
-                },
-                {
-                  "type": "STRING",
-                  "value": "%dir"
-                },
-                {
-                  "type": "STRING",
-                  "value": "%doc"
-                },
-                {
-                  "type": "STRING",
-                  "value": "%docdir"
-                },
-                {
-                  "type": "STRING",
-                  "value": "%ghost"
-                },
-                {
-                  "type": "STRING",
-                  "value": "%license"
-                },
-                {
-                  "type": "STRING",
-                  "value": "%missingok"
-                },
-                {
-                  "type": "STRING",
-                  "value": "%readme"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "verify"
+                  "type": "IMMEDIATE_TOKEN",
+                  "content": {
+                    "type": "PATTERN",
+                    "value": "( |\\t)+"
+                  }
                 }
               ]
             },
@@ -1409,6 +1432,13 @@
         {
           "type": "STRING",
           "value": ")"
+        },
+        {
+          "type": "IMMEDIATE_TOKEN",
+          "content": {
+            "type": "PATTERN",
+            "value": "( |\\t)+"
+          }
         }
       ]
     },
@@ -1561,6 +1591,13 @@
           ]
         },
         {
+          "type": "IMMEDIATE_TOKEN",
+          "content": {
+            "type": "PATTERN",
+            "value": "( |\\t)+"
+          }
+        },
+        {
           "type": "SYMBOL",
           "name": "variable_name"
         },
@@ -1575,6 +1612,13 @@
               "type": "BLANK"
             }
           ]
+        },
+        {
+          "type": "IMMEDIATE_TOKEN",
+          "content": {
+            "type": "PATTERN",
+            "value": "( |\\t)+"
+          }
         },
         {
           "type": "CHOICE",
@@ -1639,7 +1683,7 @@
             "type": "IMMEDIATE_TOKEN",
             "content": {
               "type": "PATTERN",
-              "value": "( |\\t)"
+              "value": "( |\\t)+"
             }
           },
           {
