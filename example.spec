@@ -7,7 +7,7 @@ Summary:        An example
 
 License:        CC-0
 URL:            https://example.org
-Source0:        https://example.org/example.tar.gz
+Source0:        https://example.org/%{name}-%{version}.tar.gz
 
 BuildRequires:  make
 %ifarch x86_64
