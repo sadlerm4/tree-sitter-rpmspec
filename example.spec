@@ -43,4 +43,3 @@ An example spec file
 
 %changelog
 %autochangelog
-
