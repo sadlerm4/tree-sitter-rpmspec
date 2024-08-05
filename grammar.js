@@ -428,8 +428,10 @@ module.exports = grammar({
         macro_definition: ($) =>
             seq(
                 choice('%global', '%define'),
+                token.immediate(/( |\t)+/),
                 $.variable_name,
                 optional($.macro_options),
+                token.immediate(/( |\t)+/),
                 choice($._value, $.macro_shell_expansion),
                 NEWLINE
             ),
