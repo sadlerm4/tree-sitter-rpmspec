@@ -353,17 +353,20 @@ module.exports = grammar({
             seq(
                 optional($.attr),
                 optional(
-                    choice(
-                        '%artifact',
-                        '%config',
-                        '%dir',
-                        '%doc',
-                        '%docdir',
-                        '%ghost',
-                        '%license',
-                        '%missingok',
-                        '%readme',
-                        $.verify
+                    seq(
+                        choice(
+                            '%artifact',
+                            '%config',
+                            '%dir',
+                            '%doc',
+                            '%docdir',
+                            '%ghost',
+                            '%license',
+                            '%missingok',
+                            '%readme',
+                            $.verify
+                        ),
+                        token.immediate(/( |\t)+/)
                     )
                 ),
                 $.string,
