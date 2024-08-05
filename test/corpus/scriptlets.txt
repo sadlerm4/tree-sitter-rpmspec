@@ -39,9 +39,8 @@ Prep Section (%autosetup)
 (spec
   (prep_scriptlet
     (shell_block
-      (string
-        (macro_expansion
-          (variable_name))))))
+      (macro_expansion
+        (variable_name)))))
 
 ===============================================================================
 Build section (%build)
@@ -56,9 +55,7 @@ Build section (%build)
 (spec
   (build_scriptlet
     (shell_block
-      (string
-        (macro_expansion
-          (variable_name)))
-      (string
-        (macro_expansion
-          (variable_name))))))
+      (macro_expansion
+        (variable_name))
+      (macro_expansion
+        (variable_name)))))

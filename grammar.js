@@ -233,6 +233,7 @@ module.exports = grammar({
                         $.if_statement,
                         $.macro_definition,
                         $.macro_invocation,
+                        prec(1, $.macro_expansion),
                         $.string,
                         NEWLINE
                     )
