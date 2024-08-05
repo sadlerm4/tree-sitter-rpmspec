@@ -108,7 +108,7 @@ module.exports = grammar({
         tags: ($) =>
             seq(
                 choice($.tag, $.dependency_tag),
-                ':',
+                token.immediate(/:( |\t)*/),
                 field('value', $._value),
                 NEWLINE
             ),
