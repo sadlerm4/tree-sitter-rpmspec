@@ -1,10 +1,13 @@
 (variable_name) @variable
-(macro_definition) @keyword.directive
+
+(macro_definition) @keyword.directive.define
+(macro_invocation) @keyword.function
+(macro_expansion) @keyword
 
 [
   (tag)
   (dependency_tag)
-] @property
+] @type.definition
 
 [
   (integer)
@@ -16,16 +19,12 @@
 
 (if_statement) @keyword
 
-(macro_definition) @keyword.directive.define
-
-(macro_invocation) @keyword.function
-
 [
   "%description"
   "%package"
   (files)
   (changelog)
-] @function.macro
+] @type.definition
 
 [
   (prep_scriptlet)
@@ -48,7 +47,7 @@
   "%license"
   "%missingok"
   "%readme"
-] @keyword.modifier
+] @keyword.type
 
 ;[
 ;  "!="
