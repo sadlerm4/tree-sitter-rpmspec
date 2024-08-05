@@ -447,7 +447,7 @@ module.exports = grammar({
                 1,
                 seq(
                     $.macro_expansion,
-                    token.immediate(/( |\t)/),
+                    token.immediate(/( |\t)+/),
                     $._value,
                     NEWLINE
                 )
