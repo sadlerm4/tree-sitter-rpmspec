@@ -382,7 +382,8 @@ module.exports = grammar({
                 /[a-zA-Z]+/,
                 ',',
                 /[a-zA-Z]+/,
-                ')'
+                ')',
+                token.immediate(/( |\t)+/)
             ),
 
         // %verify(not size filedigest mtime) %{prefix}/bin/file
