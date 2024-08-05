@@ -146,15 +146,15 @@
         "named": true
       },
       {
+        "type": "package",
+        "named": true
+      },
+      {
         "type": "preamble",
         "named": true
       },
       {
         "type": "prep_scriptlet",
-        "named": true
-      },
-      {
-        "type": "subsection",
         "named": true
       }
     ]
@@ -287,7 +287,7 @@
       "required": false,
       "types": [
         {
-          "type": "string",
+          "type": "single_word",
           "named": true
         },
         {
@@ -586,6 +586,25 @@
     }
   },
   {
+    "type": "package",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "preamble",
+          "named": true
+        },
+        {
+          "type": "single_word",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "preamble",
     "named": true,
     "fields": {},
@@ -652,7 +671,7 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": true,
       "types": [
         {
@@ -718,59 +737,6 @@
         },
         {
           "type": "string_content_with_newlines",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "subsection",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "subsection_description",
-          "named": true
-        },
-        {
-          "type": "subsection_package",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "subsection_description",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "single_word",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "subsection_package",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "preamble",
-          "named": true
-        },
-        {
-          "type": "single_word",
           "named": true
         }
       ]
