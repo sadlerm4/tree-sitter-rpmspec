@@ -86,7 +86,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_runtime_scriptlet"
+          "name": "runtime_scriptlet"
         },
         {
           "type": "SYMBOL",
@@ -1074,46 +1074,100 @@
         ]
       }
     },
-    "_runtime_scriptlet": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "%pre"
-        },
-        {
-          "type": "STRING",
-          "value": "%post"
-        },
-        {
-          "type": "STRING",
-          "value": "%preun"
-        },
-        {
-          "type": "STRING",
-          "value": "%postun"
-        },
-        {
-          "type": "STRING",
-          "value": "%pretrans"
-        },
-        {
-          "type": "STRING",
-          "value": "%posttrans"
-        },
-        {
-          "type": "STRING",
-          "value": "%preuntrans"
-        },
-        {
-          "type": "STRING",
-          "value": "%postuntrans"
-        },
-        {
-          "type": "STRING",
-          "value": "%verify"
-        }
-      ]
+    "runtime_scriptlet": {
+      "type": "PREC_RIGHT",
+      "value": 0,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "%pre"
+              },
+              {
+                "type": "STRING",
+                "value": "%post"
+              },
+              {
+                "type": "STRING",
+                "value": "%preun"
+              },
+              {
+                "type": "STRING",
+                "value": "%postun"
+              },
+              {
+                "type": "STRING",
+                "value": "%pretrans"
+              },
+              {
+                "type": "STRING",
+                "value": "%posttrans"
+              },
+              {
+                "type": "STRING",
+                "value": "%preuntrans"
+              },
+              {
+                "type": "STRING",
+                "value": "%postuntrans"
+              },
+              {
+                "type": "STRING",
+                "value": "%verify"
+              }
+            ]
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "STRING",
+                        "value": "-n"
+                      },
+                      {
+                        "type": "BLANK"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "single_word"
+                  }
+                ]
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          },
+          {
+            "type": "PATTERN",
+            "value": "\\r?\\n"
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "shell_block"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        ]
+      }
     },
     "_triggers": {
       "type": "CHOICE",

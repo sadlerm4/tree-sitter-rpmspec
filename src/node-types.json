@@ -26,38 +26,6 @@
         "named": false
       },
       {
-        "type": "%post",
-        "named": false
-      },
-      {
-        "type": "%posttrans",
-        "named": false
-      },
-      {
-        "type": "%postun",
-        "named": false
-      },
-      {
-        "type": "%postuntrans",
-        "named": false
-      },
-      {
-        "type": "%pre",
-        "named": false
-      },
-      {
-        "type": "%pretrans",
-        "named": false
-      },
-      {
-        "type": "%preun",
-        "named": false
-      },
-      {
-        "type": "%preuntrans",
-        "named": false
-      },
-      {
         "type": "%transfiletriggerin",
         "named": false
       },
@@ -83,10 +51,6 @@
       },
       {
         "type": "%triggerun",
-        "named": false
-      },
-      {
-        "type": "%verify",
         "named": false
       },
       {
@@ -155,6 +119,10 @@
       },
       {
         "type": "prep_scriptlet",
+        "named": true
+      },
+      {
+        "type": "runtime_scriptlet",
         "named": true
       }
     ]
@@ -638,6 +606,25 @@
     "type": "qualifier",
     "named": true,
     "fields": {}
+  },
+  {
+    "type": "runtime_scriptlet",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "shell_block",
+          "named": true
+        },
+        {
+          "type": "single_word",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "shell_block",
