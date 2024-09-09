@@ -48,7 +48,7 @@ module.exports = grammar({
                 $.install_scriptlet,
                 $.check_scriptlet,
                 $.clean_scriptlet,
-                $._runtime_scriptlet,
+                $.runtime_scriptlet,
                 $._triggers,
                 $._file_triggers,
                 $.files,
@@ -282,17 +282,24 @@ module.exports = grammar({
         // Runtime scriptlets (%pre, %post, ...)
         ///////////////////////////////////////////////////////////////////////
 
-        _runtime_scriptlet: ($) =>
-            choice(
-                '%pre',
-                '%post',
-                '%preun',
-                '%postun',
-                '%pretrans',
-                '%posttrans',
-                '%preuntrans',
-                '%postuntrans',
-                '%verify'
+        runtime_scriptlet: ($) =>
+            prec.right(
+                seq(
+                    choice(
+                        '%pre',
+                        '%post',
+                        '%preun',
+                        '%postun',
+                        '%pretrans',
+                        '%posttrans',
+                        '%preuntrans',
+                        '%postuntrans',
+                        '%verify'
+                    ),
+                    optional(seq(optional('-n'), $.single_word)),
+                    NEWLINE,
+                    optional($.shell_block)
+                )
             ),
 
         ///////////////////////////////////////////////////////////////////////
