@@ -90,7 +90,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_triggers"
+          "name": "trigger"
         },
         {
           "type": "SYMBOL",
@@ -1169,26 +1169,80 @@
         ]
       }
     },
-    "_triggers": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "%triggerprein"
-        },
-        {
-          "type": "STRING",
-          "value": "%triggerin"
-        },
-        {
-          "type": "STRING",
-          "value": "%triggerun"
-        },
-        {
-          "type": "STRING",
-          "value": "%triggerpostun"
-        }
-      ]
+    "trigger": {
+      "type": "PREC_RIGHT",
+      "value": 0,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "%triggerprein"
+              },
+              {
+                "type": "STRING",
+                "value": "%triggerin"
+              },
+              {
+                "type": "STRING",
+                "value": "%triggerun"
+              },
+              {
+                "type": "STRING",
+                "value": "%triggerpostun"
+              }
+            ]
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "STRING",
+                        "value": "-n"
+                      },
+                      {
+                        "type": "BLANK"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "single_word"
+                  }
+                ]
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          },
+          {
+            "type": "PATTERN",
+            "value": "\\r?\\n"
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "shell_block"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        ]
+      }
     },
     "_file_triggers": {
       "type": "CHOICE",

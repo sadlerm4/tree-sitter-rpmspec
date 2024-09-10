@@ -38,22 +38,6 @@
         "named": false
       },
       {
-        "type": "%triggerin",
-        "named": false
-      },
-      {
-        "type": "%triggerpostun",
-        "named": false
-      },
-      {
-        "type": "%triggerprein",
-        "named": false
-      },
-      {
-        "type": "%triggerun",
-        "named": false
-      },
-      {
         "type": "build_scriptlet",
         "named": true
       },
@@ -123,6 +107,10 @@
       },
       {
         "type": "runtime_scriptlet",
+        "named": true
+      },
+      {
+        "type": "trigger",
         "named": true
       }
     ]
@@ -775,6 +763,25 @@
         },
         {
           "type": "tag",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "trigger",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "shell_block",
+          "named": true
+        },
+        {
+          "type": "single_word",
           "named": true
         }
       ]
