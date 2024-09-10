@@ -94,7 +94,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_file_triggers"
+          "name": "file_trigger"
         },
         {
           "type": "SYMBOL",
@@ -1244,34 +1244,88 @@
         ]
       }
     },
-    "_file_triggers": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "%filetriggerin"
-        },
-        {
-          "type": "STRING",
-          "value": "%filetriggerun"
-        },
-        {
-          "type": "STRING",
-          "value": "%filetriggerpostun"
-        },
-        {
-          "type": "STRING",
-          "value": "%transfiletriggerin"
-        },
-        {
-          "type": "STRING",
-          "value": "%transfiletriggerun"
-        },
-        {
-          "type": "STRING",
-          "value": "%transfiletriggerpostun"
-        }
-      ]
+    "file_trigger": {
+      "type": "PREC_RIGHT",
+      "value": 0,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "%filetriggerin"
+              },
+              {
+                "type": "STRING",
+                "value": "%filetriggerun"
+              },
+              {
+                "type": "STRING",
+                "value": "%filetriggerpostun"
+              },
+              {
+                "type": "STRING",
+                "value": "%transfiletriggerin"
+              },
+              {
+                "type": "STRING",
+                "value": "%transfiletriggerun"
+              },
+              {
+                "type": "STRING",
+                "value": "%transfiletriggerpostun"
+              }
+            ]
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "STRING",
+                        "value": "-n"
+                      },
+                      {
+                        "type": "BLANK"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "single_word"
+                  }
+                ]
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          },
+          {
+            "type": "PATTERN",
+            "value": "\\r?\\n"
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "shell_block"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        ]
+      }
     },
     "files": {
       "type": "PREC_RIGHT",

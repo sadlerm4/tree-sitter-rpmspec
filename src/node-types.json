@@ -14,30 +14,6 @@
     "named": true,
     "subtypes": [
       {
-        "type": "%filetriggerin",
-        "named": false
-      },
-      {
-        "type": "%filetriggerpostun",
-        "named": false
-      },
-      {
-        "type": "%filetriggerun",
-        "named": false
-      },
-      {
-        "type": "%transfiletriggerin",
-        "named": false
-      },
-      {
-        "type": "%transfiletriggerpostun",
-        "named": false
-      },
-      {
-        "type": "%transfiletriggerun",
-        "named": false
-      },
-      {
         "type": "build_scriptlet",
         "named": true
       },
@@ -59,6 +35,10 @@
       },
       {
         "type": "description",
+        "named": true
+      },
+      {
+        "type": "file_trigger",
         "named": true
       },
       {
@@ -327,6 +307,25 @@
         },
         {
           "type": "verify",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "file_trigger",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "shell_block",
+          "named": true
+        },
+        {
+          "type": "single_word",
           "named": true
         }
       ]
