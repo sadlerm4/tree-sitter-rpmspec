@@ -50,7 +50,7 @@ module.exports = grammar({
                 $.clean_scriptlet,
                 $.runtime_scriptlet,
                 $.trigger,
-                $._file_triggers,
+                $.file_trigger,
                 $.files,
                 $.changelog,
                 NEWLINE
@@ -325,14 +325,21 @@ module.exports = grammar({
         // File triggers (%filetriggerin, %filetriggerun, ...)
         ///////////////////////////////////////////////////////////////////////
 
-        _file_triggers: ($) =>
-            choice(
-                '%filetriggerin',
-                '%filetriggerun',
-                '%filetriggerpostun',
-                '%transfiletriggerin',
-                '%transfiletriggerun',
-                '%transfiletriggerpostun'
+        file_trigger: ($) =>
+            prec.right(
+                seq(
+                    choice(
+                        '%filetriggerin',
+                        '%filetriggerun',
+                        '%filetriggerpostun',
+                        '%transfiletriggerin',
+                        '%transfiletriggerun',
+                        '%transfiletriggerpostun'
+                    ),
+                    optional(seq(optional('-n'), $.single_word)),
+                    NEWLINE,
+                    optional($.shell_block)
+                )
             ),
 
         ///////////////////////////////////////////////////////////////////////
