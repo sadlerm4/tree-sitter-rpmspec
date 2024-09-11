@@ -14,7 +14,7 @@ module.exports = grammar({
     name: 'rpmspec',
 
     // Array of tokens that may appear anywhere in the language.
-    extras: ($) => [$.comment, /\s+/, /\\( |\t|\v|\f)/],
+    extras: ($) => [$.comment, /\s+/, /\\( |\t|\v|\f)/, $.line_continuation],
 
     supertypes: ($) => [$._simple_statements, $._compound_statements],
 
@@ -60,6 +60,9 @@ module.exports = grammar({
 
         comment: ($) =>
             token(choice(seq('#', ANYTHING), seq('%dnl ', ANYTHING))),
+
+        line_continuation: (_) =>
+            token(seq('\\', choice(seq(optional('\r'), '\n'), '\0'))),
 
         ///////////////////////////////////////////////////////////////////////
         // Conditionals (%if, %ifarch, %ifos)

@@ -23,7 +23,8 @@ An example spec file
 
 
 %build
-%configure
+%configure \
+    --prefix=%{_prefix}
 %make_build
 
 
