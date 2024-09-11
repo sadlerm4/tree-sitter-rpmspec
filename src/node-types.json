@@ -1240,6 +1240,10 @@
     "named": false
   },
   {
+    "type": "line_continuation",
+    "named": true
+  },
+  {
     "type": "maj",
     "named": false
   },
