@@ -459,6 +459,10 @@
           "named": true
         },
         {
+          "type": "quoted_string",
+          "named": true
+        },
+        {
           "type": "string",
           "named": true
         },
@@ -506,6 +510,10 @@
         },
         {
           "type": "macro_expansion",
+          "named": true
+        },
+        {
+          "type": "quoted_string",
           "named": true
         },
         {
@@ -593,6 +601,25 @@
     "type": "qualifier",
     "named": true,
     "fields": {}
+  },
+  {
+    "type": "quoted_string",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "macro_expansion",
+          "named": true
+        },
+        {
+          "type": "string_content",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "runtime_scriptlet",
@@ -746,6 +773,10 @@
             "named": true
           },
           {
+            "type": "quoted_string",
+            "named": true
+          },
+          {
             "type": "string",
             "named": true
           }
@@ -790,6 +821,10 @@
     "type": "verify",
     "named": true,
     "fields": {}
+  },
+  {
+    "type": "\"",
+    "named": false
   },
   {
     "type": "%",

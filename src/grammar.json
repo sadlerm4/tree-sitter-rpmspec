@@ -714,6 +714,10 @@
             {
               "type": "SYMBOL",
               "name": "string"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "quoted_string"
             }
           ]
         }
@@ -2011,6 +2015,44 @@
           ]
         }
       }
+    },
+    "quoted_string": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "\""
+        },
+        {
+          "type": "PREC",
+          "value": -1,
+          "content": {
+            "type": "REPEAT1",
+            "content": {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "SYMBOL",
+                      "name": "macro_expansion"
+                    },
+                    {
+                      "type": "SYMBOL",
+                      "name": "string_content"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "\""
+        }
+      ]
     },
     "string_content": {
       "type": "TOKEN",
