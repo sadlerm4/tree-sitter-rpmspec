@@ -131,12 +131,16 @@ Macros (Usage/Braces)
 Macros (Empty Shell Expansion)
 ===============================================================================
 
-%()
+%(echo "wurst")
 
 -------------------------------------------------------------------------------
 
 (spec
-  (macro_shell_expansion))
+  (macro_shell_expansion
+    (string
+      (string_content))
+    (quoted_string
+      (string_content))))
 
 ===============================================================================
 Macros (Expansion with argument)

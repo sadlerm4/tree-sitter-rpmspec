@@ -566,6 +566,17 @@ module.exports = grammar({
             ),
 
         // %(...)
-        macro_shell_expansion: ($) => seq('%(', ')'),
+        macro_shell_expansion: ($) =>
+            seq(
+                '%(',
+                repeat1(
+                    choice(
+                        prec(1, $.macro_expansion),
+                        $.quoted_string,
+                        $.string
+                    )
+                ),
+                ')'
+            ),
     },
 });
