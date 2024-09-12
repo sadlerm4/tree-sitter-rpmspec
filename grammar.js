@@ -212,7 +212,7 @@ module.exports = grammar({
                     '%description',
                     optional(seq(optional('-n'), $.single_word)),
                     NEWLINE,
-                    optional($.string_with_newlines)
+                    optional($.text)
                 )
             ),
 
@@ -502,24 +502,20 @@ module.exports = grammar({
             return token(seq(digits, '.', digits));
         },
 
-        // TODO FIXME: How to parse:
-        // Source:         %{url}/-/archive/main/%{name}-main.tar.gz
-        // This should be => macro_expansion string macro_expansion string
-        string_with_newlines: ($) =>
+        text: ($) =>
             prec(
                 -1,
                 repeat1(
                     seq(
                         choice(
-                            seq(optional('%'), $.string_content_with_newlines),
+                            seq(optional('%'), $.text_content),
                             $.macro_expansion
                         )
                     )
                 )
             ),
 
-        string_content_with_newlines: (_) =>
-            token(prec(-1, /([^"`%\\\r\n]|\\(.|\r?\n))+/)),
+        text_content: (_) => token(prec(-1, /([^"`%\\\r\n]|\\(.|\r?\n))+/)),
 
         string: ($) =>
             prec(-1, repeat1(seq(choice($.macro_expansion, $.string_content)))),
