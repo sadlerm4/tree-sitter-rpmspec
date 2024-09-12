@@ -192,7 +192,13 @@ module.exports = grammar({
             repeat1(
                 prec(
                     -1,
-                    choice($.macro_expansion, $.integer, $.float, $.string)
+                    choice(
+                        $.macro_expansion,
+                        $.integer,
+                        $.float,
+                        $.string,
+                        $.quoted_string
+                    )
                 )
             ),
 
@@ -517,6 +523,16 @@ module.exports = grammar({
 
         string: ($) =>
             prec(-1, repeat1(seq(choice($.macro_expansion, $.string_content)))),
+
+        quoted_string: ($) =>
+            seq(
+                '"',
+                prec(
+                    -1,
+                    repeat1(seq(choice($.macro_expansion, $.string_content)))
+                ),
+                '"'
+            ),
 
         string_content: (_) => token(prec(-1, /([^"`%\\\r\n])+/)),
 
