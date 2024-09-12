@@ -6,6 +6,17 @@
  * @see {@link https://rpm-software-management.github.io/rpm/manual/spec.html|spec syntax documentation}
  */
 
+const PREC = {
+    parenthesized_expression: 1,
+
+    or: 10,
+    and: 11,
+    not: 12,
+    compare: 13,
+    plus: 14,
+    times: 15,
+};
+
 const NEWLINE = /\r?\n/;
 const ANYTHING = /[^\r\n]*/;
 
@@ -68,6 +79,117 @@ module.exports = grammar({
         // Conditionals (%if, %ifarch, %ifos)
         ///////////////////////////////////////////////////////////////////////
 
+        // Support for 0%{?fedora}
+        _integer_macro_expansion: ($) =>
+            prec(1, seq(optional($.integer), $.macro_expansion)),
+
+        primary_expression: ($) =>
+            prec(
+                1,
+                choice(
+                    $.string,
+                    $.quoted_string,
+                    $.integer,
+                    $.float,
+                    $.parenthesized_expression,
+                    $._integer_macro_expansion
+                )
+            ),
+
+        boolean_operator: ($) =>
+            choice(
+                prec.left(
+                    PREC.and,
+                    seq(
+                        field('left', $.expression),
+                        field('operator', '&&'),
+                        field('right', $.expression)
+                    )
+                ),
+                prec.left(
+                    PREC.or,
+                    seq(
+                        field('left', $.expression),
+                        field('operator', '||'),
+                        field('right', $.expression)
+                    )
+                )
+            ),
+
+        not_operator: ($) =>
+            prec(PREC.not, seq('!', field('argument', $.expression))),
+
+        arithmetic_operator: ($) => {
+            const table = [
+                [prec.left, '+', PREC.plus],
+                [prec.left, '-', PREC.plus],
+                [prec.left, '*', PREC.times],
+                [prec.left, '/', PREC.times],
+            ];
+
+            return choice(
+                ...table.map(([fn, operator, precedence]) =>
+                    fn(
+                        precedence,
+                        seq(
+                            field('left', $.primary_expression),
+                            field('operator', operator),
+                            field('right', $.primary_expression)
+                        )
+                    )
+                )
+            );
+        },
+
+        comparison_operator: ($) =>
+            prec.left(
+                PREC.compare,
+                seq(
+                    $.primary_expression,
+                    repeat1(
+                        seq(
+                            field(
+                                'operators',
+                                choice('<', '<=', '==', '!=', '>=', '>')
+                            ),
+                            $.primary_expression
+                        )
+                    )
+                )
+            ),
+
+        with_operator: ($) =>
+            seq(
+                '%{',
+                field('operators', choice('with', 'without')),
+                $.variable_name,
+                '}'
+            ),
+
+        defined_operator: ($) =>
+            seq(
+                '%{',
+                field('operators', choice('defined', 'undefined')),
+                $.variable_name,
+                '}'
+            ),
+
+        // TODO ternary_operator: ($) => ? :
+
+        parenthesized_expression: ($) =>
+            prec(PREC.parenthesized_expression, seq('(', $.expression, ')')),
+
+        expression: ($) =>
+            choice(
+                $.arithmetic_operator,
+                $.comparison_operator,
+                $.not_operator,
+                $.boolean_operator,
+                $.with_operator,
+                $.defined_operator,
+                $.primary_expression
+            ),
+
         _conditional_block: ($) =>
             choice(
                 $._simple_statements,
@@ -79,7 +201,7 @@ module.exports = grammar({
         if_statement: ($) =>
             seq(
                 choice('%if', '%ifarch', '%ifos', '%ifnarch', '%ifnos'),
-                field('condition', ANYTHING),
+                field('condition', $.expression),
                 NEWLINE,
                 optional(field('consequence', $._conditional_block)),
                 repeat(field('alternative', $.elif_clause)),
@@ -91,7 +213,7 @@ module.exports = grammar({
         elif_clause: ($) =>
             seq(
                 choice('%elif', '%elifarch', '%elifos'),
-                field('condition', ANYTHING),
+                field('condition', $.expression),
                 NEWLINE,
                 field('consequence', $._conditional_block)
             ),
