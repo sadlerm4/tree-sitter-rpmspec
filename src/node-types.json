@@ -227,7 +227,7 @@
           "named": true
         },
         {
-          "type": "string_with_newlines",
+          "type": "text",
           "named": true
         }
       ]
@@ -747,25 +747,6 @@
     }
   },
   {
-    "type": "string_with_newlines",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "macro_expansion",
-          "named": true
-        },
-        {
-          "type": "string_content_with_newlines",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "tag",
     "named": true,
     "fields": {}
@@ -811,6 +792,25 @@
         },
         {
           "type": "tag",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "text",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "macro_expansion",
+          "named": true
+        },
+        {
+          "type": "text_content",
           "named": true
         }
       ]
@@ -1357,12 +1357,12 @@
     "named": true
   },
   {
-    "type": "string_content_with_newlines",
-    "named": true
-  },
-  {
     "type": "symlink",
     "named": false
+  },
+  {
+    "type": "text_content",
+    "named": true
   },
   {
     "type": "variable_name",

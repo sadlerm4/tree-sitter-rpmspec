@@ -771,7 +771,7 @@
             "members": [
               {
                 "type": "SYMBOL",
-                "name": "string_with_newlines"
+                "name": "text"
               },
               {
                 "type": "BLANK"
@@ -1938,7 +1938,7 @@
         ]
       }
     },
-    "string_with_newlines": {
+    "text": {
       "type": "PREC",
       "value": -1,
       "content": {
@@ -1966,7 +1966,7 @@
                     },
                     {
                       "type": "SYMBOL",
-                      "name": "string_content_with_newlines"
+                      "name": "text_content"
                     }
                   ]
                 },
@@ -1980,7 +1980,7 @@
         }
       }
     },
-    "string_content_with_newlines": {
+    "text_content": {
       "type": "TOKEN",
       "content": {
         "type": "PREC",
