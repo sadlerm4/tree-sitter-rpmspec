@@ -25,7 +25,13 @@ module.exports = grammar({
     name: 'rpmspec',
 
     // Array of tokens that may appear anywhere in the language.
-    extras: ($) => [$.comment, /\s+/, /\\( |\t|\v|\f)/, $.line_continuation],
+    extras: ($) => [
+        $.comment,
+        /\s+/,
+        /\\( |\t|\v|\f)/,
+        NEWLINE,
+        $.line_continuation,
+    ],
 
     supertypes: ($) => [
         $._simple_statements,
@@ -46,7 +52,7 @@ module.exports = grammar({
         spec: ($) => repeat($._statements),
 
         _statements: ($) =>
-            choice($._simple_statements, $._compound_statements, NEWLINE),
+            choice($._simple_statements, $._compound_statements),
 
         _simple_statements: ($) =>
             choice(
@@ -395,7 +401,7 @@ module.exports = grammar({
                 seq(
                     '%description',
                     optional(seq(optional('-n'), $.single_word)),
-                    NEWLINE,
+                    token.immediate(NEWLINE),
                     optional($.text)
                 )
             ),
@@ -410,7 +416,7 @@ module.exports = grammar({
                     '%package',
                     optional('-n'),
                     $.single_word,
-                    NEWLINE,
+                    token.immediate(NEWLINE),
                     repeat1($.preamble)
                 )
             ),
@@ -427,8 +433,7 @@ module.exports = grammar({
                         $.macro_definition,
                         $.macro_invocation,
                         prec(1, $.macro_expansion),
-                        $.string,
-                        NEWLINE
+                        $.string
                     )
                 )
             ),
@@ -490,7 +495,7 @@ module.exports = grammar({
                         '%verify'
                     ),
                     optional(seq(optional('-n'), $.single_word)),
-                    NEWLINE,
+                    token.immediate(NEWLINE),
                     optional($.shell_block)
                 )
             ),
@@ -509,7 +514,7 @@ module.exports = grammar({
                         '%triggerpostun'
                     ),
                     optional(seq(optional('-n'), $.single_word)),
-                    NEWLINE,
+                    token.immediate(NEWLINE),
                     optional($.shell_block)
                 )
             ),
@@ -530,7 +535,7 @@ module.exports = grammar({
                         '%transfiletriggerpostun'
                     ),
                     optional(seq(optional('-n'), $.single_word)),
-                    NEWLINE,
+                    token.immediate(NEWLINE),
                     optional($.shell_block)
                 )
             ),
@@ -545,7 +550,7 @@ module.exports = grammar({
                     '%files',
                     optional(seq('-n', $.string)),
                     optional(seq('-f', $.string)),
-                    NEWLINE,
+                    token.immediate(NEWLINE),
                     repeat(choice($._compound_statements, $.defattr, $.file))
                 )
             ),
