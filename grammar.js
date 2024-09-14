@@ -297,7 +297,7 @@ module.exports = grammar({
                 choice($.tag, $.dependency_tag),
                 token.immediate(/:( |\t)*/),
                 field('value', $._value),
-                NEWLINE
+                token.immediate(NEWLINE)
             ),
 
         tag: ($) =>
@@ -560,7 +560,7 @@ module.exports = grammar({
                 ',',
                 /[a-zA-Z]+/,
                 ')',
-                NEWLINE
+                token.immediate(NEWLINE)
             ),
 
         file: ($) =>
@@ -584,7 +584,7 @@ module.exports = grammar({
                     )
                 ),
                 $.string,
-                NEWLINE
+                token.immediate(NEWLINE)
             ),
 
         attr: ($) =>
