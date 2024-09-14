@@ -656,7 +656,8 @@ module.exports = grammar({
 
         macro_options: ($) => seq('(', ')'),
 
-        macro_undefinition: ($) => seq('%undefine', $.variable_name, NEWLINE),
+        macro_undefinition: ($) =>
+            seq('%undefine', field('name', $.identifier), NEWLINE),
 
         macro_invocation: ($) =>
             seq(

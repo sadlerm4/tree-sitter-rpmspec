@@ -101,7 +101,7 @@ Macros (%undefine)
 
 (spec
   (macro_undefinition
-    (variable_name)))
+    (identifier)))
 
 ===============================================================================
 Macros (Usage/No Braces)
