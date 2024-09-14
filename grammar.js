@@ -46,7 +46,7 @@ module.exports = grammar({
         spec: ($) => repeat($._statements),
 
         _statements: ($) =>
-            choice($._simple_statements, $._compound_statements),
+            choice($._simple_statements, $._compound_statements, NEWLINE),
 
         _simple_statements: ($) =>
             choice(
@@ -69,8 +69,7 @@ module.exports = grammar({
                 $.trigger,
                 $.file_trigger,
                 $.files,
-                $.changelog,
-                NEWLINE
+                $.changelog
             ),
 
         comment: ($) =>
@@ -201,11 +200,13 @@ module.exports = grammar({
             ),
 
         _conditional_block: ($) =>
-            choice(
-                $._simple_statements,
-                $._compound_statements,
-                $.defattr,
-                $.file
+            repeat1(
+                choice(
+                    prec(-1, $._simple_statements),
+                    $._compound_statements,
+                    $.defattr,
+                    $.file
+                )
             ),
 
         // %if
@@ -213,8 +214,7 @@ module.exports = grammar({
             seq(
                 choice('%if'),
                 field('condition', $.expression),
-                // TODO FIXME This should be token.immediate
-                NEWLINE,
+                token.immediate(NEWLINE),
                 optional(field('consequence', $._conditional_block)),
                 repeat(field('alternative', $.elif_clause)),
                 optional(field('alternative', $.else_clause)),

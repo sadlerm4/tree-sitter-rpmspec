@@ -321,13 +321,16 @@ Conditionals (Nested %if with %elif and %else)
 %if 0%{?rhel}
 
 %ifarch x86_64
+%bcond_without ceph
 %bcond_without winexe
 %else
+%bcond_with ceph
 %bcond_with winexe
 #endifarch
 %endif
 
 %else
+%bcond_without ceph
 %bcond_without winexe
 %endif
 
@@ -347,7 +350,17 @@ Conditionals (Nested %if with %elif and %else)
           (identifier))
         (string
           (string_content)))
+      (macro_invocation
+        (macro_expansion
+          (identifier))
+        (string
+          (string_content)))
       (else_clause
+        (macro_invocation
+          (macro_expansion
+            (identifier))
+          (string
+            (string_content)))
         (macro_invocation
           (macro_expansion
             (identifier))
@@ -355,6 +368,11 @@ Conditionals (Nested %if with %elif and %else)
             (string_content))))
       (comment))
     (else_clause
+      (macro_invocation
+        (macro_expansion
+          (identifier))
+        (string
+          (string_content)))
       (macro_invocation
         (macro_expansion
           (identifier))
