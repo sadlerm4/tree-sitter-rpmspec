@@ -651,8 +651,6 @@ module.exports = grammar({
         single_word: ($) =>
             repeat1(choice($.macro_expansion, seq($.string_content))),
 
-        _expression: ($) => $.single_word,
-
         ///////////////////////////////////////////////////////////////////////
         // Expansion
         ///////////////////////////////////////////////////////////////////////
