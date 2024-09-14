@@ -6,6 +6,14 @@
       {
         "type": "if_statement",
         "named": true
+      },
+      {
+        "type": "ifarch_statement",
+        "named": true
+      },
+      {
+        "type": "ifos_statement",
+        "named": true
       }
     ]
   },
@@ -94,6 +102,93 @@
         "named": true
       }
     ]
+  },
+  {
+    "type": "expression",
+    "named": true,
+    "subtypes": [
+      {
+        "type": "arithmetic_operator",
+        "named": true
+      },
+      {
+        "type": "boolean_operator",
+        "named": true
+      },
+      {
+        "type": "comparison_operator",
+        "named": true
+      },
+      {
+        "type": "defined_operator",
+        "named": true
+      },
+      {
+        "type": "not_operator",
+        "named": true
+      },
+      {
+        "type": "primary_expression",
+        "named": true
+      },
+      {
+        "type": "with_operator",
+        "named": true
+      }
+    ]
+  },
+  {
+    "type": "primary_expression",
+    "named": true,
+    "subtypes": [
+      {
+        "type": "float",
+        "named": true
+      },
+      {
+        "type": "integer",
+        "named": true
+      },
+      {
+        "type": "integer_expansion",
+        "named": true
+      },
+      {
+        "type": "macro_expansion",
+        "named": true
+      },
+      {
+        "type": "parenthesized_expression",
+        "named": true
+      },
+      {
+        "type": "quoted_string",
+        "named": true
+      },
+      {
+        "type": "string",
+        "named": true
+      }
+    ]
+  },
+  {
+    "type": "arch",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "macro_expansion",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "arithmetic_operator",
@@ -357,7 +452,7 @@
       "required": true,
       "types": [
         {
-          "type": "variable_name",
+          "type": "identifier",
           "named": true
         }
       ]
@@ -436,6 +531,70 @@
     }
   },
   {
+    "type": "elifarch_clause",
+    "named": true,
+    "fields": {
+      "consequence": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "_compound_statements",
+            "named": true
+          },
+          {
+            "type": "_simple_statements",
+            "named": true
+          },
+          {
+            "type": "defattr",
+            "named": true
+          },
+          {
+            "type": "file",
+            "named": true
+          },
+          {
+            "type": "single_word",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "elifos_clause",
+    "named": true,
+    "fields": {
+      "consequence": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "_compound_statements",
+            "named": true
+          },
+          {
+            "type": "_simple_statements",
+            "named": true
+          },
+          {
+            "type": "defattr",
+            "named": true
+          },
+          {
+            "type": "file",
+            "named": true
+          },
+          {
+            "type": "single_word",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "else_clause",
     "named": true,
     "fields": {
@@ -461,45 +620,6 @@
           }
         ]
       }
-    }
-  },
-  {
-    "type": "expression",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "arithmetic_operator",
-          "named": true
-        },
-        {
-          "type": "boolean_operator",
-          "named": true
-        },
-        {
-          "type": "comparison_operator",
-          "named": true
-        },
-        {
-          "type": "defined_operator",
-          "named": true
-        },
-        {
-          "type": "not_operator",
-          "named": true
-        },
-        {
-          "type": "primary_expression",
-          "named": true
-        },
-        {
-          "type": "with_operator",
-          "named": true
-        }
-      ]
     }
   },
   {
@@ -553,15 +673,15 @@
       "required": false,
       "types": [
         {
+          "type": "_compound_statements",
+          "named": true
+        },
+        {
           "type": "defattr",
           "named": true
         },
         {
           "type": "file",
-          "named": true
-        },
-        {
-          "type": "if_statement",
           "named": true
         },
         {
@@ -639,6 +759,110 @@
     }
   },
   {
+    "type": "ifarch_statement",
+    "named": true,
+    "fields": {
+      "alternative": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "elifarch_clause",
+            "named": true
+          },
+          {
+            "type": "else_clause",
+            "named": true
+          }
+        ]
+      },
+      "condition": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "arch",
+            "named": true
+          }
+        ]
+      },
+      "consequence": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "_compound_statements",
+            "named": true
+          },
+          {
+            "type": "_simple_statements",
+            "named": true
+          },
+          {
+            "type": "defattr",
+            "named": true
+          },
+          {
+            "type": "file",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "ifos_statement",
+    "named": true,
+    "fields": {
+      "alternative": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "elifos_clause",
+            "named": true
+          },
+          {
+            "type": "else_clause",
+            "named": true
+          }
+        ]
+      },
+      "condition": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "os",
+            "named": true
+          }
+        ]
+      },
+      "consequence": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "_compound_statements",
+            "named": true
+          },
+          {
+            "type": "_simple_statements",
+            "named": true
+          },
+          {
+            "type": "defattr",
+            "named": true
+          },
+          {
+            "type": "file",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "install_scriptlet",
     "named": true,
     "fields": {},
@@ -654,7 +878,7 @@
     }
   },
   {
-    "type": "macro_definition",
+    "type": "integer_expansion",
     "named": true,
     "fields": {},
     "children": {
@@ -662,38 +886,70 @@
       "required": true,
       "types": [
         {
-          "type": "float",
-          "named": true
-        },
-        {
           "type": "integer",
           "named": true
         },
         {
           "type": "macro_expansion",
           "named": true
-        },
-        {
-          "type": "macro_options",
-          "named": true
-        },
-        {
-          "type": "macro_shell_expansion",
-          "named": true
-        },
-        {
-          "type": "quoted_string",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "variable_name",
-          "named": true
         }
       ]
+    }
+  },
+  {
+    "type": "macro_definition",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "options": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "macro_options",
+            "named": true
+          }
+        ]
+      },
+      "value": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "float",
+            "named": true
+          },
+          {
+            "type": "integer",
+            "named": true
+          },
+          {
+            "type": "macro_expansion",
+            "named": true
+          },
+          {
+            "type": "macro_shell_expansion",
+            "named": true
+          },
+          {
+            "type": "quoted_string",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -705,11 +961,11 @@
       "required": true,
       "types": [
         {
-          "type": "string_content",
+          "type": "identifier",
           "named": true
         },
         {
-          "type": "variable_name",
+          "type": "string_content",
           "named": true
         }
       ]
@@ -777,16 +1033,17 @@
   {
     "type": "macro_undefinition",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "variable_name",
-          "named": true
-        }
-      ]
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -803,6 +1060,25 @@
           }
         ]
       }
+    }
+  },
+  {
+    "type": "os",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "macro_expansion",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -870,41 +1146,6 @@
     }
   },
   {
-    "type": "primary_expression",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "float",
-          "named": true
-        },
-        {
-          "type": "integer",
-          "named": true
-        },
-        {
-          "type": "macro_expansion",
-          "named": true
-        },
-        {
-          "type": "parenthesized_expression",
-          "named": true
-        },
-        {
-          "type": "quoted_string",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "qualifier",
     "named": true,
     "fields": {}
@@ -956,7 +1197,7 @@
       "required": false,
       "types": [
         {
-          "type": "if_statement",
+          "type": "_compound_statements",
           "named": true
         },
         {
@@ -1153,7 +1394,7 @@
       "required": true,
       "types": [
         {
-          "type": "variable_name",
+          "type": "identifier",
           "named": true
         }
       ]
@@ -1648,6 +1889,10 @@
     "named": false
   },
   {
+    "type": "identifier",
+    "named": true
+  },
+  {
     "type": "integer",
     "named": true
   },
@@ -1730,10 +1975,6 @@
   {
     "type": "undefined",
     "named": false
-  },
-  {
-    "type": "variable_name",
-    "named": true
   },
   {
     "type": "verify",
