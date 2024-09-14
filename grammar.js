@@ -207,24 +207,29 @@ module.exports = grammar({
             seq(
                 choice('%if', '%ifarch', '%ifos', '%ifnarch', '%ifnos'),
                 field('condition', $.expression),
+                // TODO FIXME This should be token.immediate
                 NEWLINE,
                 optional(field('consequence', $._conditional_block)),
                 repeat(field('alternative', $.elif_clause)),
                 optional(field('alternative', $.else_clause)),
                 '%endif',
-                NEWLINE
+                token.immediate(NEWLINE)
             ),
 
         elif_clause: ($) =>
             seq(
                 choice('%elif', '%elifarch', '%elifos'),
                 field('condition', $.expression),
-                NEWLINE,
+                token.immediate(NEWLINE),
                 field('consequence', $._conditional_block)
             ),
 
         else_clause: ($) =>
-            seq('%else', NEWLINE, field('body', $._conditional_block)),
+            seq(
+                '%else',
+                token.immediate(NEWLINE),
+                field('body', $._conditional_block)
+            ),
 
         ///////////////////////////////////////////////////////////////////////
         // Preamble Section (Name, Version, Release, ...)
