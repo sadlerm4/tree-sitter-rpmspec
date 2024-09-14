@@ -507,7 +507,7 @@
         ]
       },
       "consequence": {
-        "multiple": false,
+        "multiple": true,
         "required": true,
         "types": [
           {
@@ -599,7 +599,7 @@
     "named": true,
     "fields": {
       "body": {
-        "multiple": false,
+        "multiple": true,
         "required": true,
         "types": [
           {
@@ -735,7 +735,7 @@
         ]
       },
       "consequence": {
-        "multiple": false,
+        "multiple": true,
         "required": false,
         "types": [
           {
@@ -787,7 +787,7 @@
         ]
       },
       "consequence": {
-        "multiple": false,
+        "multiple": true,
         "required": false,
         "types": [
           {
@@ -839,7 +839,7 @@
         ]
       },
       "consequence": {
-        "multiple": false,
+        "multiple": true,
         "required": false,
         "types": [
           {
@@ -1194,7 +1194,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "_compound_statements",

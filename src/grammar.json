@@ -104,10 +104,6 @@
         {
           "type": "SYMBOL",
           "name": "changelog"
-        },
-        {
-          "type": "PATTERN",
-          "value": "\\r?\\n"
         }
       ]
     },
@@ -668,25 +664,32 @@
       ]
     },
     "_conditional_block": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "_simple_statements"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_compound_statements"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "defattr"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "file"
-        }
-      ]
+      "type": "REPEAT1",
+      "content": {
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "PREC",
+            "value": -1,
+            "content": {
+              "type": "SYMBOL",
+              "name": "_simple_statements"
+            }
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_compound_statements"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "defattr"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "file"
+          }
+        ]
+      }
     },
     "if_statement": {
       "type": "SEQ",
@@ -709,8 +712,11 @@
           }
         },
         {
-          "type": "PATTERN",
-          "value": "\\r?\\n"
+          "type": "IMMEDIATE_TOKEN",
+          "content": {
+            "type": "PATTERN",
+            "value": "\\r?\\n"
+          }
         },
         {
           "type": "CHOICE",
@@ -1519,8 +1525,11 @@
             ]
           },
           {
-            "type": "PATTERN",
-            "value": "\\r?\\n"
+            "type": "IMMEDIATE_TOKEN",
+            "content": {
+              "type": "PATTERN",
+              "value": "\\r?\\n"
+            }
           },
           {
             "type": "CHOICE",
@@ -1564,8 +1573,11 @@
             "name": "single_word"
           },
           {
-            "type": "PATTERN",
-            "value": "\\r?\\n"
+            "type": "IMMEDIATE_TOKEN",
+            "content": {
+              "type": "PATTERN",
+              "value": "\\r?\\n"
+            }
           },
           {
             "type": "REPEAT1",
@@ -1608,10 +1620,6 @@
             {
               "type": "SYMBOL",
               "name": "string"
-            },
-            {
-              "type": "PATTERN",
-              "value": "\\r?\\n"
             }
           ]
         }
@@ -1953,8 +1961,11 @@
             ]
           },
           {
-            "type": "PATTERN",
-            "value": "\\r?\\n"
+            "type": "IMMEDIATE_TOKEN",
+            "content": {
+              "type": "PATTERN",
+              "value": "\\r?\\n"
+            }
           },
           {
             "type": "CHOICE",
@@ -2028,8 +2039,11 @@
             ]
           },
           {
-            "type": "PATTERN",
-            "value": "\\r?\\n"
+            "type": "IMMEDIATE_TOKEN",
+            "content": {
+              "type": "PATTERN",
+              "value": "\\r?\\n"
+            }
           },
           {
             "type": "CHOICE",
@@ -2111,8 +2125,11 @@
             ]
           },
           {
-            "type": "PATTERN",
-            "value": "\\r?\\n"
+            "type": "IMMEDIATE_TOKEN",
+            "content": {
+              "type": "PATTERN",
+              "value": "\\r?\\n"
+            }
           },
           {
             "type": "CHOICE",
@@ -2182,8 +2199,11 @@
             ]
           },
           {
-            "type": "PATTERN",
-            "value": "\\r?\\n"
+            "type": "IMMEDIATE_TOKEN",
+            "content": {
+              "type": "PATTERN",
+              "value": "\\r?\\n"
+            }
           },
           {
             "type": "REPEAT",
@@ -2253,8 +2273,11 @@
           "value": ")"
         },
         {
-          "type": "PATTERN",
-          "value": "\\r?\\n"
+          "type": "IMMEDIATE_TOKEN",
+          "content": {
+            "type": "PATTERN",
+            "value": "\\r?\\n"
+          }
         }
       ]
     },
@@ -2343,8 +2366,11 @@
           "name": "string"
         },
         {
-          "type": "PATTERN",
-          "value": "\\r?\\n"
+          "type": "IMMEDIATE_TOKEN",
+          "content": {
+            "type": "PATTERN",
+            "value": "\\r?\\n"
+          }
         }
       ]
     },
@@ -2996,6 +3022,10 @@
     {
       "type": "PATTERN",
       "value": "\\\\( |\\t|\\v|\\f)"
+    },
+    {
+      "type": "PATTERN",
+      "value": "\\r?\\n"
     },
     {
       "type": "SYMBOL",
