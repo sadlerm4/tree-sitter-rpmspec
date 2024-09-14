@@ -40,6 +40,8 @@ module.exports = grammar({
         $._conditional_block,
     ],
 
+    word: ($) => $.identifier,
+
     rules: {
         spec: ($) => repeat($._statements),
 
