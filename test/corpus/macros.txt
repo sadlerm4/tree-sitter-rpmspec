@@ -113,7 +113,7 @@ Macros (Usage/No Braces)
 
 (spec
   (macro_expansion
-    (variable_name)))
+    (identifier)))
 
 ===============================================================================
 Macros (Usage/Braces)
@@ -125,7 +125,7 @@ Macros (Usage/Braces)
 
 (spec
   (macro_expansion
-    (variable_name)))
+    (identifier)))
 
 ===============================================================================
 Macros (Empty Shell Expansion)
@@ -157,7 +157,7 @@ Macros (Expansion with argument)
   (comment)
   (macro_invocation
     (macro_expansion
-      (variable_name))
+      (identifier))
     (string
       (string_content)))
   (comment))
@@ -177,7 +177,7 @@ Macros (Expansion with multiple arguments)
   (comment)
   (macro_invocation
     (macro_expansion
-      (variable_name))
+      (identifier))
     (string
       (string_content)))
   (comment))

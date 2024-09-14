@@ -49,7 +49,7 @@ Summary: Subpackage
   (package
     (single_word
       (macro_expansion
-        (variable_name))
+        (identifier))
       (string_content))
     (preamble
       (tags

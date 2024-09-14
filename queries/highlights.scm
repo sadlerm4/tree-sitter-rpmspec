@@ -1,4 +1,4 @@
-(variable_name) @variable
+(identifier) @variable
 
 (macro_definition) @keyword.directive.define
 (macro_invocation) @keyword.function

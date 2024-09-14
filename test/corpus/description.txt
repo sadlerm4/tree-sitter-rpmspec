@@ -55,7 +55,7 @@ The %{name}-subpackage package
     (text
       (text_content)
       (macro_expansion
-        (variable_name))
+        (identifier))
       (text_content))))
 
 ===============================================================================
@@ -87,7 +87,7 @@ Simple description
   (description
     (single_word
       (macro_expansion
-        (variable_name))
+        (identifier))
       (string_content))
     (text
       (text_content))))

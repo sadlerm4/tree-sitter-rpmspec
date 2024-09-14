@@ -38,7 +38,7 @@ Files (Expansion)
     (file
       (string
         (macro_expansion
-          (variable_name))
+          (identifier))
       (string_content)))))
 
 ===============================================================================
@@ -177,7 +177,7 @@ Files (%dir with variables)
     (file
       (string
         (macro_expansion
-          (variable_name))))))
+          (identifier))))))
 
 ===============================================================================
 Files (%license)
@@ -228,7 +228,7 @@ Files (%verify)
       (verify)
       (string
         (macro_expansion
-          (variable_name))
+          (identifier))
         (string_content)))))
 
 ===============================================================================
@@ -250,5 +250,5 @@ Files (%ifarch)
       (file
         (string
           (macro_expansion
-            (variable_name))
+            (identifier))
           (string_content))))))

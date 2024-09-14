@@ -116,7 +116,7 @@ BuildRequires:  foo
     (comparison_operator
       (quoted_string
         (macro_expansion
-          (variable_name)))
+          (identifier)))
       (quoted_string
         (string_content)))
     (preamble
@@ -142,13 +142,13 @@ BuildRequires:  foo
         (integer_expansion
           (integer)
           (macro_expansion
-            (variable_name)))
+            (identifier)))
         (integer))
       (comparison_operator
         (integer_expansion
           (integer)
           (macro_expansion
-            (variable_name)))
+            (identifier)))
         (integer)))
     (preamble
       (tags
@@ -171,7 +171,7 @@ BuildRequires:  foo
     (integer_expansion
       (integer)
       (macro_expansion
-        (variable_name)))
+        (identifier)))
     (preamble
       (tags
         (dependency_tag)
@@ -195,12 +195,12 @@ BuildRequires:  foo
         (integer_expansion
           (integer)
           (macro_expansion
-            (variable_name)))
+            (identifier)))
         (comparison_operator
           (integer_expansion
             (integer)
             (macro_expansion
-              (variable_name)))
+              (identifier)))
           (integer))))
     (preamble
       (tags
@@ -225,7 +225,7 @@ BuildRequires:  bar
     (integer_expansion
       (integer)
       (macro_expansion
-        (variable_name)))
+        (identifier)))
     (preamble
       (tags
         (dependency_tag)
@@ -255,7 +255,7 @@ BuildRequires:  bar
     (integer_expansion
       (integer)
       (macro_expansion
-        (variable_name)))
+        (identifier)))
     (preamble
       (tags
         (dependency_tag)
@@ -265,7 +265,7 @@ BuildRequires:  bar
       (integer_expansion
         (integer)
         (macro_expansion
-          (variable_name)))
+          (identifier)))
       (preamble
         (tags
           (dependency_tag)
@@ -291,7 +291,7 @@ BuildRequires:  wurst
     (integer_expansion
       (integer)
       (macro_expansion
-        (variable_name)))
+        (identifier)))
     (preamble
       (tags
         (dependency_tag)
@@ -301,7 +301,7 @@ BuildRequires:  wurst
       (integer_expansion
         (integer)
         (macro_expansion
-          (variable_name)))
+          (identifier)))
       (preamble
         (tags
           (dependency_tag)
@@ -338,26 +338,26 @@ Conditionals (Nested %if with %elif and %else)
     (integer_expansion
       (integer)
       (macro_expansion
-        (variable_name)))
+        (identifier)))
     (ifarch_statement
       (arch
         (identifier))
       (macro_invocation
         (macro_expansion
-          (variable_name))
+          (identifier))
         (string
           (string_content)))
       (else_clause
         (macro_invocation
           (macro_expansion
-            (variable_name))
+            (identifier))
           (string
             (string_content))))
       (comment))
     (else_clause
       (macro_invocation
         (macro_expansion
-          (variable_name))
+          (identifier))
         (string
           (string_content))))))
 
@@ -382,4 +382,4 @@ Requires(post): libwbclient = %{samba_depver}
         (string
           (string_content)
           (macro_expansion
-            (variable_name)))))))
+            (identifier)))))))

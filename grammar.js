@@ -38,7 +38,6 @@ module.exports = grammar({
         $._simple_statements,
         $._compound_statements,
         $._conditional_block,
-        $._special_variable_name,
     ],
 
     rules: {
@@ -726,19 +725,15 @@ module.exports = grammar({
         macro_expansion: ($) =>
             prec(-1, choice($._simple_expansion, $._full_expansion)),
 
-        variable_name: ($) => /[a-zA-Z_][A-Za-z0-9_]*/,
-
-        _special_variable_name: ($) =>
-            seq(optional(token.immediate('?')), $.variable_name),
-
         // %variable
-        _simple_expansion: ($) => seq('%', $.variable_name),
+        _simple_expansion: ($) => seq('%', $.identifier),
 
         // %{variable}, %{?variable}, %{variable:argument}
         _full_expansion: ($) =>
             seq(
                 '%{',
-                choice($._special_variable_name, $.variable_name),
+                optional(token.immediate('?')),
+                $.identifier,
                 optional(seq(':', $.string_content)),
                 '}'
             ),

@@ -23,7 +23,7 @@ Prep Section (%setup)
     (shell_block
       (macro_invocation
         (macro_expansion
-          (variable_name))
+          (identifier))
           (string
             (string_content))))))
 
@@ -40,7 +40,7 @@ Prep Section (%autosetup)
   (prep_scriptlet
     (shell_block
       (macro_expansion
-        (variable_name)))))
+        (identifier)))))
 
 ===============================================================================
 Build section (%build)
@@ -56,6 +56,6 @@ Build section (%build)
   (build_scriptlet
     (shell_block
       (macro_expansion
-        (variable_name))
+        (identifier))
       (macro_expansion
-        (variable_name)))))
+        (identifier)))))

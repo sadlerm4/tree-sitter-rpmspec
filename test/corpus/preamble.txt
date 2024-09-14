@@ -26,7 +26,7 @@ Name:           %complex_name
       (tag)
       (string
         (macro_expansion
-          (variable_name))))))
+          (identifier))))))
 
 ===============================================================================
 Preamble Section (Version/Complex)
@@ -70,7 +70,7 @@ Release:        %autorelease
       (tag)
       (string
         (macro_expansion
-          (variable_name))))))
+          (identifier))))))
 
 ===============================================================================
 Preamble Section (Release/Expansion)
@@ -93,7 +93,7 @@ Release:        1%{?dist}
       (integer)
       (string
         (macro_expansion
-          (variable_name))))))
+          (identifier))))))
 
 ===============================================================================
 Preamble Section (Summary/String)
@@ -137,7 +137,7 @@ Summary:        A parser for RPM Spec version %{version}
       (string
         (string_content)
         (macro_expansion
-          (variable_name))))))
+          (identifier))))))
 
 ===============================================================================
 Preamble Section (License/String)
@@ -201,10 +201,10 @@ Source:         %{name}-%{version}.tar.gz
       (tag)
       (string
         (macro_expansion
-          (variable_name))
+          (identifier))
         (string_content)
         (macro_expansion
-          (variable_name))
+          (identifier))
         (string_content)))))
 
 ===============================================================================
@@ -227,10 +227,10 @@ Source0:        %{name}-%{version}.tar.gz
       (tag)
       (string
         (macro_expansion
-          (variable_name))
+          (identifier))
         (string_content)
         (macro_expansion
-          (variable_name))
+          (identifier))
         (string_content)))))
 
 ===============================================================================
