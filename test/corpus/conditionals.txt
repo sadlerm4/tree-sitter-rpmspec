@@ -71,7 +71,7 @@ BuildRequires:  foo
 (spec
   (if_statement
     (defined_operator
-      (variable_name))
+      (identifier))
     (preamble
       (tags
         (dependency_tag)
@@ -92,9 +92,9 @@ BuildRequires:  foo
   (if_statement
     (boolean_operator
       (defined_operator
-        (variable_name))
+        (identifier))
       (defined_operator
-        (variable_name)))
+        (identifier)))
     (preamble
       (tags
         (dependency_tag)
@@ -374,7 +374,7 @@ Requires(post): libwbclient = %{samba_depver}
 (spec
   (if_statement
     (with_operator
-      (variable_name))
+      (identifier))
     (preamble
       (tags
         (dependency_tag

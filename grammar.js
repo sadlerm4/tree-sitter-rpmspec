@@ -171,7 +171,7 @@ module.exports = grammar({
             seq(
                 '%{',
                 field('operators', choice('with', 'without')),
-                $.variable_name,
+                $.identifier,
                 '}'
             ),
 
@@ -179,7 +179,7 @@ module.exports = grammar({
             seq(
                 '%{',
                 field('operators', choice('defined', 'undefined')),
-                $.variable_name,
+                $.identifier,
                 '}'
             ),
 
