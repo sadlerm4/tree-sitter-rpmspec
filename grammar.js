@@ -27,7 +27,12 @@ module.exports = grammar({
     // Array of tokens that may appear anywhere in the language.
     extras: ($) => [$.comment, /\s+/, /\\( |\t|\v|\f)/, $.line_continuation],
 
-    supertypes: ($) => [$._simple_statements, $._compound_statements],
+    supertypes: ($) => [
+        $._simple_statements,
+        $._compound_statements,
+        $.expression,
+        $.primary_expression,
+    ],
 
     inline: ($) => [
         $._simple_statements,
@@ -79,10 +84,6 @@ module.exports = grammar({
         // Conditionals (%if, %ifarch, %ifos)
         ///////////////////////////////////////////////////////////////////////
 
-        // Support for 0%{?fedora}
-        _integer_macro_expansion: ($) =>
-            prec(1, seq(optional($.integer), $.macro_expansion)),
-
         primary_expression: ($) =>
             prec(
                 1,
@@ -92,9 +93,13 @@ module.exports = grammar({
                     $.integer,
                     $.float,
                     $.parenthesized_expression,
-                    $._integer_macro_expansion
+                    $.integer_expansion,
+                    $.macro_expansion
                 )
             ),
+
+        // This adds support for: 0%{?fedora}
+        integer_expansion: ($) => seq($.integer, $.macro_expansion),
 
         boolean_operator: ($) =>
             choice(

@@ -245,10 +245,8 @@ Files (%ifarch)
 (spec
   (files
     (if_statement
-      (expression
-        (primary_expression
-          (string
-            (string_content))))
+      (string
+        (string_content))
       (file
         (string
           (macro_expansion

@@ -10,10 +10,8 @@ BuildRequires:  foo
 
 (spec
   (if_statement
-    (expression
-      (primary_expression
-        (string
-          (string_content))))
+    (string
+      (string_content))
     (preamble
       (tags
         (dependency_tag)
@@ -32,10 +30,8 @@ BuildRequires:  foo
 
 (spec
   (if_statement
-    (expression
-      (primary_expression
-        (string
-          (string_content))))
+    (string
+      (string_content))
     (preamble
       (tags
         (dependency_tag)
@@ -54,10 +50,8 @@ BuildRequires:  magic
 
 (spec
   (if_statement
-    (expression
-      (primary_expression
-        (string
-          (string_content))))
+    (string
+      (string_content))
     (preamble
       (tags
         (dependency_tag)
@@ -76,9 +70,8 @@ BuildRequires:  foo
 
 (spec
   (if_statement
-    (expression
-      (defined_operator
-        (variable_name)))
+    (defined_operator
+      (variable_name))
     (preamble
       (tags
         (dependency_tag)
@@ -97,19 +90,16 @@ BuildRequires:  foo
 
 (spec
   (if_statement
-    (expression
-      (boolean_operator
-        (expression
-          (defined_operator
-            (variable_name)))
-        (expression
-          (defined_operator
-            (variable_name)))))
+    (boolean_operator
+      (defined_operator
+        (variable_name))
+      (defined_operator
+        (variable_name)))
     (preamble
       (tags
         (dependency_tag)
-          (string
-            (string_content))))))
+        (string
+          (string_content))))))
 
 ===============================================================================
 Conditionals (%if with string comparison)
@@ -123,15 +113,12 @@ BuildRequires:  foo
 
 (spec
   (if_statement
-    (expression
-      (comparison_operator
-        (primary_expression
-          (quoted_string
-            (macro_expansion
-              (variable_name))))
-        (primary_expression
-          (quoted_string
-            (string_content)))))
+    (comparison_operator
+      (quoted_string
+        (macro_expansion
+          (variable_name)))
+      (quoted_string
+        (string_content)))
     (preamble
       (tags
         (dependency_tag)
@@ -150,24 +137,19 @@ BuildRequires:  foo
 
 (spec
   (if_statement
-    (expression
-      (boolean_operator
-        (expression
-          (comparison_operator
-            (primary_expression
-              (integer)
-              (macro_expansion
-                (variable_name)))
-            (primary_expression
-              (integer))))
-        (expression
-          (comparison_operator
-            (primary_expression
-              (integer)
-              (macro_expansion
-                (variable_name)))
-            (primary_expression
-              (integer))))))
+    (boolean_operator
+      (comparison_operator
+        (integer_expansion
+          (integer)
+          (macro_expansion
+            (variable_name)))
+        (integer))
+      (comparison_operator
+        (integer_expansion
+          (integer)
+          (macro_expansion
+            (variable_name)))
+        (integer)))
     (preamble
       (tags
         (dependency_tag)
@@ -186,11 +168,10 @@ BuildRequires:  foo
 
 (spec
   (if_statement
-    (expression
-      (primary_expression
-        (integer)
-        (macro_expansion
-          (variable_name))))
+    (integer_expansion
+      (integer)
+      (macro_expansion
+        (variable_name)))
     (preamble
       (tags
         (dependency_tag)
@@ -209,24 +190,18 @@ BuildRequires:  foo
 
 (spec
   (if_statement
-    (expression
-      (primary_expression
-        (parenthesized_expression
-          (expression
-            (boolean_operator
-              (expression
-                (primary_expression
-                  (integer)
-                  (macro_expansion
-                    (variable_name))))
-              (expression
-                (comparison_operator
-                  (primary_expression
-                    (integer)
-                    (macro_expansion
-                      (variable_name)))
-                  (primary_expression
-                    (integer)))))))))
+    (parenthesized_expression
+      (boolean_operator
+        (integer_expansion
+          (integer)
+          (macro_expansion
+            (variable_name)))
+        (comparison_operator
+          (integer_expansion
+            (integer)
+            (macro_expansion
+              (variable_name)))
+          (integer))))
     (preamble
       (tags
         (dependency_tag)
@@ -247,11 +222,10 @@ BuildRequires:  bar
 
 (spec
   (if_statement
-    (expression
-      (primary_expression
-        (integer)
-        (macro_expansion
-          (variable_name))))
+    (integer_expansion
+      (integer)
+      (macro_expansion
+        (variable_name)))
     (preamble
       (tags
         (dependency_tag)
@@ -278,22 +252,20 @@ BuildRequires:  bar
 
 (spec
   (if_statement
-    (expression
-      (primary_expression
-        (integer)
-        (macro_expansion
-          (variable_name))))
+    (integer_expansion
+      (integer)
+      (macro_expansion
+        (variable_name)))
     (preamble
       (tags
         (dependency_tag)
         (string
           (string_content))))
     (elif_clause
-      (expression
-        (primary_expression
-            (integer)
-            (macro_expansion
-            (variable_name))))
+      (integer_expansion
+        (integer)
+        (macro_expansion
+          (variable_name)))
       (preamble
         (tags
           (dependency_tag)
@@ -316,22 +288,20 @@ BuildRequires:  wurst
 
 (spec
   (if_statement
-    (expression
-      (primary_expression
-        (integer)
-        (macro_expansion
-          (variable_name))))
+    (integer_expansion
+      (integer)
+      (macro_expansion
+        (variable_name)))
     (preamble
       (tags
         (dependency_tag)
         (string
           (string_content))))
     (elif_clause
-      (expression
-        (primary_expression
-            (integer)
-            (macro_expansion
-            (variable_name))))
+      (integer_expansion
+        (integer)
+        (macro_expansion
+          (variable_name)))
       (preamble
         (tags
           (dependency_tag)
@@ -365,16 +335,13 @@ Conditionals (Nested %if with %elif and %else)
 
 (spec
   (if_statement
-    (expression
-      (primary_expression
-        (integer)
-        (macro_expansion
-          (variable_name))))
+    (integer_expansion
+      (integer)
+      (macro_expansion
+        (variable_name)))
     (if_statement
-      (expression
-        (primary_expression
-          (string
-            (string_content))))
+      (string
+        (string_content))
       (macro_invocation
         (macro_expansion
           (variable_name))
@@ -406,9 +373,8 @@ Requires(post): libwbclient = %{samba_depver}
 
 (spec
   (if_statement
-    (expression
-      (with_operator
-        (variable_name)))
+    (with_operator
+      (variable_name))
     (preamble
       (tags
         (dependency_tag
