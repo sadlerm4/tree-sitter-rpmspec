@@ -651,20 +651,24 @@ module.exports = grammar({
                 optional(field('options', $.macro_options)),
                 token.immediate(/( |\t)+/),
                 field('value', choice($._value, $.macro_shell_expansion)),
-                NEWLINE
+                token.immediate(NEWLINE)
             ),
 
         macro_options: ($) => seq('(', ')'),
 
         macro_undefinition: ($) =>
-            seq('%undefine', field('name', $.identifier), NEWLINE),
+            seq(
+                '%undefine',
+                field('name', $.identifier),
+                token.immediate(NEWLINE)
+            ),
 
         macro_invocation: ($) =>
             seq(
                 $.macro_expansion,
                 token.immediate(/( |\t)+/),
                 $._value,
-                NEWLINE
+                token.immediate(NEWLINE)
             ),
 
         ///////////////////////////////////////////////////////////////////////
