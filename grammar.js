@@ -597,19 +597,12 @@ module.exports = grammar({
 
         macro_undefinition: ($) => seq('%undefine', $.variable_name, NEWLINE),
 
-        // The macro invocation should have a higher precedence than macro
-        // expansion
-        //
-        // Example: %bcond foo 1
         macro_invocation: ($) =>
-            prec(
-                1,
-                seq(
-                    $.macro_expansion,
-                    token.immediate(/( |\t)+/),
-                    $._value,
-                    NEWLINE
-                )
+            seq(
+                $.macro_expansion,
+                token.immediate(/( |\t)+/),
+                $._value,
+                NEWLINE
             ),
 
         ///////////////////////////////////////////////////////////////////////
@@ -664,7 +657,10 @@ module.exports = grammar({
         // Expansion
         ///////////////////////////////////////////////////////////////////////
 
-        macro_expansion: ($) => choice($._simple_expansion, $._full_expansion),
+        // The macro invocation should have a higher precedence than macro
+        // expansion.
+        macro_expansion: ($) =>
+            prec(-1, choice($._simple_expansion, $._full_expansion)),
 
         variable_name: ($) => /[a-zA-Z_][A-Za-z0-9_]*/,
 
