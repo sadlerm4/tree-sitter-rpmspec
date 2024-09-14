@@ -8,7 +8,7 @@ Macros (%define)
 
 (spec
   (macro_definition
-    (variable_name)
+    (identifier)
     (string (string_content))))
 
 ===============================================================================
@@ -21,7 +21,7 @@ Macros (%global)
 
 (spec
   (macro_definition
-    (variable_name)
+    (identifier)
     (string (string_content))))
 
 ===============================================================================
@@ -34,7 +34,7 @@ Macros (%global positive integer)
 
 (spec
   (macro_definition
-    (variable_name)
+    (identifier)
     (integer)))
 
 ===============================================================================
@@ -47,7 +47,7 @@ Macros (%global negative integer)
 
 (spec
   (macro_definition
-    (variable_name)
+    (identifier)
     (integer)))
 
 ===============================================================================
@@ -60,7 +60,7 @@ Macros (%global hex)
 
 (spec
   (macro_definition
-    (variable_name)
+    (identifier)
     (integer)))
 
 ===============================================================================
@@ -73,7 +73,7 @@ Macros (%global with empty arguments)
 
 (spec
   (macro_definition
-    (variable_name)
+    (identifier)
     (macro_options)
     (string (string_content))))
 
@@ -87,7 +87,7 @@ Macros (%global with quoted string)
 
 (spec
   (macro_definition
-    (variable_name)
+    (identifier)
     (quoted_string
       (string_content))))
 

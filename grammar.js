@@ -647,10 +647,10 @@ module.exports = grammar({
             seq(
                 choice('%global', '%define'),
                 token.immediate(/( |\t)+/),
-                $.variable_name,
-                optional($.macro_options),
+                field('name', $.identifier),
+                optional(field('options', $.macro_options)),
                 token.immediate(/( |\t)+/),
-                choice($._value, $.macro_shell_expansion),
+                field('value', choice($._value, $.macro_shell_expansion)),
                 NEWLINE
             ),
 
