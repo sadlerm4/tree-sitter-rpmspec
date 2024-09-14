@@ -72,17 +72,21 @@ module.exports = grammar({
                 NEWLINE
             ),
 
-        _compound_statements: ($) => choice($.if_statement),
-
         comment: ($) =>
             token(choice(seq('#', ANYTHING), seq('%dnl ', ANYTHING))),
 
         line_continuation: (_) =>
             token(seq('\\', choice(seq(optional('\r'), '\n'), '\0'))),
 
+        identifier: (_) =>
+            /(\p{XID_Start}|\$|_|\\u[0-9A-Fa-f]{4}|\\U[0-9A-Fa-f]{8})(\p{XID_Continue}|\$|\\u[0-9A-Fa-f]{4}|\\U[0-9A-Fa-f]{8})*/,
+
         ///////////////////////////////////////////////////////////////////////
         // Conditionals (%if, %ifarch, %ifos)
         ///////////////////////////////////////////////////////////////////////
+
+        _compound_statements: ($) =>
+            choice($.if_statement, $.ifarch_statement, $.ifos_statement),
 
         primary_expression: ($) =>
             prec(
@@ -203,9 +207,10 @@ module.exports = grammar({
                 $.file
             ),
 
+        // %if
         if_statement: ($) =>
             seq(
-                choice('%if', '%ifarch', '%ifos', '%ifnarch', '%ifnos'),
+                choice('%if'),
                 field('condition', $.expression),
                 // TODO FIXME This should be token.immediate
                 NEWLINE,
@@ -218,7 +223,7 @@ module.exports = grammar({
 
         elif_clause: ($) =>
             seq(
-                choice('%elif', '%elifarch', '%elifos'),
+                choice('%elif'),
                 field('condition', $.expression),
                 token.immediate(NEWLINE),
                 field('consequence', $._conditional_block)
@@ -229,6 +234,52 @@ module.exports = grammar({
                 '%else',
                 token.immediate(NEWLINE),
                 field('body', $._conditional_block)
+            ),
+
+        // %ifarch
+        arch: ($) => repeat1(choice($.macro_expansion, $.identifier)),
+
+        ifarch_statement: ($) =>
+            seq(
+                choice('%ifarch', '%ifnarch'),
+                field('condition', $.arch),
+                token.immediate(NEWLINE),
+                optional(field('consequence', $._conditional_block)),
+                repeat(field('alternative', $.elifarch_clause)),
+                optional(field('alternative', $.else_clause)),
+                '%endif',
+                token.immediate(NEWLINE)
+            ),
+
+        elifarch_clause: ($) =>
+            seq(
+                choice('%elifarch'),
+                optional(field('consequence', $.single_word)),
+                token.immediate(NEWLINE),
+                field('consequence', $._conditional_block)
+            ),
+
+        // %ifos
+        os: ($) => repeat1(choice($.macro_expansion, $.identifier)),
+
+        ifos_statement: ($) =>
+            seq(
+                choice('%ifos', '%ifnos'),
+                field('condition', $.os),
+                token.immediate(NEWLINE),
+                optional(field('consequence', $._conditional_block)),
+                repeat(field('alternative', $.elifos_clause)),
+                optional(field('alternative', $.else_clause)),
+                '%endif',
+                token.immediate(NEWLINE)
+            ),
+
+        elifos_clause: ($) =>
+            seq(
+                choice('%elifos'),
+                optional(field('consequence', $.single_word)),
+                token.immediate(NEWLINE),
+                field('consequence', $._conditional_block)
             ),
 
         ///////////////////////////////////////////////////////////////////////
@@ -371,7 +422,7 @@ module.exports = grammar({
             prec.right(
                 repeat1(
                     choice(
-                        $.if_statement,
+                        $._compound_statements,
                         $.macro_definition,
                         $.macro_invocation,
                         prec(1, $.macro_expansion),
@@ -494,7 +545,7 @@ module.exports = grammar({
                     optional(seq('-n', $.string)),
                     optional(seq('-f', $.string)),
                     NEWLINE,
-                    repeat(choice($.if_statement, $.defattr, $.file))
+                    repeat(choice($._compound_statements, $.defattr, $.file))
                 )
             ),
 

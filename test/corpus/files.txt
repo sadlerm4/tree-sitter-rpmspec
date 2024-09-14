@@ -244,9 +244,9 @@ Files (%ifarch)
 
 (spec
   (files
-    (if_statement
-      (string
-        (string_content))
+    (ifarch_statement
+      (arch
+        (identifier))
       (file
         (string
           (macro_expansion

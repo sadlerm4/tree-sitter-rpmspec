@@ -9,9 +9,9 @@ BuildRequires:  foo
 -------------------------------------------------------------------------------
 
 (spec
-  (if_statement
-    (string
-      (string_content))
+  (ifarch_statement
+    (arch
+      (identifier))
     (preamble
       (tags
         (dependency_tag)
@@ -29,9 +29,9 @@ BuildRequires:  foo
 -------------------------------------------------------------------------------
 
 (spec
-  (if_statement
-    (string
-      (string_content))
+  (ifos_statement
+    (os
+      (identifier))
     (preamble
       (tags
         (dependency_tag)
@@ -49,9 +49,9 @@ BuildRequires:  magic
 -------------------------------------------------------------------------------
 
 (spec
-  (if_statement
-    (string
-      (string_content))
+  (ifarch_statement
+    (arch
+      (identifier))
     (preamble
       (tags
         (dependency_tag)
@@ -339,9 +339,9 @@ Conditionals (Nested %if with %elif and %else)
       (integer)
       (macro_expansion
         (variable_name)))
-    (if_statement
-      (string
-        (string_content))
+    (ifarch_statement
+      (arch
+        (identifier))
       (macro_invocation
         (macro_expansion
           (variable_name))
