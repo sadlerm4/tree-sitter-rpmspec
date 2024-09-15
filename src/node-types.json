@@ -70,6 +70,10 @@
         "named": true
       },
       {
+        "type": "macro_function_definition",
+        "named": true
+      },
+      {
         "type": "macro_invocation",
         "named": true
       },
@@ -910,12 +914,73 @@
           }
         ]
       },
-      "options": {
-        "multiple": false,
-        "required": false,
+      "value": {
+        "multiple": true,
+        "required": true,
         "types": [
           {
-            "type": "macro_options",
+            "type": "float",
+            "named": true
+          },
+          {
+            "type": "integer",
+            "named": true
+          },
+          {
+            "type": "macro_expansion",
+            "named": true
+          },
+          {
+            "type": "quoted_string",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "macro_expansion",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "string_content",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "macro_function_definition",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "parameters": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "macro_parameters",
             "named": true
           }
         ]
@@ -953,25 +1018,6 @@
     }
   },
   {
-    "type": "macro_expansion",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "string_content",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "macro_invocation",
     "named": true,
     "fields": {},
@@ -1001,11 +1047,6 @@
         }
       ]
     }
-  },
-  {
-    "type": "macro_options",
-    "named": true,
-    "fields": {}
   },
   {
     "type": "macro_shell_expansion",
@@ -1206,6 +1247,10 @@
         },
         {
           "type": "macro_expansion",
+          "named": true
+        },
+        {
+          "type": "macro_function_definition",
           "named": true
         },
         {
@@ -1902,6 +1947,10 @@
   },
   {
     "type": "line_continuation",
+    "named": true
+  },
+  {
+    "type": "macro_parameters",
     "named": true
   },
   {

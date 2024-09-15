@@ -31,6 +31,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "macro_function_definition"
+        },
+        {
+          "type": "SYMBOL",
           "name": "macro_undefinition"
         },
         {
@@ -1607,6 +1611,10 @@
             },
             {
               "type": "SYMBOL",
+              "name": "macro_function_definition"
+            },
+            {
+              "type": "SYMBOL",
               "name": "macro_invocation"
             },
             {
@@ -2581,11 +2589,45 @@
           ]
         },
         {
+          "type": "FIELD",
+          "name": "name",
+          "content": {
+            "type": "SYMBOL",
+            "name": "identifier"
+          }
+        },
+        {
+          "type": "FIELD",
+          "name": "value",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_value"
+          }
+        },
+        {
           "type": "IMMEDIATE_TOKEN",
           "content": {
             "type": "PATTERN",
-            "value": "( |\\t)+"
+            "value": "\\r?\\n"
           }
+        }
+      ]
+    },
+    "macro_function_definition": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "%global"
+            },
+            {
+              "type": "STRING",
+              "value": "%define"
+            }
+          ]
         },
         {
           "type": "FIELD",
@@ -2596,26 +2638,11 @@
           }
         },
         {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "FIELD",
-              "name": "options",
-              "content": {
-                "type": "SYMBOL",
-                "name": "macro_options"
-              }
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
-        },
-        {
-          "type": "IMMEDIATE_TOKEN",
+          "type": "FIELD",
+          "name": "parameters",
           "content": {
-            "type": "PATTERN",
-            "value": "( |\\t)+"
+            "type": "SYMBOL",
+            "name": "macro_parameters"
           }
         },
         {
@@ -2644,18 +2671,24 @@
         }
       ]
     },
-    "macro_options": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "("
-        },
-        {
-          "type": "STRING",
-          "value": ")"
-        }
-      ]
+    "macro_parameters": {
+      "type": "TOKEN",
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "IMMEDIATE_TOKEN",
+            "content": {
+              "type": "STRING",
+              "value": "("
+            }
+          },
+          {
+            "type": "STRING",
+            "value": ")"
+          }
+        ]
+      }
     },
     "macro_undefinition": {
       "type": "SEQ",
