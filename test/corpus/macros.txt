@@ -64,7 +64,7 @@ Macros (%global hex)
     (integer)))
 
 ===============================================================================
-Macros (%global with empty arguments)
+Macros (%global function with empty arguments)
 ===============================================================================
 
 %global foo() bar
@@ -72,9 +72,9 @@ Macros (%global with empty arguments)
 -------------------------------------------------------------------------------
 
 (spec
-  (macro_definition
+  (macro_function_definition
     (identifier)
-    (macro_options)
+    (macro_parameters)
     (string (string_content))))
 
 ===============================================================================

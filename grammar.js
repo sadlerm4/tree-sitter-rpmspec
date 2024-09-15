@@ -57,6 +57,7 @@ module.exports = grammar({
         _simple_statements: ($) =>
             choice(
                 $.macro_definition,
+                $.macro_function_definition,
                 $.macro_undefinition,
                 $.macro_invocation,
                 $.macro_expansion,
@@ -431,6 +432,7 @@ module.exports = grammar({
                     choice(
                         $._compound_statements,
                         $.macro_definition,
+                        $.macro_function_definition,
                         $.macro_invocation,
                         prec(1, $.macro_expansion),
                         $.string
@@ -652,15 +654,23 @@ module.exports = grammar({
         macro_definition: ($) =>
             seq(
                 choice('%global', '%define'),
-                token.immediate(/( |\t)+/),
                 field('name', $.identifier),
-                optional(field('options', $.macro_options)),
-                token.immediate(/( |\t)+/),
+                field('value', $._value),
+                token.immediate(NEWLINE)
+            ),
+
+        macro_function_definition: ($) =>
+            seq(
+                choice('%global', '%define'),
+                field('name', $.identifier),
+                field('parameters', $.macro_parameters),
+                // TODO: macro_shell_expansion needs to be implemented in an
+                // external scanner
                 field('value', choice($._value, $.macro_shell_expansion)),
                 token.immediate(NEWLINE)
             ),
 
-        macro_options: ($) => seq('(', ')'),
+        macro_parameters: ($) => token(seq(token.immediate('('), ')')),
 
         macro_undefinition: ($) =>
             seq(
@@ -745,6 +755,10 @@ module.exports = grammar({
                 '}'
             ),
 
+        // TODO: macro_shell_expansion needs to be implemented in an
+        // external scanner.
+        // Inside the $(...) are also () allowed, so you need to count them to
+        // detect the last one.
         // %(...)
         macro_shell_expansion: ($) =>
             seq(
