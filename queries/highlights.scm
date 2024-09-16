@@ -9,10 +9,8 @@
   (dependency_tag)
 ] @type.definition
 
-[
-  (integer)
-  (float)
-] @number
+(integer) @number
+(float) @number.float
 
 (comment) @comment
 (string) @string
