@@ -1306,6 +1306,10 @@
         },
         {
           "type": "STRING",
+          "value": "preun"
+        },
+        {
+          "type": "STRING",
           "value": "postun"
         },
         {
@@ -2168,15 +2172,24 @@
             "type": "CHOICE",
             "members": [
               {
-                "type": "SEQ",
+                "type": "CHOICE",
                 "members": [
-                  {
-                    "type": "STRING",
-                    "value": "-n"
-                  },
                   {
                     "type": "SYMBOL",
                     "name": "string"
+                  },
+                  {
+                    "type": "SEQ",
+                    "members": [
+                      {
+                        "type": "STRING",
+                        "value": "-n"
+                      },
+                      {
+                        "type": "SYMBOL",
+                        "name": "string"
+                      }
+                    ]
                   }
                 ]
               },
