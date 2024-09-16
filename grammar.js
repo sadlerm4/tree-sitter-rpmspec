@@ -551,7 +551,7 @@ module.exports = grammar({
             prec.right(
                 seq(
                     '%files',
-                    optional(seq('-n', $.string)),
+                    optional(choice($.string, seq('-n', $.string))),
                     optional(seq('-f', $.string)),
                     token.immediate(NEWLINE),
                     repeat(choice($._compound_statements, $.defattr, $.file))
