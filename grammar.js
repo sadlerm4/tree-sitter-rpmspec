@@ -343,6 +343,7 @@ module.exports = grammar({
             choice(
                 'pre',
                 'post',
+                'preun',
                 'postun',
                 'pretrans',
                 'posttrans',
