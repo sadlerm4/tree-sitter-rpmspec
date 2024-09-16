@@ -712,7 +712,7 @@ module.exports = grammar({
                 )
             ),
 
-        text_content: (_) => token(prec(-1, /([^"`%\\\r\n]|\\(.|\r?\n))+/)),
+        text_content: (_) => token(prec(-1, /([^"%\\\r\n]|\\(.|\r?\n))+/)),
 
         string: ($) =>
             prec(-1, repeat1(seq(choice($.macro_expansion, $.string_content)))),
