@@ -937,6 +937,10 @@
           {
             "type": "string",
             "named": true
+          },
+          {
+            "type": "version",
+            "named": true
           }
         ]
       }
@@ -1012,6 +1016,10 @@
           {
             "type": "string",
             "named": true
+          },
+          {
+            "type": "version",
+            "named": true
           }
         ]
       }
@@ -1043,6 +1051,10 @@
         },
         {
           "type": "string",
+          "named": true
+        },
+        {
+          "type": "version",
           "named": true
         }
       ]
@@ -1352,6 +1364,10 @@
           },
           {
             "type": "string",
+            "named": true
+          },
+          {
+            "type": "version",
             "named": true
           }
         ]
@@ -2032,6 +2048,10 @@
   {
     "type": "verify",
     "named": false
+  },
+  {
+    "type": "version",
+    "named": true
   },
   {
     "type": "with",

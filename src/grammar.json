@@ -1483,6 +1483,10 @@
             },
             {
               "type": "SYMBOL",
+              "name": "version"
+            },
+            {
+              "type": "SYMBOL",
               "name": "string"
             },
             {
@@ -2783,6 +2787,44 @@
               "type": "PATTERN",
               "value": "[0-9]+_?"
             }
+          }
+        ]
+      }
+    },
+    "version": {
+      "type": "TOKEN",
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "REPEAT1",
+            "content": {
+              "type": "PATTERN",
+              "value": "[0-9]+_?"
+            }
+          },
+          {
+            "type": "STRING",
+            "value": "."
+          },
+          {
+            "type": "REPEAT1",
+            "content": {
+              "type": "PATTERN",
+              "value": "[0-9]+_?"
+            }
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "PATTERN",
+                "value": "[a-zA-Z0-9+._-~]+"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
           }
         ]
       }
