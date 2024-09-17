@@ -1,6 +1,13 @@
 (identifier) @variable
 
-(macro_definition) @keyword.directive.define
+[
+  "%define"
+  "%global"
+] @keyword.directive.define
+
+(macro_function_definition
+  name: (identifier) @function)
+
 (macro_invocation) @keyword.function
 (macro_expansion) @keyword
 
