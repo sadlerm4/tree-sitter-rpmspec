@@ -55,6 +55,10 @@
   ">="
   "&&"
   "||"
+  "with"
+  "without"
+  "defined"
+  "undefined"
 ] @operator
 
 [
