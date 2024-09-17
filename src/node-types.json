@@ -1209,14 +1209,14 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "macro_expansion",
           "named": true
         },
         {
-          "type": "string_content",
+          "type": "quoted_string_content",
           "named": true
         }
       ]
@@ -2024,6 +2024,10 @@
   {
     "type": "preun",
     "named": false
+  },
+  {
+    "type": "quoted_string_content",
+    "named": true
   },
   {
     "type": "size",

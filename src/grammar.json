@@ -2907,6 +2907,17 @@
         }
       }
     },
+    "string_content": {
+      "type": "TOKEN",
+      "content": {
+        "type": "PREC",
+        "value": -1,
+        "content": {
+          "type": "PATTERN",
+          "value": "([^%\\\\\\r\\n])+"
+        }
+      }
+    },
     "quoted_string": {
       "type": "SEQ",
       "members": [
@@ -2915,28 +2926,19 @@
           "value": "\""
         },
         {
-          "type": "PREC",
-          "value": -1,
+          "type": "REPEAT",
           "content": {
-            "type": "REPEAT1",
-            "content": {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "CHOICE",
-                  "members": [
-                    {
-                      "type": "SYMBOL",
-                      "name": "macro_expansion"
-                    },
-                    {
-                      "type": "SYMBOL",
-                      "name": "string_content"
-                    }
-                  ]
-                }
-              ]
-            }
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "macro_expansion"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "quoted_string_content"
+              }
+            ]
           }
         },
         {
@@ -2945,14 +2947,14 @@
         }
       ]
     },
-    "string_content": {
+    "quoted_string_content": {
       "type": "TOKEN",
       "content": {
         "type": "PREC",
         "value": -1,
         "content": {
           "type": "PATTERN",
-          "value": "([^\"`%\\\\\\r\\n])+"
+          "value": "([^\"%\\\\\\r\\n])+"
         }
       }
     },
