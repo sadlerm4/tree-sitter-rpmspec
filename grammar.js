@@ -727,17 +727,16 @@ module.exports = grammar({
         string: ($) =>
             prec(-1, repeat1(seq(choice($.macro_expansion, $.string_content)))),
 
+        string_content: (_) => token(prec(-1, /([^%\\\r\n])+/)),
+
         quoted_string: ($) =>
             seq(
                 '"',
-                prec(
-                    -1,
-                    repeat1(seq(choice($.macro_expansion, $.string_content)))
-                ),
+                repeat(choice($.macro_expansion, $.quoted_string_content)),
                 '"'
             ),
 
-        string_content: (_) => token(prec(-1, /([^"`%\\\r\n])+/)),
+        quoted_string_content: (_) => token(prec(-1, /([^"%\\\r\n])+/)),
 
         // TODO: better name
         single_word: ($) =>

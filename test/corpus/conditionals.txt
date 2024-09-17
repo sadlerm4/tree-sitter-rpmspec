@@ -118,7 +118,7 @@ BuildRequires:  foo
         (macro_expansion
           (identifier)))
       (quoted_string
-        (string_content)))
+        (quoted_string_content)))
     (preamble
       (tags
         (dependency_tag)

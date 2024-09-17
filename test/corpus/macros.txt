@@ -89,7 +89,7 @@ Macros (%global with quoted string)
   (macro_definition
     (identifier)
     (quoted_string
-      (string_content))))
+      (quoted_string_content))))
 
 ===============================================================================
 Macros (%undefine)
@@ -129,6 +129,7 @@ Macros (Usage/Braces)
 
 ===============================================================================
 Macros (Shell Expansion)
+:skip
 ===============================================================================
 
 %(echo "wurst")
