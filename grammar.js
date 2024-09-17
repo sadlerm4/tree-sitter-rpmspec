@@ -636,7 +636,8 @@ module.exports = grammar({
         // Changelog Section (%changelog)
         ///////////////////////////////////////////////////////////////////////
 
-        changelog: ($) => seq('%changelog', NEWLINE, repeat($.changelog_entry)),
+        changelog: ($) =>
+            seq(token(seq('%changelog', NEWLINE)), repeat($.changelog_entry)),
 
         // * Tue May 31 2016 Adam Miller <maxamillion@fedoraproject.org> - 0.1-1
         // * Fri Jun 21 2002 Bob Marley <marley@redhat.com>
