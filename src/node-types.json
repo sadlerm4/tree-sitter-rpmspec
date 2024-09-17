@@ -1490,10 +1490,6 @@
     "named": false
   },
   {
-    "type": "%changelog",
-    "named": false
-  },
-  {
     "type": "%config",
     "named": false
   },
