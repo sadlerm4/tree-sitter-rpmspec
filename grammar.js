@@ -771,16 +771,19 @@ module.exports = grammar({
         // detect the last one.
         // %(...)
         macro_shell_expansion: ($) =>
-            seq(
-                '%(',
-                repeat1(
-                    choice(
-                        prec(1, $.macro_expansion),
-                        $.quoted_string,
-                        $.string
-                    )
-                ),
-                ')'
+            choice(
+                seq('%(', ')'),
+                seq(
+                    '%(',
+                    repeat1(
+                        choice(
+                            prec(1, $.macro_expansion),
+                            $.quoted_string,
+                            $.string
+                        )
+                    ),
+                    ')'
+                )
             ),
     },
 });
