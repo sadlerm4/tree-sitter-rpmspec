@@ -46,9 +46,7 @@ Version:        1.1~rc1
   (preamble
     (tags
       (tag)
-      (float)
-      (string
-        (string_content)))))
+      (version))))
 
 ===============================================================================
 Preamble Section (Release/Simple Expansion)

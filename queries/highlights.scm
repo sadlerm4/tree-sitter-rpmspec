@@ -11,11 +11,10 @@
 
 (integer) @number
 (float) @number.float
+(version) @number.float
 
 (comment) @comment
 (string) @string
-
-(if_statement) @keyword
 
 [
   "%description"

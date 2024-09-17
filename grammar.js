@@ -388,6 +388,7 @@ module.exports = grammar({
                         $.macro_expansion,
                         $.integer,
                         $.float,
+                        $.version,
                         $.string,
                         $.quoted_string
                     )
@@ -698,6 +699,14 @@ module.exports = grammar({
             const digits = repeat1(/[0-9]+_?/);
 
             return token(seq(digits, '.', digits));
+        },
+
+        version: ($) => {
+            const digits = repeat1(/[0-9]+_?/);
+
+            return token(
+                seq(digits, '.', digits, optional(/[a-zA-Z0-9+._-~]+/))
+            );
         },
 
         text: ($) =>

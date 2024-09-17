@@ -1,7 +1,7 @@
 %global pkgname example
 
 Name:           example
-Version:        1.0
+Version:        1.0.0
 Release:        %autorelease
 Summary:        An example
 
