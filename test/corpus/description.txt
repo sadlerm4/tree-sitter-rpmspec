@@ -34,8 +34,7 @@ Simple description
 
 (spec
   (description
-    (single_word
-      (string_content))
+    (single_word)
     (text
       (text_content))))
 
@@ -50,8 +49,7 @@ The %{name}-subpackage package
 
 (spec
   (description
-    (single_word
-      (string_content))
+    (single_word)
     (text
       (text_content)
       (macro_expansion
@@ -69,8 +67,7 @@ Simple description
 
 (spec
   (description
-    (single_word
-      (string_content))
+    (single_word)
     (text
       (text_content))))
 
@@ -87,7 +84,6 @@ Simple description
   (description
     (single_word
       (macro_expansion
-        (identifier))
-      (string_content))
+        (identifier)))
     (text
       (text_content))))

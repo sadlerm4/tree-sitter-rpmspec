@@ -88,8 +88,8 @@ Release:        1%{?dist}
   (preamble
     (tags
       (tag)
-      (integer)
-      (string
+      (integer_expansion
+        (integer)
         (macro_expansion
           (identifier))))))
 

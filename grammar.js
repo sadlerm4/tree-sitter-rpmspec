@@ -382,17 +382,15 @@ module.exports = grammar({
             ),
 
         _value: ($) =>
-            repeat1(
-                prec(
-                    -1,
-                    choice(
-                        $.macro_expansion,
-                        $.integer,
-                        $.float,
-                        $.version,
-                        $.string,
-                        $.quoted_string
-                    )
+            prec(
+                -1,
+                choice(
+                    prec(1, $.integer_expansion),
+                    $.integer,
+                    $.float,
+                    $.version,
+                    $.string,
+                    $.quoted_string
                 )
             ),
 
@@ -740,9 +738,17 @@ module.exports = grammar({
 
         quoted_string_content: (_) => token(prec(-1, /([^"%\\\r\n])+/)),
 
-        // TODO: better name
         single_word: ($) =>
-            repeat1(choice($.macro_expansion, seq($.string_content))),
+            prec(
+                -1,
+                choice(
+                    $.macro_expansion,
+                    $._word,
+                    seq($.macro_expansion, $._word)
+                )
+            ),
+
+        _word: (_) => /([^"%{}()\\\s])+/,
 
         ///////////////////////////////////////////////////////////////////////
         // Expansion

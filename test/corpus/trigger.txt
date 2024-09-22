@@ -19,8 +19,7 @@ Triggerin Section (subpackage)
 
 (spec
   (trigger
-    (single_word
-      (string_content))))
+    (single_word)))
 
 ===============================================================================
 Triggerin Section (package)
@@ -32,8 +31,7 @@ Triggerin Section (package)
 
 (spec
   (trigger
-    (single_word
-      (string_content))))
+    (single_word)))
 
 ===============================================================================
 Triggerin Section (shell)
@@ -46,8 +44,7 @@ cat /dev/urandom
 
 (spec
   (trigger
-    (single_word
-      (string_content))
+    (single_word)
     (shell_block
       (string
         (string_content)))))

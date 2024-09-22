@@ -19,8 +19,7 @@ Filetriggerin Section (subpackage)
 
 (spec
   (file_trigger
-    (single_word
-      (string_content))))
+    (single_word)))
 
 ===============================================================================
 Filetriggerin Section (package)
@@ -32,8 +31,7 @@ Filetriggerin Section (package)
 
 (spec
   (file_trigger
-    (single_word
-      (string_content))))
+    (single_word)))
 
 ===============================================================================
 Filetriggerin Section (shell)
@@ -46,8 +44,7 @@ cat /dev/urandom
 
 (spec
   (file_trigger
-    (single_word
-      (string_content))
+    (single_word)
     (shell_block
       (string
         (string_content)))))
