@@ -3,8 +3,8 @@ package tree_sitter_rpmspec_test
 import (
 	"testing"
 
-	tree_sitter "github.com/smacker/go-tree-sitter"
-	"github.com/tree-sitter/tree-sitter-rpmspec"
+	tree_sitter "github.com/tree-sitter/go-tree-sitter"
+	tree_sitter_rpmspec "github.com/tree-sitter/tree-sitter-rpmspec/bindings/go"
 )
 
 func TestCanLoadGrammar(t *testing.T) {
