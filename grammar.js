@@ -19,6 +19,7 @@ const PREC = {
 
 const NEWLINE = /\r?\n/;
 const ANYTHING = /[^\r\n]*/;
+const BLANK = /( |\t)+/;
 
 /* https://rpm-software-management.github.io/rpm/manual/spec.html */
 module.exports = grammar({
@@ -589,7 +590,7 @@ module.exports = grammar({
                             '%readme',
                             $.verify
                         ),
-                        token.immediate(/( |\t)+/)
+                        token.immediate(BLANK)
                     )
                 ),
                 $.string,
@@ -606,7 +607,7 @@ module.exports = grammar({
                 ',',
                 /[a-zA-Z]+/,
                 ')',
-                token.immediate(/( |\t)+/)
+                token.immediate(BLANK)
             ),
 
         // %verify(not size filedigest mtime) %{prefix}/bin/file
@@ -685,7 +686,7 @@ module.exports = grammar({
         macro_invocation: ($) =>
             seq(
                 $.macro_expansion,
-                token.immediate(/( |\t)+/),
+                token.immediate(BLANK),
                 $._value,
                 token.immediate(NEWLINE)
             ),
