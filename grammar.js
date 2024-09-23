@@ -219,7 +219,7 @@ module.exports = grammar({
         // %if
         if_statement: ($) =>
             seq(
-                choice('%if'),
+                '%if',
                 field('condition', $.expression),
                 token.immediate(NEWLINE),
                 optional(field('consequence', $._conditional_block)),
@@ -231,7 +231,7 @@ module.exports = grammar({
 
         elif_clause: ($) =>
             seq(
-                choice('%elif'),
+                '%elif',
                 field('condition', $.expression),
                 token.immediate(NEWLINE),
                 field('consequence', $._conditional_block)
@@ -261,7 +261,7 @@ module.exports = grammar({
 
         elifarch_clause: ($) =>
             seq(
-                choice('%elifarch'),
+                '%elifarch',
                 optional(field('consequence', $.single_word)),
                 token.immediate(NEWLINE),
                 field('consequence', $._conditional_block)
@@ -284,7 +284,7 @@ module.exports = grammar({
 
         elifos_clause: ($) =>
             seq(
-                choice('%elifos'),
+                '%elifos',
                 optional(field('consequence', $.single_word)),
                 token.immediate(NEWLINE),
                 field('consequence', $._conditional_block)
@@ -598,7 +598,7 @@ module.exports = grammar({
 
         attr: ($) =>
             seq(
-                choice('%attr'),
+                '%attr',
                 '(',
                 choice('-', /[0-9]+/),
                 ',',
