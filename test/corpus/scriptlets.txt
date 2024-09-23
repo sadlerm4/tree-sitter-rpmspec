@@ -7,7 +7,8 @@ Prep Section (Empty)
 -------------------------------------------------------------------------------
 
 (spec
-  (prep_scriptlet))
+  (prep_scriptlet
+    (section_name)))
 
 ===============================================================================
 Prep Section (%setup)
@@ -20,6 +21,7 @@ Prep Section (%setup)
 
 (spec
   (prep_scriptlet
+    (section_name)
     (shell_block
       (macro_invocation
         (macro_expansion
@@ -38,6 +40,7 @@ Prep Section (%autosetup)
 
 (spec
   (prep_scriptlet
+    (section_name)
     (shell_block
       (macro_expansion
         (identifier)))))
@@ -54,6 +57,7 @@ Build section (%build)
 
 (spec
   (build_scriptlet
+    (section_name)
     (shell_block
       (macro_expansion
         (identifier))

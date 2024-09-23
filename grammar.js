@@ -398,10 +398,12 @@ module.exports = grammar({
         // Description Section (%description)
         ///////////////////////////////////////////////////////////////////////
 
+        section_name: ($) => seq('%', $.identifier),
+
         description: ($) =>
             prec.right(
                 seq(
-                    '%description',
+                    alias('%description', $.section_name),
                     optional(seq(optional('-n'), $.single_word)),
                     token.immediate(NEWLINE),
                     optional($.text)
@@ -415,7 +417,7 @@ module.exports = grammar({
         package: ($) =>
             prec.right(
                 seq(
-                    '%package',
+                    alias('%package', $.section_name),
                     optional('-n'),
                     $.single_word,
                     token.immediate(NEWLINE),
@@ -443,40 +445,61 @@ module.exports = grammar({
 
         prep_scriptlet: ($) =>
             prec.right(
-                seq(token(seq('%prep', NEWLINE)), optional($.shell_block))
+                seq(
+                    alias(token(seq('%prep', NEWLINE)), $.section_name),
+                    optional($.shell_block)
+                )
             ),
 
         generate_buildrequires: ($) =>
             prec.right(
                 seq(
-                    token(seq('%generate_buildrequires', NEWLINE)),
+                    alias(
+                        token(seq('%generate_buildrequires', NEWLINE)),
+                        $.section_name
+                    ),
                     optional($.shell_block)
                 )
             ),
 
         conf_scriptlet: ($) =>
             prec.right(
-                seq(token(seq('%conf', NEWLINE)), optional($.shell_block))
+                seq(
+                    alias(token(seq('%conf', NEWLINE)), $.section_name),
+                    optional($.shell_block)
+                )
             ),
 
         build_scriptlet: ($) =>
             prec.right(
-                seq(token(seq('%build', NEWLINE)), optional($.shell_block))
+                seq(
+                    alias(token(seq('%build', NEWLINE)), $.section_name),
+                    optional($.shell_block)
+                )
             ),
 
         install_scriptlet: ($) =>
             prec.right(
-                seq(token(seq('%install', NEWLINE)), optional($.shell_block))
+                seq(
+                    alias(token(seq('%install', NEWLINE)), $.section_name),
+                    optional($.shell_block)
+                )
             ),
 
         check_scriptlet: ($) =>
             prec.right(
-                seq(token(seq('%check', NEWLINE)), optional($.shell_block))
+                seq(
+                    alias(token(seq('%check', NEWLINE)), $.section_name),
+                    optional($.shell_block)
+                )
             ),
 
         clean_scriptlet: ($) =>
             prec.right(
-                seq(token(seq('%clean', NEWLINE)), optional($.shell_block))
+                seq(
+                    alias(token(seq('%clean', NEWLINE)), $.section_name),
+                    optional($.shell_block)
+                )
             ),
 
         ///////////////////////////////////////////////////////////////////////
@@ -550,7 +573,7 @@ module.exports = grammar({
         files: ($) =>
             prec.right(
                 seq(
-                    '%files',
+                    alias('%files', $.section_name),
                     optional(choice($.string, seq('-n', $.string))),
                     optional(seq('-f', $.string)),
                     token.immediate(NEWLINE),
@@ -636,7 +659,10 @@ module.exports = grammar({
         ///////////////////////////////////////////////////////////////////////
 
         changelog: ($) =>
-            seq(token(seq('%changelog', NEWLINE)), repeat($.changelog_entry)),
+            seq(
+                alias(token(seq('%changelog', NEWLINE)), $.section_name),
+                repeat($.changelog_entry)
+            ),
 
         // * Tue May 31 2016 Adam Miller <maxamillion@fedoraproject.org> - 0.1-1
         // * Fri Jun 21 2002 Bob Marley <marley@redhat.com>

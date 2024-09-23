@@ -7,7 +7,8 @@ Description (Empty)
 -------------------------------------------------------------------------------
 
 (spec
-  (description))
+  (description
+    (section_name)))
 
 ===============================================================================
 Description (One-Line)
@@ -20,6 +21,7 @@ Simple description
 
 (spec
   (description
+    (section_name)
     (text
       (text_content))))
 
@@ -34,6 +36,7 @@ Simple description
 
 (spec
   (description
+    (section_name)
     (single_word)
     (text
       (text_content))))
@@ -49,6 +52,7 @@ The %{name}-subpackage package
 
 (spec
   (description
+    (section_name)
     (single_word)
     (text
       (text_content)
@@ -67,6 +71,7 @@ Simple description
 
 (spec
   (description
+    (section_name)
     (single_word)
     (text
       (text_content))))
@@ -82,6 +87,7 @@ Simple description
 
 (spec
   (description
+    (section_name)
     (single_word
       (macro_expansion
         (identifier)))

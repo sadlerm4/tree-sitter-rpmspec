@@ -7,7 +7,8 @@ Changelog (Empty)
 -------------------------------------------------------------------------------
 
 (spec
-  (changelog))
+  (changelog
+    (section_name)))
 
 ===============================================================================
 Changelog (without Version)
@@ -21,6 +22,7 @@ Changelog (without Version)
 
 (spec
   (changelog
+    (section_name)
     (changelog_entry
       (string_content)
       (string
@@ -38,6 +40,7 @@ Changelog (Version)
 
 (spec
   (changelog
+    (section_name)
     (changelog_entry
       (string_content)
       (string
@@ -56,6 +59,7 @@ Changelog (Multi-line)
 
 (spec
   (changelog
+    (section_name)
     (changelog_entry
       (string_content)
       (string

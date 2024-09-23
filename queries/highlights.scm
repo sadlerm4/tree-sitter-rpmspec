@@ -23,22 +23,29 @@
 (comment) @comment
 (string) @string
 
-[
-  "%description"
-  "%package"
-  (files)
-  (changelog)
-] @type.definition
+(description
+  (section_name) @type.definition)
+(package
+  (section_name) @type.definition)
+(files
+  (section_name) @type.definition)
+(changelog
+  (section_name) @type.definition)
 
-[
-  (prep_scriptlet)
-  (generate_buildrequires)
-  (conf_scriptlet)
-  (build_scriptlet)
-  (install_scriptlet)
-  (check_scriptlet)
-  (clean_scriptlet)
-] @function.builtin
+(prep_scriptlet
+  (section_name) @function.builtin)
+(generate_buildrequires
+  (section_name) @function.builtin)
+(conf_scriptlet
+  (section_name) @function.builtin)
+(build_scriptlet
+  (section_name) @function.builtin)
+(install_scriptlet
+  (section_name) @function.builtin)
+(check_scriptlet
+  (section_name) @function.builtin)
+(clean_scriptlet
+  (section_name) @function.builtin)
 
 [
   "%artifact"

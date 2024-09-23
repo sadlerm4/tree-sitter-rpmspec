@@ -7,7 +7,8 @@ Files (Empty)
 -------------------------------------------------------------------------------
 
 (spec
-  (files))
+  (files
+    (section_name)))
 
 ===============================================================================
 Files (Simple Path)
@@ -20,6 +21,7 @@ Files (Simple Path)
 
 (spec
   (files
+    (section_name)
     (file
       (string
         (string_content)))))
@@ -35,6 +37,7 @@ Files (Expansion)
 
 (spec
   (files
+    (section_name)
     (file
       (string
         (macro_expansion
@@ -52,6 +55,7 @@ Files (-n)
 
 (spec
   (files
+    (section_name)
     (string
       (string_content))
     (file
@@ -68,6 +72,7 @@ Files (-f)
 
 (spec
   (files
+    (section_name)
     (string (string_content))))
 
 ===============================================================================
@@ -82,6 +87,7 @@ Files (%defattr)
 
 (spec
   (files
+    (section_name)
     (defattr)
     (file
       (string (string_content)))))
@@ -97,6 +103,7 @@ Files (%attr)
 
 (spec
   (files
+    (section_name)
     (file
       (attr)
       (string
@@ -113,6 +120,7 @@ Files (%attr + %dir)
 
 (spec
   (files
+    (section_name)
     (file
       (attr)
       (string
@@ -129,6 +137,7 @@ Files (%config)
 
 (spec
   (files
+    (section_name)
     (file
       (string
         (string_content)))))
@@ -144,6 +153,7 @@ Files (%doc)
 
 (spec
   (files
+    (section_name)
     (file
       (string
         (string_content)))))
@@ -159,6 +169,7 @@ Files (%dir)
 
 (spec
   (files
+    (section_name)
     (file
       (string
         (string_content)))))
@@ -174,6 +185,7 @@ Files (%dir with variables)
 
 (spec
   (files
+    (section_name)
     (file
       (string
         (macro_expansion
@@ -191,6 +203,7 @@ Files (%license)
 
 (spec
   (files
+    (section_name)
     (file
       (string
         (string_content)))
@@ -209,6 +222,7 @@ Files (%license with multiple files)
 
 (spec
   (files
+    (section_name)
     (file
       (string
         (string_content)))))
@@ -224,6 +238,7 @@ Files (%verify)
 
 (spec
   (files
+    (section_name)
     (file
       (verify)
       (string
@@ -244,6 +259,7 @@ Files (%ifarch)
 
 (spec
   (files
+    (section_name)
     (ifarch_statement
       (arch
         (identifier))
