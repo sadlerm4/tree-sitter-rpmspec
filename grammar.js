@@ -594,26 +594,27 @@ module.exports = grammar({
                 token.immediate(NEWLINE)
             ),
 
+        file_qualifier: ($) =>
+            seq(
+                choice(
+                    '%artifact',
+                    '%config',
+                    '%dir',
+                    '%doc',
+                    '%docdir',
+                    '%ghost',
+                    '%license',
+                    '%missingok',
+                    '%readme',
+                    $.verify
+                ),
+                token.immediate(BLANK)
+            ),
+
         file: ($) =>
             seq(
                 optional($.attr),
-                optional(
-                    seq(
-                        choice(
-                            '%artifact',
-                            '%config',
-                            '%dir',
-                            '%doc',
-                            '%docdir',
-                            '%ghost',
-                            '%license',
-                            '%missingok',
-                            '%readme',
-                            $.verify
-                        ),
-                        token.immediate(BLANK)
-                    )
-                ),
+                optional($.file_qualifier),
                 $.string,
                 token.immediate(NEWLINE)
             ),
