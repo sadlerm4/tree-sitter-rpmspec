@@ -292,9 +292,13 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
-      "required": false,
+      "multiple": true,
+      "required": true,
       "types": [
+        {
+          "type": "section_name",
+          "named": true
+        },
         {
           "type": "shell_block",
           "named": true
@@ -308,10 +312,14 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "changelog_entry",
+          "named": true
+        },
+        {
+          "type": "section_name",
           "named": true
         }
       ]
@@ -341,9 +349,13 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
-      "required": false,
+      "multiple": true,
+      "required": true,
       "types": [
+        {
+          "type": "section_name",
+          "named": true
+        },
         {
           "type": "shell_block",
           "named": true
@@ -356,9 +368,13 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
-      "required": false,
+      "multiple": true,
+      "required": true,
       "types": [
+        {
+          "type": "section_name",
+          "named": true
+        },
         {
           "type": "shell_block",
           "named": true
@@ -417,9 +433,13 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
-      "required": false,
+      "multiple": true,
+      "required": true,
       "types": [
+        {
+          "type": "section_name",
+          "named": true
+        },
         {
           "type": "shell_block",
           "named": true
@@ -483,8 +503,12 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
+        {
+          "type": "section_name",
+          "named": true
+        },
         {
           "type": "single_word",
           "named": true
@@ -639,9 +663,24 @@
           "named": true
         },
         {
-          "type": "string",
+          "type": "file_qualifier",
           "named": true
         },
+        {
+          "type": "string",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "file_qualifier",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
         {
           "type": "verify",
           "named": true
@@ -674,7 +713,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "_compound_statements",
@@ -689,6 +728,10 @@
           "named": true
         },
         {
+          "type": "section_name",
+          "named": true
+        },
+        {
           "type": "string",
           "named": true
         }
@@ -700,9 +743,13 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
-      "required": false,
+      "multiple": true,
+      "required": true,
       "types": [
+        {
+          "type": "section_name",
+          "named": true
+        },
         {
           "type": "shell_block",
           "named": true
@@ -871,9 +918,13 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
-      "required": false,
+      "multiple": true,
+      "required": true,
       "types": [
+        {
+          "type": "section_name",
+          "named": true
+        },
         {
           "type": "shell_block",
           "named": true
@@ -915,7 +966,7 @@
         ]
       },
       "value": {
-        "multiple": true,
+        "multiple": false,
         "required": true,
         "types": [
           {
@@ -927,7 +978,7 @@
             "named": true
           },
           {
-            "type": "macro_expansion",
+            "type": "integer_expansion",
             "named": true
           },
           {
@@ -990,7 +1041,7 @@
         ]
       },
       "value": {
-        "multiple": true,
+        "multiple": false,
         "required": true,
         "types": [
           {
@@ -1002,7 +1053,7 @@
             "named": true
           },
           {
-            "type": "macro_expansion",
+            "type": "integer_expansion",
             "named": true
           },
           {
@@ -1039,6 +1090,10 @@
         },
         {
           "type": "integer",
+          "named": true
+        },
+        {
+          "type": "integer_expansion",
           "named": true
         },
         {
@@ -1147,6 +1202,10 @@
           "named": true
         },
         {
+          "type": "section_name",
+          "named": true
+        },
+        {
           "type": "single_word",
           "named": true
         }
@@ -1188,9 +1247,13 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
-      "required": false,
+      "multiple": true,
+      "required": true,
       "types": [
+        {
+          "type": "section_name",
+          "named": true
+        },
         {
           "type": "shell_block",
           "named": true
@@ -1281,15 +1344,11 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
-      "required": true,
+      "multiple": false,
+      "required": false,
       "types": [
         {
           "type": "macro_expansion",
-          "named": true
-        },
-        {
-          "type": "string_content",
           "named": true
         }
       ]
@@ -1343,7 +1402,7 @@
     "named": true,
     "fields": {
       "value": {
-        "multiple": true,
+        "multiple": false,
         "required": true,
         "types": [
           {
@@ -1355,7 +1414,7 @@
             "named": true
           },
           {
-            "type": "macro_expansion",
+            "type": "integer_expansion",
             "named": true
           },
           {
@@ -1502,10 +1561,6 @@
     "named": false
   },
   {
-    "type": "%description",
-    "named": false
-  },
-  {
     "type": "%dir",
     "named": false
   },
@@ -1535,10 +1590,6 @@
   },
   {
     "type": "%endif",
-    "named": false
-  },
-  {
-    "type": "%files",
     "named": false
   },
   {
@@ -1587,10 +1638,6 @@
   },
   {
     "type": "%missingok",
-    "named": false
-  },
-  {
-    "type": "%package",
     "named": false
   },
   {
@@ -2023,6 +2070,10 @@
   },
   {
     "type": "quoted_string_content",
+    "named": true
+  },
+  {
+    "type": "section_name",
     "named": true
   },
   {
