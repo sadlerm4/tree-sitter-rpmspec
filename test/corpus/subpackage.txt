@@ -10,12 +10,11 @@ Summary: Client
 (spec
   (package
     (section_name)
-    (single_word)
+    (word)
     (preamble
       (tags
         (tag)
-        (string
-          (string_content))))))
+        (word)))))
 
 ===============================================================================
 Subpackage (subpackage with arbitrary name)
@@ -29,12 +28,11 @@ Summary: Subpackage
 (spec
   (package
     (section_name)
-    (single_word)
+    (word)
     (preamble
       (tags
         (tag)
-        (string
-          (string_content))))))
+        (word)))))
 
 ===============================================================================
 Subpackage (subpackage with arbitrary name with macros)
@@ -48,12 +46,11 @@ Summary: Subpackage
 (spec
   (package
     (section_name)
-    (single_word
+    (concatenation
       (macro_expansion
-        (identifier)))
+        (identifier))
+      (word))
     (preamble
       (tags
         (tag)
-        (string
-          (string_content))))))
-
+        (word)))))

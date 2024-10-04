@@ -26,8 +26,7 @@ Prep Section (%setup)
       (macro_invocation
         (macro_expansion
           (identifier))
-          (string
-            (string_content))))))
+          (word)))))
 
 ===============================================================================
 Prep Section (%autosetup)

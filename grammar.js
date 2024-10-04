@@ -45,6 +45,7 @@ module.exports = grammar({
         $._simple_statements,
         $._compound_statements,
         $._conditional_block,
+        $._literal,
     ],
 
     word: ($) => $.identifier,
@@ -90,28 +91,37 @@ module.exports = grammar({
             /(\p{XID_Start}|\$|_|\\u[0-9A-Fa-f]{4}|\\U[0-9A-Fa-f]{8})(\p{XID_Continue}|\$|\\u[0-9A-Fa-f]{4}|\\U[0-9A-Fa-f]{8})*/,
 
         ///////////////////////////////////////////////////////////////////////
-        // Conditionals (%if, %ifarch, %ifos)
+        // Literals
         ///////////////////////////////////////////////////////////////////////
 
-        _compound_statements: ($) =>
-            choice($.if_statement, $.ifarch_statement, $.ifos_statement),
+        _literal: ($) => choice($.concatenation, $.primary_expression),
 
         primary_expression: ($) =>
             prec(
                 1,
                 choice(
-                    $.string,
+                    $.word,
                     $.quoted_string,
                     $.integer,
                     $.float,
+                    $.version,
                     $.parenthesized_expression,
-                    $.integer_expansion,
-                    $.macro_expansion
+                    $.macro_expansion,
+                    $.macro_integer_expansion,
+                    prec(-1, $.string)
                 )
             ),
 
-        // This adds support for: 0%{?fedora}
-        integer_expansion: ($) => seq($.integer, $.macro_expansion),
+        // 0%{?<name>}
+        // TODO FIXME Integrate it in macro_expansion??
+        macro_integer_expansion: ($) => seq($.integer, $.macro_expansion),
+
+        ///////////////////////////////////////////////////////////////////////
+        // Conditionals (%if, %ifarch, %ifos)
+        ///////////////////////////////////////////////////////////////////////
+
+        _compound_statements: ($) =>
+            choice($.if_statement, $.ifarch_statement, $.ifos_statement),
 
         boolean_operator: ($) =>
             choice(
@@ -263,7 +273,7 @@ module.exports = grammar({
         elifarch_clause: ($) =>
             seq(
                 '%elifarch',
-                optional(field('consequence', $.single_word)),
+                optional(field('consequence', $._literal)),
                 token.immediate(NEWLINE),
                 field('consequence', $._conditional_block)
             ),
@@ -286,7 +296,7 @@ module.exports = grammar({
         elifos_clause: ($) =>
             seq(
                 '%elifos',
-                optional(field('consequence', $.single_word)),
+                optional(field('consequence', $._literal)),
                 token.immediate(NEWLINE),
                 field('consequence', $._conditional_block)
             ),
@@ -304,7 +314,7 @@ module.exports = grammar({
             seq(
                 choice($.tag, $.dependency_tag),
                 token.immediate(/:( |\t)*/),
-                field('value', $._value),
+                field('value', $._literal),
                 token.immediate(NEWLINE)
             ),
 
@@ -381,19 +391,6 @@ module.exports = grammar({
                 'Supplements'
             ),
 
-        _value: ($) =>
-            prec(
-                -1,
-                choice(
-                    prec(1, $.integer_expansion),
-                    $.integer,
-                    $.float,
-                    $.version,
-                    $.string,
-                    $.quoted_string
-                )
-            ),
-
         ///////////////////////////////////////////////////////////////////////
         // Description Section (%description)
         ///////////////////////////////////////////////////////////////////////
@@ -404,7 +401,7 @@ module.exports = grammar({
             prec.right(
                 seq(
                     alias('%description', $.section_name),
-                    optional(seq(optional('-n'), $.single_word)),
+                    optional(seq(optional('-n'), $._literal)),
                     token.immediate(NEWLINE),
                     optional($.text)
                 )
@@ -419,7 +416,7 @@ module.exports = grammar({
                 seq(
                     alias('%package', $.section_name),
                     optional('-n'),
-                    $.single_word,
+                    $._literal,
                     token.immediate(NEWLINE),
                     repeat1($.preamble)
                 )
@@ -520,7 +517,7 @@ module.exports = grammar({
                         '%postuntrans',
                         '%verify'
                     ),
-                    optional(seq(optional('-n'), $.single_word)),
+                    optional(seq(optional('-n'), $._literal)),
                     token.immediate(NEWLINE),
                     optional($.shell_block)
                 )
@@ -539,7 +536,7 @@ module.exports = grammar({
                         '%triggerun',
                         '%triggerpostun'
                     ),
-                    optional(seq(optional('-n'), $.single_word)),
+                    optional(seq(optional('-n'), $._literal)),
                     token.immediate(NEWLINE),
                     optional($.shell_block)
                 )
@@ -560,7 +557,7 @@ module.exports = grammar({
                         '%transfiletriggerun',
                         '%transfiletriggerpostun'
                     ),
-                    optional(seq(optional('-n'), $.single_word)),
+                    optional(seq(optional('-n'), $._literal)),
                     token.immediate(NEWLINE),
                     optional($.shell_block)
                 )
@@ -574,8 +571,8 @@ module.exports = grammar({
             prec.right(
                 seq(
                     alias('%files', $.section_name),
-                    optional(choice($.string, seq('-n', $.string))),
-                    optional(seq('-f', $.string)),
+                    optional(choice($._literal, seq('-n', $._literal))),
+                    optional(seq('-f', $._literal)),
                     token.immediate(NEWLINE),
                     repeat(choice($._compound_statements, $.defattr, $.file))
                 )
@@ -684,7 +681,7 @@ module.exports = grammar({
             seq(
                 choice('%global', '%define'),
                 field('name', $.identifier),
-                field('value', $._value),
+                field('value', $._literal),
                 token.immediate(NEWLINE)
             ),
 
@@ -695,7 +692,7 @@ module.exports = grammar({
                 field('parameters', $.macro_parameters),
                 // TODO: macro_shell_expansion needs to be implemented in an
                 // external scanner
-                field('value', choice($._value, $.macro_shell_expansion)),
+                field('value', choice($._literal, $.macro_shell_expansion)),
                 token.immediate(NEWLINE)
             ),
 
@@ -712,7 +709,7 @@ module.exports = grammar({
             seq(
                 $.macro_expansion,
                 token.immediate(BLANK),
-                $._value,
+                $._literal,
                 token.immediate(NEWLINE)
             ),
 
@@ -765,17 +762,10 @@ module.exports = grammar({
 
         quoted_string_content: (_) => token(prec(-1, /([^"%\\\r\n])+/)),
 
-        single_word: ($) =>
-            prec(
-                -1,
-                choice(
-                    $.macro_expansion,
-                    $._word,
-                    seq($.macro_expansion, $._word)
-                )
-            ),
+        word: ($) => token(/([^\s"#%{}()\\])+/),
 
-        _word: (_) => /([^"%{}()\\\s])+/,
+        concatenation: ($) =>
+            prec(-1, seq($.primary_expression, repeat1($.primary_expression))),
 
         ///////////////////////////////////////////////////////////////////////
         // Expansion

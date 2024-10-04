@@ -56,8 +56,7 @@ Files (-n)
 (spec
   (files
     (section_name)
-    (string
-      (string_content))
+    (word)
     (file
       (string
         (string_content)))))
@@ -73,7 +72,7 @@ Files (-f)
 (spec
   (files
     (section_name)
-    (string (string_content))))
+    (word)))
 
 ===============================================================================
 Files (%defattr)

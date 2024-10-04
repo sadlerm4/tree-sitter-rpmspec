@@ -15,8 +15,7 @@ BuildRequires:  foo
     (preamble
       (tags
         (dependency_tag)
-        (string
-          (string_content))))))
+        (word)))))
 
 ===============================================================================
 Conditionals (%ifos)
@@ -35,8 +34,7 @@ BuildRequires:  foo
     (preamble
       (tags
         (dependency_tag)
-        (string
-          (string_content))))))
+        (word)))))
 
 ===============================================================================
 Conditionals (%ifnarch)
@@ -55,8 +53,7 @@ BuildRequires:  magic
     (preamble
       (tags
         (dependency_tag)
-        (string
-          (string_content))))))
+        (word)))))
 
 ===============================================================================
 Conditionals (%if with simple macros)
@@ -75,8 +72,7 @@ BuildRequires:  foo
     (preamble
       (tags
         (dependency_tag)
-        (string
-          (string_content))))))
+        (word)))))
 
 ===============================================================================
 Conditionals (%if with complex macros)
@@ -98,8 +94,7 @@ BuildRequires:  foo
     (preamble
       (tags
         (dependency_tag)
-        (string
-          (string_content))))))
+        (word)))))
 
 ===============================================================================
 Conditionals (%if with string comparison)
@@ -122,8 +117,7 @@ BuildRequires:  foo
     (preamble
       (tags
         (dependency_tag)
-        (string
-          (string_content))))))
+        (word)))))
 
 ===============================================================================
 Conditionals (%if with mathematical comparison)
@@ -139,13 +133,13 @@ BuildRequires:  foo
   (if_statement
     (boolean_operator
       (comparison_operator
-        (integer_expansion
+        (macro_integer_expansion
           (integer)
           (macro_expansion
             (identifier)))
         (integer))
       (comparison_operator
-        (integer_expansion
+        (macro_integer_expansion
           (integer)
           (macro_expansion
             (identifier)))
@@ -153,8 +147,7 @@ BuildRequires:  foo
     (preamble
       (tags
         (dependency_tag)
-        (string
-          (string_content))))))
+        (word)))))
 
 ===============================================================================
 Conditionals (%if with expansion)
@@ -168,15 +161,14 @@ BuildRequires:  foo
 
 (spec
   (if_statement
-    (integer_expansion
+    (macro_integer_expansion
       (integer)
       (macro_expansion
         (identifier)))
     (preamble
       (tags
         (dependency_tag)
-        (string
-          (string_content))))))
+        (word)))))
 
 ===============================================================================
 Conditionals (%if with paranthesis)
@@ -192,12 +184,12 @@ BuildRequires:  foo
   (if_statement
     (parenthesized_expression
       (boolean_operator
-        (integer_expansion
+        (macro_integer_expansion
           (integer)
           (macro_expansion
             (identifier)))
         (comparison_operator
-          (integer_expansion
+          (macro_integer_expansion
             (integer)
             (macro_expansion
               (identifier)))
@@ -205,8 +197,7 @@ BuildRequires:  foo
     (preamble
       (tags
         (dependency_tag)
-        (string
-          (string_content))))))
+        (word)))))
 
 ===============================================================================
 Conditionals (%if with %else)
@@ -222,21 +213,19 @@ BuildRequires:  bar
 
 (spec
   (if_statement
-    (integer_expansion
+    (macro_integer_expansion
       (integer)
       (macro_expansion
         (identifier)))
     (preamble
       (tags
         (dependency_tag)
-        (string
-          (string_content))))
+        (word)))
     (else_clause
       (preamble
         (tags
           (dependency_tag)
-          (string
-            (string_content)))))))
+          (word))))))
 
 ===============================================================================
 Conditionals (%if with %elif)
@@ -252,25 +241,23 @@ BuildRequires:  bar
 
 (spec
   (if_statement
-    (integer_expansion
+    (macro_integer_expansion
       (integer)
       (macro_expansion
         (identifier)))
     (preamble
       (tags
         (dependency_tag)
-        (string
-          (string_content))))
+        (word)))
     (elif_clause
-      (integer_expansion
+      (macro_integer_expansion
         (integer)
         (macro_expansion
           (identifier)))
       (preamble
         (tags
           (dependency_tag)
-          (string
-            (string_content)))))))
+          (word))))))
 
 ===============================================================================
 Conditionals (%if with %elif and %else)
@@ -288,31 +275,28 @@ BuildRequires:  wurst
 
 (spec
   (if_statement
-    (integer_expansion
+    (macro_integer_expansion
       (integer)
       (macro_expansion
         (identifier)))
     (preamble
       (tags
         (dependency_tag)
-        (string
-          (string_content))))
+        (word)))
     (elif_clause
-      (integer_expansion
+      (macro_integer_expansion
         (integer)
         (macro_expansion
           (identifier)))
       (preamble
         (tags
           (dependency_tag)
-          (string
-            (string_content)))))
+          (word))))
     (else_clause
       (preamble
         (tags
           (dependency_tag)
-          (string
-            (string_content)))))))
+          (word))))))
 
 ===============================================================================
 Conditionals (Nested %if with %elif and %else)
@@ -338,7 +322,7 @@ Conditionals (Nested %if with %elif and %else)
 
 (spec
   (if_statement
-    (integer_expansion
+    (macro_integer_expansion
       (integer)
       (macro_expansion
         (identifier)))
@@ -348,43 +332,37 @@ Conditionals (Nested %if with %elif and %else)
       (macro_invocation
         (macro_expansion
           (identifier))
-        (string
-          (string_content)))
+        (word))
       (macro_invocation
         (macro_expansion
           (identifier))
-        (string
-          (string_content)))
+        (word))
       (else_clause
         (macro_invocation
           (macro_expansion
             (identifier))
-          (string
-            (string_content)))
+          (word))
         (macro_invocation
           (macro_expansion
             (identifier))
-          (string
-            (string_content))))
+          (word)))
       (comment))
     (else_clause
       (macro_invocation
         (macro_expansion
           (identifier))
-        (string
-          (string_content)))
+        (word))
       (macro_invocation
         (macro_expansion
           (identifier))
-        (string
-          (string_content))))))
+        (word)))))
 
 ===============================================================================
 Conditionals (%if %{with ..})
 ===============================================================================
 
 %if %{with libwbclient}
-Requires(post): libwbclient = %{samba_depver}
+Requires(post): libwbclient
 %endif
 
 -------------------------------------------------------------------------------
@@ -397,7 +375,4 @@ Requires(post): libwbclient = %{samba_depver}
       (tags
         (dependency_tag
           (qualifier))
-        (string
-          (string_content)
-          (macro_expansion
-            (identifier)))))))
+        (word)))))
