@@ -119,7 +119,7 @@ module.exports = grammar({
                     PREC.and,
                     seq(
                         field('left', $.expression),
-                        field('operator', '&&'),
+                        field('operator', choice('&&', 'and')),
                         field('right', $.expression)
                     )
                 ),
@@ -127,7 +127,7 @@ module.exports = grammar({
                     PREC.or,
                     seq(
                         field('left', $.expression),
-                        field('operator', '||'),
+                        field('operator', choice('||', 'or')),
                         field('right', $.expression)
                     )
                 )
