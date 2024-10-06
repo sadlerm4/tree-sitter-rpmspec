@@ -73,6 +73,34 @@
   (section_name) @function.builtin)
 
 [
+  "%pre"
+  "%post"
+  "%preun"
+  "%postun"
+  "%pretrans"
+  "%posttrans"
+  "%preuntrans"
+  "%postuntrans"
+  "%verify"
+] @function.builtin
+
+[
+  "%triggerprein"
+  "%triggerin"
+  "%triggerun"
+  "%triggerpostun"
+] @function.builtin
+
+[
+  "%filetriggerin"
+  "%filetriggerun"
+  "%filetriggerpostun"
+  "%transfiletriggerin"
+  "%transfiletriggerun"
+  "%transfiletriggerpostun"
+] @function.builtin
+
+[
   "%artifact"
   "%attr"
   "%config"
