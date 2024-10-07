@@ -46,7 +46,8 @@
 (version) @number.float
 
 (comment) @comment
-(string) @string
+;(string) @string
+(quoted_string) @string
 
 (description
   (section_name) @type.definition)
