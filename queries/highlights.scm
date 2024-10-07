@@ -1,15 +1,40 @@
 (identifier) @variable
+(special_variable_name) @constant
 
-[
-  "%define"
-  "%global"
-] @keyword.directive.define
+(macro_builtin) @variable.builtin
 
-(macro_function_definition
-  name: (identifier) @function)
+(macro_simple_expansion
+  "%" @punctuation.special) @none
+(macro_expansion
+  "%{" @punctuation.special
+  "}" @punctuation.special) @none
+(macro_definition
+  "%" @punctuation.special
+  (macro_builtin) @keyword.directive.define
+  (identifier) @keyword.macro)
+(macro_undefinition
+  (macro_builtin) @keyword.directive.define
+  (identifier) @keyword.macro)
 
-(macro_invocation) @keyword.function
-(macro_expansion) @keyword
+(macro_expansion
+  (identifier) @function.call
+  argument: [
+    (word) @variable.parameter
+    (concatenation
+      (word) @variable.parameter)
+  ])
+
+(macro_call
+  name: (macro_simple_expansion
+          (identifier) @function.call))
+(macro_call
+  name: (macro_simple_expansion
+          (identifier) @function.call)
+  argument: [
+    (word) @variable.parameter
+    (concatenation
+      (word) @variable.parameter)
+  ])
 
 [
   (tag)
@@ -71,11 +96,14 @@
   "&&"
   "or"
   "||"
+] @operator
+
+[
   "with"
   "without"
   "defined"
   "undefined"
-] @operator
+] @keyword.operator
 
 [
   "%if"

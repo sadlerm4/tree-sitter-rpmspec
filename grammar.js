@@ -25,14 +25,11 @@ const BLANK = /( |\t)+/;
 module.exports = grammar({
     name: 'rpmspec',
 
+    // FIXME Is there a better way?
+    conflicts: ($) => [[$.macro_call, $.string]],
+
     // Array of tokens that may appear anywhere in the language.
-    extras: ($) => [
-        $.comment,
-        /\s+/,
-        /\\( |\t|\v|\f)/,
-        NEWLINE,
-        $.line_continuation,
-    ],
+    extras: ($) => [$.comment, /\s+/, /\\( |\t|\v|\f)/, $.line_continuation],
 
     supertypes: ($) => [
         $._simple_statements,
@@ -48,6 +45,14 @@ module.exports = grammar({
         $._literal,
     ],
 
+    // TODO We probably need to scan for the macro end as in macro shell
+    // expansions, you can still have () inside the shell code.
+    //
+    //externals: ($) => [
+    //    $._macro_start,
+    //    $._macro_end,
+    //],
+
     word: ($) => $.identifier,
 
     rules: {
@@ -59,11 +64,9 @@ module.exports = grammar({
         _simple_statements: ($) =>
             choice(
                 $.macro_definition,
-                $.macro_function_definition,
                 $.macro_undefinition,
-                $.macro_invocation,
+                $.macro_call,
                 $.macro_expansion,
-                $.macro_shell_expansion,
                 $.preamble,
                 $.description,
                 $.package,
@@ -106,15 +109,243 @@ module.exports = grammar({
                     $.float,
                     $.version,
                     $.parenthesized_expression,
+                    $.macro_simple_expansion,
                     $.macro_expansion,
                     $.macro_integer_expansion,
-                    prec(-1, $.string)
+                    $.macro_shell_expansion
                 )
             ),
 
         // 0%{?<name>}
-        // TODO FIXME Integrate it in macro_expansion??
-        macro_integer_expansion: ($) => seq($.integer, $.macro_expansion),
+        // TODO FIXME Can we integrate this in macro_(simple_)expansion??
+        macro_integer_expansion: ($) =>
+            seq($.integer, choice($.macro_simple_expansion, $.macro_expansion)),
+
+        ///////////////////////////////////////////////////////////////////////
+        // Macros
+        ///////////////////////////////////////////////////////////////////////
+
+        macro_name: (_) => /[a-zA-Z_][a-zA-Z0-9_]*/,
+
+        //// Simple Macro Expansion
+        //
+        // %<name>
+        //
+        // TODO Support %-f ?
+        macro_simple_expansion: ($) =>
+            seq(
+                '%',
+                choice(
+                    seq(
+                        optional(field('operator', token.immediate('!'))),
+                        choice(
+                            $.macro_builtin,
+                            alias($.macro_name, $.identifier)
+                        )
+                    ),
+                    $.conditional_expansion,
+                    $._special_macro_name
+                )
+            ),
+
+        // %*, %**, %#, %<num>
+        _special_macro_name: ($) =>
+            alias(
+                choice('*', '**', '#', /[0-9]+/, 'nil'),
+                $.special_variable_name
+            ),
+
+        // Builtin macro names
+        macro_builtin: ($) =>
+            choice(
+                $.macro_source,
+                $.macro_patch,
+                'basename',
+                'dirname',
+                'dnl',
+                'dump',
+                'echo',
+                'error',
+                'exists',
+                'expand',
+                'expr',
+                'getdirconf',
+                'getenv',
+                'getncpus',
+                'gsub',
+                'len',
+                'load',
+                'lower',
+                'lua',
+                'macrobody',
+                'quote',
+                'rep',
+                'reverse',
+                'rpmversion',
+                'shrink',
+                'sub',
+                'suffix',
+                'trace',
+                'u2p',
+                'shescape',
+                'uncompress',
+                'upper',
+                'url2path',
+                'verbose',
+                'warn'
+            ),
+
+        macro_source: ($) => seq(choice('S', 'SOURCE'), $.integer),
+
+        macro_patch: ($) => seq(choice('P', 'PATCH'), $.integer),
+
+        macro_define: ($) => choice('define', 'global'),
+
+        macro_undefine: ($) => 'undefine',
+
+        //// Macro Expansion
+        //
+        // %{<name>}
+        // ...
+        //
+        macro_expansion: ($) =>
+            seq('%{', optional($._macro_expansion_body), '}'),
+
+        _macro_expansion_body: ($) =>
+            choice(
+                // %{<name>}
+                seq(
+                    optional(field('operator', token.immediate('!'))),
+                    choice(
+                        $.macro_builtin,
+                        alias($.macro_name, $.identifier),
+                        $._special_macro_name
+                    ),
+                    optional(seq(optional(':'), $.string))
+                ),
+                // %{<name> <argument>}
+                seq(
+                    alias($.macro_name, $.identifier),
+                    repeat1(field('argument', $._literal))
+                ),
+                // %{?<name>:<consequence>}
+                $.conditional_expansion
+            ),
+
+        //// Conditionally Expanded Macros
+        //
+        // %{?macro_name:value}
+        // %{!?macro_name:value}
+        // %{?macro_name}
+        // %{!?macro_name}
+        //
+        conditional_expansion: ($) =>
+            prec.left(
+                1,
+                seq(
+                    optional(field('operator', token.immediate('!'))),
+                    '?',
+                    field('condition', alias($.macro_name, $.identifier)),
+                    optional(
+                        seq(
+                            ':',
+                            field(
+                                'consequence',
+                                choice(
+                                    $.macro_simple_expansion,
+                                    $.macro_expansion,
+                                    $.text
+                                )
+                            )
+                        )
+                    )
+                )
+            ),
+
+        //// Macro Definition
+        //
+        // %define <name>[(opts)] <body>
+        macro_definition: ($) =>
+            prec.left(
+                seq(
+                    '%',
+                    alias($.macro_define, $.macro_builtin),
+                    token.immediate(BLANK),
+                    field('name', alias($.macro_name, $.identifier)),
+                    optional(seq('(', optional($.macro_options), ')')),
+                    token.immediate(BLANK),
+                    field('value', $._body),
+                    token.immediate(NEWLINE)
+                )
+            ),
+
+        macro_options: (_) => /[-:a-zA-Z]/,
+
+        _body: ($) =>
+            repeat1(
+                choice(
+                    $.macro_simple_expansion,
+                    $.macro_expansion,
+                    $.macro_shell_expansion,
+                    $.integer,
+                    $.float,
+                    $.version,
+                    $.word,
+                    $.quoted_string
+                )
+            ),
+
+        //// Macro Undefintion
+        //
+        // %undefine <name>
+        macro_undefinition: ($) =>
+            prec.left(
+                seq(
+                    '%',
+                    alias($.macro_undefine, $.macro_builtin),
+                    token.immediate(BLANK),
+                    field('name', alias($.macro_name, $.identifier))
+                )
+            ),
+
+        //// Macro call
+        //
+        // %setup -q
+        //
+        macro_call: ($) =>
+            prec.left(
+                seq(
+                    field('name', $.macro_simple_expansion),
+                    repeat(field('argument', $._literal)),
+                    NEWLINE
+                )
+            ),
+
+        _macro_argument_list: ($) => sep1($.concatenation, BLANK),
+
+        //// Macro Expression: %[<expression>]
+        //macro_expression: ($) => seq('%[', $.expression, ']'),
+
+        // TODO: macro_shell_expansion needs to be implemented in an
+        // external scanner.
+        // Inside the $(...) are also () allowed, so you need to count them to
+        // detect the last one.
+        // %(...)
+        macro_shell_expansion: ($) =>
+            choice(
+                seq('%(', ')'),
+                seq(
+                    '%(',
+                    repeat1(
+                        choice(
+                            prec(1, $.macro_expansion),
+                            $.quoted_string,
+                            $.string
+                        )
+                    ),
+                    ')'
+                )
+            ),
 
         ///////////////////////////////////////////////////////////////////////
         // Conditionals (%if, %ifarch, %ifos)
@@ -200,8 +431,6 @@ module.exports = grammar({
                 $.identifier,
                 '}'
             ),
-
-        // TODO ternary_operator: ($) => ? :
 
         parenthesized_expression: ($) =>
             prec(PREC.parenthesized_expression, seq('(', $.expression, ')')),
@@ -431,10 +660,10 @@ module.exports = grammar({
                 repeat1(
                     choice(
                         $._compound_statements,
-                        $.macro_definition,
-                        $.macro_function_definition,
-                        $.macro_invocation,
                         prec(1, $.macro_expansion),
+                        $.macro_definition,
+                        $.macro_undefinition,
+                        $.macro_call,
                         $.string
                     )
                 )
@@ -674,44 +903,8 @@ module.exports = grammar({
             ),
 
         ///////////////////////////////////////////////////////////////////////
-        // Macros (%define, %global, %patch, ...)
+        // Special Macros (%autosetup, %autopatch, %setup, ...)
         ///////////////////////////////////////////////////////////////////////
-
-        macro_definition: ($) =>
-            seq(
-                choice('%global', '%define'),
-                field('name', $.identifier),
-                field('value', $._literal),
-                token.immediate(NEWLINE)
-            ),
-
-        macro_function_definition: ($) =>
-            seq(
-                choice('%global', '%define'),
-                field('name', $.identifier),
-                field('parameters', $.macro_parameters),
-                // TODO: macro_shell_expansion needs to be implemented in an
-                // external scanner
-                field('value', choice($._literal, $.macro_shell_expansion)),
-                token.immediate(NEWLINE)
-            ),
-
-        macro_parameters: ($) => token(seq(token.immediate('('), ')')),
-
-        macro_undefinition: ($) =>
-            seq(
-                '%undefine',
-                field('name', $.identifier),
-                token.immediate(NEWLINE)
-            ),
-
-        macro_invocation: ($) =>
-            seq(
-                $.macro_expansion,
-                token.immediate(BLANK),
-                $._literal,
-                token.immediate(NEWLINE)
-            ),
 
         ///////////////////////////////////////////////////////////////////////
         // Directives (%attr, %dir, %config, ...)
@@ -740,6 +933,7 @@ module.exports = grammar({
                     seq(
                         choice(
                             seq(optional('%'), $.text_content),
+                            $.macro_simple_expansion,
                             $.macro_expansion
                         )
                     )
@@ -749,7 +943,15 @@ module.exports = grammar({
         text_content: (_) => token(prec(-1, /([^"%\\\r\n]|\\(.|\r?\n))+/)),
 
         string: ($) =>
-            prec(-1, repeat1(seq(choice($.macro_expansion, $.string_content)))),
+            prec.left(
+                repeat1(
+                    choice(
+                        seq(optional('%'), $.string_content),
+                        $.macro_simple_expansion,
+                        $.macro_expansion
+                    )
+                )
+            ),
 
         string_content: (_) => token(prec(-1, /([^%\\\r\n])+/)),
 
@@ -766,48 +968,19 @@ module.exports = grammar({
 
         concatenation: ($) =>
             prec(-1, seq($.primary_expression, repeat1($.primary_expression))),
-
-        ///////////////////////////////////////////////////////////////////////
-        // Expansion
-        ///////////////////////////////////////////////////////////////////////
-
-        // The macro invocation should have a higher precedence than macro
-        // expansion.
-        macro_expansion: ($) =>
-            prec(-1, choice($._simple_expansion, $._full_expansion)),
-
-        // %variable
-        _simple_expansion: ($) => seq('%', $.identifier),
-
-        // %{variable}, %{?variable}, %{variable:argument}
-        _full_expansion: ($) =>
-            seq(
-                '%{',
-                optional(token.immediate('?')),
-                $.identifier,
-                optional(seq(':', $.string_content)),
-                '}'
-            ),
-
-        // TODO: macro_shell_expansion needs to be implemented in an
-        // external scanner.
-        // Inside the $(...) are also () allowed, so you need to count them to
-        // detect the last one.
-        // %(...)
-        macro_shell_expansion: ($) =>
-            choice(
-                seq('%(', ')'),
-                seq(
-                    '%(',
-                    repeat1(
-                        choice(
-                            prec(1, $.macro_expansion),
-                            $.quoted_string,
-                            $.string
-                        )
-                    ),
-                    ')'
-                )
-            ),
     },
 });
+
+/**
+ * Creates a rule to match one or more occurrences of `rule` separated by `sep`
+ *
+ * @param {RuleOrLiteral} rule
+ *
+ * @param {RuleOrLiteral} separator
+ *
+ * @return {SeqRule}
+ *
+ */
+function sep1(rule, separator) {
+    return seq(rule, repeat(seq(separator, rule)));
+}
